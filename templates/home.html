@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% block content %}
+    
+   
+      <div class="search-div" style="background-image: url('{%static 'images/digitalsearch.jpg'%}');">
+        <form action="" class="search-form">
+            {% csrf_token %}
+        <input type="search" placeholder="Search.." name="search">
+        <button type="submit"><i class="fas fa-search"></i></button>
+        <p class="search-div-text">Find the best rated product and service providers from all over the world......</p>
+    </form>
+
+      </div>
+      <!-- main content -->
+      <div class="main-content">
+        <div class="filter">
+           <div class="filter-title"> <p><i class="fa fa-filter"></i>Advanced filter options</p><hr class="filter-hr"></div>
+            <div class="filter-form-div">
+              <form action="" method="GET">
+                {% csrf_token %}
+                <label for="category">Category</label><br>
+                <select name="category" id="category">
+                  <option value="all">All</option>
+                  <option value="web">Web</option>
+                  <option value="mobile">Mobile</option>
+                  <option value="graphics">Graphics</option>
+                  <option value="marketing">Marketing</option>
+                  <option value="writing">Writing</option>
+                  <option value="video">Video</option>
+                  <option value="music">Music</option>
+                  <option value="business">Business</option>
+                  <option value="lifestyle">Lifestyle</option>
+                </select><br><br>
+                <label for="rating">Rating</label><br>
+                <select name="rating" id="rating">
+                  <option value="all">All</option>
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                  <option value="3">3</option>
+                  <option value="4">4</option>
+                  <option value="5">5</option>
+                </select><br><br>
+                <label for="location">Location</label><br>
+                <input type="text" name="location" placeholder="kenya"><br>
+                <button type="submit">Search</button>
+                
+              </form>
+            </div>
+        </div>
+        <div class="company-wrapper">
+        {% for company in companies %}
+        <div class="single-company">
+        <div class="companies">
+          <div class="profile-picture-wrapper">
+            
+            <img src="{{company.profilePicture.url}}" alt="profilePic" class="company-profile-pic">
+           
+            
+          </div>
+          <div>
+            <p class="company-name">{{company.companyName}}</p>
+            <h5 class="company-category">{{company.category}}</h5>
+            <p class="social-stats">201 Likes . 300 Followers</p>
+            <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i>
+          </div>
+          
+        </div>
+        <button class="button"><a href="#" class="button-text">Contact</a></button>
+        <button class="button"><a href="" class="button-text" >Reviews</a> </button>
+        
+          
+        </div>
+       
+        {% endfor %}
+      </div>
+      </div>
+{% endblock %}

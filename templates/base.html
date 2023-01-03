@@ -1,0 +1,27 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DigiVerse</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
+    <link rel="stylesheet" href="{% static 'css/home.css' %}">
+    <link rel="stylesheet" href="{% static 'css/companyProfile.css' %}">
+</head>
+<body>
+    <div class="topnav">
+        <a class="logo-text" href="#">Digi Verse</a>
+        
+        <div class="topnav-right">
+          <a href="#">Sign up</a>
+          <a href="#">Log in</a>
+          <img class="user-image" src="{% static 'images/avatar.jpeg'%}" alt="Avatar"> 
+        </div>
+      </div> 
+    {% block content %}
+    {% endblock %}
+</body>
+</html>
