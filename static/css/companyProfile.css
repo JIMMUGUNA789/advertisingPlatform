@@ -133,3 +133,36 @@ display: flex;
     color: #083966;
     padding-left: 10px;
 }
+.comment-field{
+    width: 75%;
+    height: 30px;
+    border-radius: 10px;
+    border: 1px solid #083966;
+    padding: 10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    margin-left:85px ;
+    
+}
+.input-container {
+    display: flex;
+    align-items: center;
+  }
+  
+  input[type="text"] {
+    
+    border: 1px solid #083966;
+    padding: 10px;
+    flex: 1;
+    width: 75% !important;
+    height: 30px;
+    border-radius: 10px;
+  }
+  
+  .fa-paper-plane {
+    font-size: 24px;
+    color: #083966;
+    cursor: pointer;
+    margin-left: 10px;
+  }
+  

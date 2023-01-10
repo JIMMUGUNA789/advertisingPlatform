@@ -103,8 +103,17 @@
         <p>{{post.body}}</p>
           <img src="{{post.image.url}}" alt="post Image" class="post-image">
           <hr class="post-hr">
-          <i class="fa fa-thumbs-up post-icon-1"> {{post.post_likes}}Likes</i> <i class="fa fa-comment post-icon-2"> {{post.post_comments}}Comments</i><i class="fa fa-share post-icon-3"> Share</i>
+          <i class="fa fa-thumbs-up post-icon-1"> {{post.post_likes}} Likes</i> <i class="fa fa-comment post-icon-2"> {{post.post_comments}} Comments</i><i class="fa fa-share post-icon-3"> Share</i>
           <hr class="post-hr">
+          <form>
+            {% csrf_token %}
+            <div class="input-container">
+              <input type="text" placeholder="Write a comment ...">
+              <button style="background-color: transparent; border: none;">
+              <i class="fa fa-paper-plane" style="color: #083966;"></i>
+            </button>
+            </div>
+          </form>
     </div>
     {% endfor %}
   </div>
