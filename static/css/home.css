@@ -1,4 +1,7 @@
-
+a{
+    text-decoration: none;
+    color: black;
+}
 /* Add a black background color to the top navigation */
 .topnav {
     background-color: #083966;
@@ -225,6 +228,12 @@ selector ::before {
     color:white;
     text-decoration: none;
 }
-
+.post-image{
+    width: 100%;
+    height: auto;
+}
+.post-hr{
+    color: #083966;
+}
 
 

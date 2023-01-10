@@ -81,9 +81,32 @@
     </div>
     <div>
       <h3 style="margin-top: 30px;">Posts</h3>
+      {% for post in posts %}
       <div class="mainarea-about-content">
-      <p>{{company.description}}</p>
+        <div class="companies">
+          <div class="profile-picture-wrapper">
+            
+            <img src="{{company.profilePicture.url}}" alt="profilePic" class="company-profile-pic">
+           
+            
+          </div>
+          <div>
+            <p class="company-name">{{company.companyName}}</p>
+            <p class="social-stats">{{post.created_at}}</p>
+           
+
+            
+          </div>
+          
+          
+        </div>
+        <p>{{post.body}}</p>
+          <img src="{{post.image.url}}" alt="post Image" class="post-image">
+          <hr class="post-hr">
+          <i class="fa fa-thumbs-up post-icon-1"> {{post.post_likes}}Likes</i> <i class="fa fa-comment post-icon-2"> {{post.post_comments}}Comments</i><i class="fa fa-share post-icon-3"> Share</i>
+          <hr class="post-hr">
     </div>
+    {% endfor %}
   </div>
     </div>
   </div>

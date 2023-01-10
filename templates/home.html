@@ -52,6 +52,7 @@
         <div class="company-wrapper">
         {% for company in companies %}
         <div class="single-company">
+          <a href="{% url 'companyProfile' company.id %}">
         <div class="companies">
           <div class="profile-picture-wrapper">
             
@@ -67,6 +68,7 @@
           </div>
           
         </div>
+      </a>
         <button class="button"><a href="#" class="button-text">Contact</a></button>
         <button class="button"><a href="" class="button-text" >Reviews</a> </button>
         
