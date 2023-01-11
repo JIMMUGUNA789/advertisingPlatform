@@ -68,6 +68,13 @@
 
       </div>
     </div>
+    <div>
+      <h3 style="margin-top: 30px;">Location</h3>
+      <div id="map"></div>
+
+
+      
+    </div>
 
 
 
@@ -120,4 +127,19 @@
   </div>
     </div>
   </div>
+  <script>
+    $(document).ready(function(){
+    console.log("testing")
+    var lat = {{ company.latitude }};
+    var lng = {{ company.longitude }};
+    var map = new google.maps.Map(document.getElementById('map'), {
+      center: {lat: lat, lng: lng},
+      zoom: 6
+    });
+    var marker = new google.maps.Marker({
+    position: {lat: lat, lng: lng},
+    map: map
+  });
+})
+      </script>
 {% endblock %}

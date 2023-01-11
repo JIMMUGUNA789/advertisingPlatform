@@ -178,3 +178,8 @@ display: flex;
     padding-left: 200px;
     
   }
+  #map {
+    height: 300px;
+    width: 100%;
+}
+
