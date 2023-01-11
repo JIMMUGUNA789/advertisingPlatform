@@ -21,3 +21,13 @@ def companyProfile(request, id):
         "posts":posts,
     }
     return render(request, 'company/companyProfile.html', context)
+
+def companyPhotos(request, id):
+    id = str(id)
+    company = CompanyProfile.objects.get(id=id)
+    posts = Post.objects.filter(company=id)
+    context = {
+        "company":company,
+        "posts":posts,
+    }
+    return render(request, 'company/photos.html', context)
