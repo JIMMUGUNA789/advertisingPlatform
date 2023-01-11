@@ -31,7 +31,7 @@
   <hr style="color: #083966;">
   <div class="company-profile-nav">
     <ul>
-        <li><a href="">About</a></li>
+        <li><a href="{% url 'companyProfile' company.id %}">About</a></li>
         <li><a href="">Posts</a></li>
         <li><a href="">Contact</a></li>
         <li><a href="">Reviews</a></li>
@@ -57,14 +57,15 @@
       </div>
     </div>
     <div>
-      <h3 style="margin-top: 30px;">Gallery</h3>
+      <h3 style="margin-top: 30px;">Gallery <span class="see-all"><a href=""> See all</a></span></h3>
 
       <div class="sidebar-profileInfo-content">
-        <p class="profileInfo-text"><i class="fa fa-map-marker"></i> {{company.address}}</p>
-        <p class="profileInfo-text"><i class="fa fa-phone"></i> {{company.phone}}</p>
-        <p class="profileInfo-text"><i class="fa fa-envelope"></i> {{company.email}}</p>
-        <p class="profileInfo-text"><i class="fa fa-globe"></i> {{company.websiteUrl}}</p>
-        <p class="profileInfo-text"><i class="fa fa-clock"></i> opened/closed</p>
+       {% for post in posts %}
+       {% if post.company == company %}
+        <img src="{{post.image.url}}" alt="profilePic" class="profile-company-gallery">
+        {% endif %}
+        {% endfor %}
+
       </div>
     </div>
 

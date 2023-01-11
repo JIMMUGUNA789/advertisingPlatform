@@ -165,4 +165,16 @@ display: flex;
     cursor: pointer;
     margin-left: 10px;
   }
-  
+  .profile-company-gallery{
+    width: 172px;
+    height: 150px;
+    /* border-radius: 50%; */
+    border-radius: 10px;
+    margin: 2px 2px;
+  }
+  .see-all a{
+    font-size: 20px;
+    color: #083966;
+    padding-left: 200px;
+    
+  }
