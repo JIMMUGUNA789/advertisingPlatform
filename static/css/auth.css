@@ -1,0 +1,78 @@
+.name-section{
+    width: 40%;
+    float: left;
+    margin-top: 250px;
+    padding-left: 150px;
+    padding-right: 50px;
+}
+.name-section p{
+    font-size: 20px;
+    font-weight: bolder;
+    color: black;
+}
+.auth-section{
+    width: 25%;
+    float: left;
+    margin-top: 200px;
+}
+.auth-section-signup{
+    width: 25%;
+    float: left;
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
+
+
+.company-name{
+    font-size: 35px;
+    font-style: italic;
+    color: #083966;
+    font-weight: bolder;
+}
+.auth-section-header{
+    font-size: 20px;
+    font-weight: bold;
+    color: #083966;
+}
+.form-container{
+    width: 100%;
+    margin-top: 10px;
+    /* margin-left: 10px; */
+    padding: 1px 20px 1px 20px;
+    border-radius: 20px;
+    background-color: #f5f5f5;
+    
+}
+.p{
+    text-align: center;
+}
+.form-container label{
+    font-size: 15px;
+    font-weight: bold;
+    color: #083966;
+    margin: 2px;
+}
+.form-container input{
+    width: 92%;
+    margin: 2px;
+    padding: 0px;
+    border-radius: 10px;
+    display: flex;
+    margin-bottom: 10px;
+    padding: 10px;
+}
+.form-container button{
+    width: 92%;
+    margin: 2px;
+    padding: 0px;
+    border-radius: 20px;
+    display: flex;
+    margin-bottom: 10px;
+    margin-left: 10px;
+    padding:10px 0px 10px 170px;
+    background-color: #083966;
+    color: white;
+    font-weight: bold;
+    
+    
+}
