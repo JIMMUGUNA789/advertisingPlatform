@@ -1,5 +1,7 @@
 from django.db import models
 from users.models import CustomUser
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 # from django.contrib.gis.db import models
 class CompanyProfile(models.Model):
     CATEGORY_CHOICES = (
@@ -31,6 +33,8 @@ class CompanyProfile(models.Model):
     longitude = models.FloatField(default=0.0, blank=True, null=True)
     address = models.CharField(max_length=255)
     operatingHours = models.JSONField()
+    companyLikes = models.IntegerField(default=0)
+    companyFollows = models.IntegerField(default=0)
     
 
     # how the operating hours will be stored
@@ -85,3 +89,15 @@ class CompanyImages(models.Model):
         verbose_name_plural = 'Company Images'
 
 
+@receiver(post_save, sender=Likes)
+def increment_company_likes(sender, instance, created, **kwargs):
+    if created:
+        companyProfile = CompanyProfile.objects.get(pk=instance.companyProfile.pk)
+        companyProfile.companyLikes +=1
+        companyProfile.save()
+@receiver(post_save, sender=Follows)
+def increment_company_followers(sender, instance, created, **kwargs):
+    if created:
+        companyProfile = CompanyProfile.objects.get(pk=instance.companyProfile.pk)
+        companyProfile.companyFollows +=1
+        companyProfile.save()
