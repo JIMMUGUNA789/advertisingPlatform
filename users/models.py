@@ -13,7 +13,7 @@ class CustomUser(AbstractUser):
         (ADMIN, 'Admin'),
     )
     phoneNumber = models.CharField(max_length=15)
-    profilePicture = models.ImageField(upload_to='images/', blank=True)
+    profilePicture = models.ImageField(upload_to='media/', blank=True)
     
     role = models.PositiveSmallIntegerField(choices=ROLE_CHOICES, default=VISITOR, blank=True, null=True)
     def __str__(self):

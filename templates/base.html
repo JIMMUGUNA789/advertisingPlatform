@@ -22,9 +22,17 @@
         
         <div class="topnav-right">
           <a href="{% url 'home' %}">Home</a>
-          <a href="#">Sign up</a>
-          <a href="#">Log in</a>
-          <img class="user-image" src="{% static 'images/avatar.jpeg'%}" alt="Avatar"> 
+          {% if user.is_authenticated %}
+          <a href="{% url 'logout' %}">Log out</a>
+          <a href="#">{{user.username}}</a>
+          <img class="user-image" src="{% static 'images/avatar.jpeg'%}" alt="Avatar">
+
+          {% else %}
+          <a href="{% url 'register' %}">Sign up</a>
+          <a href="{% url 'login' %}">Log in</a>
+          <img class="user-image" src="{% static 'images/avatar.jpeg'%}" alt="Avatar">
+          {% endif %}
+           
         </div>
       </div> 
     {% block content %}
