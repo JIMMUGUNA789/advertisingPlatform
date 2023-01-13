@@ -6,7 +6,7 @@ from companies.models import CompanyProfile
 def allPosts(request, id):
     id = str(id)
     company = CompanyProfile.objects.get(id=id)
-    posts = Post.objects.filter(company=id)
+    posts = Post.objects.filter(company=id).order_by('-created_at')
     context = {
         "company":company,
         "posts":posts,

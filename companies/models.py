@@ -71,6 +71,14 @@ class Likes(models.Model):
 
 
 class Reviews(models.Model):
+    RATING_CHOICES = (
+        (1,1),
+        (2,2),
+        (3,3),
+        (4,4),
+        (5,5)
+
+    )
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     company = models.ForeignKey(CompanyProfile, on_delete=models.CASCADE)
     review = models.TextField()

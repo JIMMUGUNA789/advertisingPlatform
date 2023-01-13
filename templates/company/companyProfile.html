@@ -17,7 +17,7 @@
           <div>
             <p class="profile-company-name">{{company.companyName}}</p>
             <h5 class="profile-company-category">{{company.category}}</h5>
-            <p class="profile-social-stats">{{company.companyLikes}} Likes . {{company.companyFollowers}} Follows</p>
+            <p class="profile-social-stats">{{company.companyLikes}} Likes . {{company.companyFollows}} Follows</p>
             <i class="fa fa-star profile-icon"></i><i class="fa fa-star profile-icon"></i><i class="fa fa-star profile-icon"></i><i class="fa fa-star profile-icon"></i><i class="fa fa-star profile-icon"></i>
             <button class="button" style="float: right; margin-top: 0px;"><a href="" class="button-text" >Reviews</a> </button>
           </div>
@@ -125,6 +125,33 @@
     </div>
     {% endfor %}
   </div>
+  {% comment %}
+  pagination
+  {% endcomment %}
+
+  <div class="">
+    <div style="color: #black; padding: 10px; font-size: 15px; text-align: center;">
+        <span class="">
+          {% if posts.has_previous %}
+              <a href="?page=1" style="color: #083966;">&laquo; first</a>
+              <a href="?page={{ posts.previous_page_number }}" style="color: #083966;">previous</a>
+          {% endif %}
+
+            <span >
+                Page {{ posts.number }} of {{ posts.paginator.num_pages }}
+            </span>
+
+          {% if posts.has_next %}
+              <a href="?page={{ posts.next_page_number }}" style="color: #083966;">next</a>
+              <a href="?page={{ posts.paginator.num_pages }}" style="color: #083966;">last &raquo;</a>
+          {% endif %}
+        </span>
+      </div>
+    </div>
+
+
+
+
     </div>
   </div>
   <script>
