@@ -1,0 +1,177 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% block content %}
+    
+   
+      <div class="search-div" style="background-image: url('{%static 'images/digitalsearch.jpg'%}');">
+        <form action="" class="search-form">
+            {% csrf_token %}
+        <input type="search" placeholder="Search.." name="search">
+        <button type="submit"><i class="fas fa-search"></i></button>
+        <p class="search-div-text">Find the best rated product and service providers from all over the world......</p>
+    </form>
+
+      </div>
+      <!-- main content -->
+      <div class="main-content">
+        <div class="filter">
+           <div class="filter-title"> <p><i class="fa fa-filter"></i>Advanced filter options</p><hr class="filter-hr"></div>
+            <div class="filter-form-div">
+              <form action="" method="GET">
+                {% csrf_token %}
+                <label for="category">Category</label><br>
+                <select name="category" id="category">
+                  <option value="all">All</option>
+                  <option value="web">Web</option>
+                  <option value="mobile">Mobile</option>
+                  <option value="graphics">Graphics</option>
+                  <option value="marketing">Marketing</option>
+                  <option value="writing">Writing</option>
+                  <option value="video">Video</option>
+                  <option value="music">Music</option>
+                  <option value="business">Business</option>
+                  <option value="lifestyle">Lifestyle</option>
+                </select><br><br>
+                <label for="rating">Rating</label><br>
+                <select name="rating" id="rating">
+                  <option value="all">All</option>
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                  <option value="3">3</option>
+                  <option value="4">4</option>
+                  <option value="5">5</option>
+                </select><br><br>
+                <label for="location">Location</label><br>
+                <input type="text" name="location" placeholder="kenya"><br>
+                <button type="submit">Search</button>
+                
+              </form>
+            </div>
+        </div>
+        <div class="company-wrapper">
+            <form>
+                {% csrf_token %}
+                <div class="form-group">
+                  <label for="companyName">Company Name</label>
+                  <input type="text" class="form-control" id="companyName" name="companyName" placeholder="xyz ltd">
+                  <small id="passwordHelpBlock" class="form-text text-muted">
+                    Use the name of your business, brand or organization, or a name that helps explain your business.
+                  </small>
+                </div>
+                <div class="form-group">
+                    <label for="description">Description</label>
+                    <textarea class="form-control" id="description" rows="3" name="description"></textarea>
+                    <small id="passwordHelpBlock" class="form-text text-muted">
+                        Tell people a little about what your business does.
+                      </small>
+                  </div>
+                  <div class="form-group">
+                    <label for="profilePicture">Profile Picture</label>
+                    <input type="file" class="form-control-file" id="profilePicture" name="profilePicture">
+                  </div>
+                  <div class="form-group">
+                    <label for="bannerPicture">Banner Picture</label>
+                    <input type="file" class="form-control-file" id="bannerPicture" name="bannerPicture">
+                  </div>
+                <div class="form-group">
+                  <label for="exampleFormControlSelect1">Category</label>
+                  <select class="form-control" id="exampleFormControlSelect1">
+                    <option value="Agriculture">Agriculture</option>
+                    <option value="Mining">Mining</option>
+                    <option value="Manufacturing">Manufacturing</option>
+                    <option value="Construction">Construction</option>
+                    <option value="Wholesale and Retail">Wholesale and Retail</option>
+                    <option value="Transport">Transport</option>
+                    <option value="Hospitality">Hospitality</option>
+                    <option value="Technology">Technology</option>
+                    <option value="Finance">Finance</option>
+                    <option value="Real Estate">Real Estate</option>
+                    <option value="Education">Education</option>
+                    <option value="Health">Health</option>    
+                    <option value="Entertainment">Entertainment</option>
+                  </select>
+                  <small id="passwordHelpBlock" class="form-text text-muted">
+                    Select a category that best describes your business.
+                  </small>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" class="form-control" id="email" name="email" placeholder="xyz@abc.com">
+                    
+                  </div>
+                  <div class="form-group">
+                    <label for="phone">Phone Number</label>
+                    <input type="number" class="form-control" id="phone" name="phone" placeholder="0712345678">
+                    
+                  </div>
+                  <div class="form-group">
+                    <label for="websiteUrl">Website Url</label>
+                    <input type="url" class="form-control" id="websiteUrl" name="websiteUrl" placeholder="">
+                    
+                  </div>
+                  <div class="form-group">
+                    <label for="address">Physical Address</label>
+                    <input type="text" class="form-control" id="address" name="address" placeholder="">
+                    
+                  </div>
+                  <div class="form-group">
+                    <label for="location">Location</label>
+                    <small id="passwordHelpBlock" class="form-text text-muted">
+                        Select the location of your business.
+                      </small>
+                  <div id="map" style="height: 400px;"></div>
+                  <input type="hidden" id="latitude" name="latitude">
+                  <input type="hidden" id="longitude" name="longitude">
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+                  
+                  
+
+                
+                
+                
+              </form>
+      </div>
+      </div>
+      <script>
+          $(document).ready(function(){
+            var map = L.map('map').setView([51.505, -0.09], 13);
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+}).addTo(map);
+
+var drawnItems = new L.FeatureGroup();
+map.addLayer(drawnItems);
+
+var drawControl = new L.Control.Draw({
+    draw: {
+        marker: true,
+        polyline: false,
+        polygon: false,
+        circle: false,
+        rectangle: false
+    },
+    edit: {
+        featureGroup: drawnItems
+    }
+});
+map.addControl(drawControl);
+
+map.on('draw:created', function (e) {
+    var type = e.layerType,
+        layer = e.layer;
+    if (type === 'marker') {
+        var coords = layer.getLatLng();
+        var latitude = coords.lat;
+        var longitude = coords.lng;
+        document.getElementById("latitude").value = latitude;
+document.getElementById("longitude").value = longitude;
+
+    }
+    drawnItems.addLayer(layer);
+});
+
+    });
+      </script>
+{% endblock %}

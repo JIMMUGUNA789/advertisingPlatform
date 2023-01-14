@@ -19,6 +19,12 @@
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCU6zYzK_CODTUsjRItevAlv2VtthURUbM&callback=initMap">
 </script>
 
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin=""/>
+<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin=""></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.css" />
+
 </head>
 <body>
   {% include 'messages.html' %}
@@ -28,12 +34,14 @@
         
         <div class="topnav-right">
           <a href="{% url 'home' %}">Home</a>
+          <a href="{% url 'listCompany' %}">List Business</a>
           {% if user.is_authenticated %}
           <a href="{% url 'logout' %}">Log out</a>
           <a href="#">{{user.username}}</a>
           <img class="user-image" src="{% static 'images/avatar.jpeg'%}" alt="Avatar">
 
           {% else %}
+          
           <a href="{% url 'register' %}">Sign up</a>
           <a href="{% url 'login' %}">Log in</a>
           <img class="user-image" src="{% static 'images/avatar.jpeg'%}" alt="Avatar">

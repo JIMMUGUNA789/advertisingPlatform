@@ -38,6 +38,7 @@ class CompanyProfile(models.Model):
     companyFollows = models.IntegerField(default=0)
     companyReviews = models.IntegerField(default=0)
     
+    
 
     # how the operating hours will be stored
 #     business = Business.objects.get(id=1)

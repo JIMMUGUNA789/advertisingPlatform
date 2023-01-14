@@ -48,3 +48,8 @@ def reviews(request, id):
         "company":company,
     }
     return render(request, 'company/reviews.html', context)
+
+def listCompany(request):
+    
+    
+    return render(request, 'company/listCompany.html')
