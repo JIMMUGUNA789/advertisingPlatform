@@ -1,0 +1,27 @@
+
+.mainarea-review{
+    width: 860px;
+    height: 100%;
+    
+    padding: 10px;
+    margin: 10px 150px 0px 400px;
+    float: left;
+}
+
+.company-profile-pic-review{
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    margin: 10px 10px;
+}
+.review-username{
+    font-size: 25px;
+    padding: 1px;
+    margin: 0;
+    font-weight: bold;
+    color: #083966;
+}
+.review-icon{
+    color:#1f57e8;
+    padding: 1px;
+}

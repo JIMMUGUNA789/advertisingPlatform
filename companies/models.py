@@ -2,6 +2,7 @@ from django.db import models
 from users.models import CustomUser
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+from datetime import datetime
 # from django.contrib.gis.db import models
 class CompanyProfile(models.Model):
     CATEGORY_CHOICES = (
@@ -35,6 +36,7 @@ class CompanyProfile(models.Model):
     operatingHours = models.JSONField()
     companyLikes = models.IntegerField(default=0)
     companyFollows = models.IntegerField(default=0)
+    companyReviews = models.IntegerField(default=0)
     
 
     # how the operating hours will be stored
@@ -72,6 +74,7 @@ class Likes(models.Model):
 
 class Reviews(models.Model):
     RATING_CHOICES = (
+        
         (1,1),
         (2,2),
         (3,3),
@@ -82,7 +85,10 @@ class Reviews(models.Model):
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     company = models.ForeignKey(CompanyProfile, on_delete=models.CASCADE)
     review = models.TextField()
-    rating = models.PositiveSmallIntegerField()
+    rating = models.IntegerField(choices=RATING_CHOICES, default=1)
+    reviewPhoto = models.ImageField(upload_to='media/', blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
     def __str__(self):
         return self.company.companyName
     class Meta:
@@ -108,4 +114,10 @@ def increment_company_followers(sender, instance, created, **kwargs):
     if created:
         companyProfile = CompanyProfile.objects.get(pk=instance.companyProfile.pk)
         companyProfile.companyFollows +=1
+        companyProfile.save()
+@receiver(post_save, sender= Reviews)
+def increment_company_reviews(sender, instance, created, **kwargs):
+     if created:
+        companyProfile = CompanyProfile.objects.get(pk=instance.company.pk)
+        companyProfile.companyReviews +=1
         companyProfile.save()
