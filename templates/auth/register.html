@@ -14,6 +14,8 @@
         <h2 class="auth-section-header">Sign Up</h2>
         <div class="form-container">
             <form action="" method="POST">
+                {% include 'messages.html' %}
+
                 {% csrf_token %}
                 {{ register_form.as_p }}
                 <button type="submit">Register</button>
