@@ -33,7 +33,7 @@ class CompanyProfile(models.Model):
     latitude = models.FloatField(default=0.0, blank=True, null=True)
     longitude = models.FloatField(default=0.0, blank=True, null=True)
     address = models.CharField(max_length=255)
-    operatingHours = models.JSONField()
+    operatingHours = models.JSONField(default={'key': 'value'})
     companyLikes = models.IntegerField(default=0)
     companyFollows = models.IntegerField(default=0)
     companyReviews = models.IntegerField(default=0)

@@ -25,6 +25,8 @@ def register(request):
         if form.is_valid():
             print("form is valid")
             user = form.save()
+            user.profilePicture = request.FILES['profilePicture']
+            user.save()
             login(request, user)
             messages.success(request, "registration successful. ")
             return redirect("home")

@@ -55,8 +55,13 @@
           <a href="{% url 'companyProfile' company.id %}">
         <div class="companies">
           <div class="profile-picture-wrapper">
+            {% if company.profilePicture %}
             
             <img src="{{company.profilePicture.url}}" alt="profilePic" class="company-profile-pic">
+            {% else %}
+            <img class="company-profile-pic" src="{% static 'images/avatar.jpeg'%}" alt="Avatar">
+            {% endif %}
+
            
             
           </div>
@@ -70,7 +75,7 @@
         </div>
       </a>
         <button class="button"><a href="#" class="button-text">Contact</a></button>
-        <button class="button"><a href="" class="button-text" >Reviews</a> </button>
+        <a href="{% url 'reviews' company.id %}" class="button-text" ><button class="button">Reviews</button></a> 
         
           
         </div>

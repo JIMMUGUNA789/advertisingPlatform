@@ -38,7 +38,7 @@
           {% if user.is_authenticated %}
           <a href="{% url 'logout' %}">Log out</a>
           <a href="#">{{user.username}}</a>
-          <img class="user-image" src="{% static 'images/avatar.jpeg'%}" alt="Avatar">
+          <img class="user-image" src="{{user.profilePicture.url}}" alt="Avatar">
 
           {% else %}
           
@@ -49,6 +49,7 @@
            
         </div>
       </div> 
+      
     {% block content %}
     {% endblock %}
 
