@@ -27,7 +27,13 @@
             <h5 class="profile-company-category">{{company.category}}</h5>
             <p class="profile-social-stats">{{company.companyLikes}} Likes . {{company.companyFollows}} Follows</p>
             <i class="fa fa-star profile-icon"></i><i class="fa fa-star profile-icon"></i><i class="fa fa-star profile-icon"></i><i class="fa fa-star profile-icon"></i><i class="fa fa-star profile-icon"></i>
+            
+            {% if user.is_authenticated and user.id == company.companyAdmin.id %}
+            <a href="#" class="button-text" > <button class="button" style="float: right; margin-top: 0px;">Edit Profile </button></a>
+            {% else %}
+
             <a href="{% url 'reviews' company.id %}" class="button-text" > <button class="button" style="float: right; margin-top: 0px;">Reviews </button></a>
+            {% endif %}
           </div>
           
         </div>
@@ -65,7 +71,14 @@
       </div>
     </div>
     <div>
-      <h3 style="margin-top: 30px;">Gallery <span class="see-all"><a href="{% url 'companyPhotos' company.id %}"> See all</a></span></h3>
+      <h3 style="margin-top: 30px;">Gallery <span class="see-all">
+        {% if user.is_authenticated and user.id == company.companyAdmin.id %}
+        <a href="#"> Add</a></span>
+        {% else %}
+
+        <a href="{% url 'companyPhotos' company.id %}"> See all</a></span>
+        {% endif %}
+      </h3>
 
       <div class="sidebar-profileInfo-content">
        {% for post in posts %}
@@ -96,7 +109,13 @@
       </div>
     </div>
     <div>
-      <h3 style="margin-top: 30px;">Posts</h3>
+      <h3 style="margin-top: 30px;">Posts({{no_of_posts}})
+        {% if user.is_authenticated and user.id == company.companyAdmin.id %}
+        <span class="add-post"><a href="{% url 'add_post' company.id %}"> Add Post</a></span>
+        {% endif %}
+
+      
+      </h3>
       {% for post in posts %}
       <div class="mainarea-about-content">
         <div class="companies">

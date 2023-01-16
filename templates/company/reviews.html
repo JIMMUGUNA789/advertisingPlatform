@@ -28,7 +28,12 @@
             <h5 class="profile-company-category">{{company.category}}</h5>
             <p class="profile-social-stats">{{company.companyLikes}} Likes . {{company.companyFollows}} Followers</p>
             <i class="fa fa-star profile-icon"></i><i class="fa fa-star profile-icon"></i><i class="fa fa-star profile-icon"></i><i class="fa fa-star profile-icon"></i><i class="fa fa-star profile-icon"></i>
-            <button class="button" style="float: right; margin-top: 0px;"><a href="" class="button-text" >Add Review</a> </button>
+            {% if user.is_authenticated and user.id == company.companyAdmin.id %}
+            <a href="" class="button-text" ><button class="button" style="float: right; margin-top: 0px;">Reviews </button></a>
+            {% else %}
+
+            <a href="{% url 'add_review' company.id %}" class="button-text" ><button class="button" style="float: right; margin-top: 0px;">Add Review </button></a>
+            {% endif %}
           </div>
           
         </div>

@@ -9,7 +9,7 @@ from django.core.files.storage import default_storage
 
 # Create your views here.
 def home(request):
-    companies = CompanyProfile.objects.all()
+    companies = CompanyProfile.objects.all().order_by('?')
     context = {
         "companies":companies
     }
@@ -18,15 +18,18 @@ def home(request):
     # company profile
 def companyProfile(request, id):
     id = str(id)
-    company = CompanyProfile.objects.get(id=id)
+    company = CompanyProfile.objects.get(id=id)    
     posts = Post.objects.filter(company=id).order_by('-created_at')
+    no_of_posts = Post.objects.filter(company=id).count()
     paginator = Paginator(posts, 5)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
     
+    
     context = {
         "company":company,
         "posts":page_obj,
+        "no_of_posts":no_of_posts,
     }
     return render(request, 'company/companyProfile.html', context)
 
@@ -76,3 +79,21 @@ def listCompany(request):
         
     
     return render(request, 'company/listCompany.html')
+
+def addReview(request, id):
+    id = str(id)
+    company = CompanyProfile.objects.get(id=id)
+    if request.method == 'POST':
+        company = company
+        user = request.user
+        rating = request.POST['rating']
+        review = request.POST['review']
+        reviewPhoto = request.FILES.get('reviewPhoto')
+        review = Reviews.objects.create(company=company, user=user, rating=rating, review=review, reviewPhoto=reviewPhoto)
+        review.save()
+        messages.success(request, 'Review added successfully')
+        return redirect('reviews', id=id)
+    context = {
+        "company":company,
+    }
+    return render(request, 'company/addReview.html', context)

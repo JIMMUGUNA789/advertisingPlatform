@@ -38,7 +38,11 @@
           {% if user.is_authenticated %}
           <a href="{% url 'logout' %}">Log out</a>
           <a href="#">{{user.username}}</a>
+          {% if user.profilePicture %}
           <img class="user-image" src="{{user.profilePicture.url}}" alt="Avatar">
+          {% else %}
+          <img class="user-image" src="{% static 'images/avatar.jpeg'%}" alt="Avatar">
+          {% endif %}
 
           {% else %}
           

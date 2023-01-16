@@ -178,6 +178,12 @@ display: flex;
     padding-left: 200px;
     
   }
+  .add-post a{
+    font-size: 20px;
+    color: #083966;
+    padding-left: 500px;
+    
+  }
   #map {
     height: 300px;
     width: 100%;
