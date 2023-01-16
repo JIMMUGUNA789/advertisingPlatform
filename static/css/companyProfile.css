@@ -119,6 +119,9 @@ display: flex;
     color: #083966;
     
 }
+.like{
+  color: #083966;
+}
 .post-icon-1{
     color: hsl(209, 85%, 22%);
     padding-left: 70px;

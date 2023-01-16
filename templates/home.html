@@ -68,7 +68,7 @@
           <div>
             <p class="company-name">{{company.companyName}}</p>
             <h5 class="company-category">{{company.category}}</h5>
-            <p class="social-stats">{{company.companyLikes}} Likes . {{company.companyFollows}} Followers</p>
+            <p class="profile-social-stats">{{company.companyLikes}} <a href="{% url 'likeAndDislikeCompany' company.id %}">Likes</a> . {{company.companyFollows}} <a href="{% url 'followAndUnfollowCompany' company.id %}">Followers</a></p>
             <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i>
           </div>
           

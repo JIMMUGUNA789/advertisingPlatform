@@ -1,7 +1,7 @@
 from django.db import models
 from companies.models import CompanyProfile
 from users.models import CustomUser
-from django.db.models.signals import post_save
+from django.db.models.signals import post_save, post_delete
 from django.dispatch import receiver
 
 # Create your models here.
@@ -47,4 +47,9 @@ def increment_post_likes(sender, instance, created, **kwargs):
         post = Post.objects.get(pk=instance.post.pk)
         post.post_comments +=1
         post.save()
+@receiver(post_delete, sender=PostLikes)
+def decrement_post_likes(sender, instance, **kwargs):
+    post = Post.objects.get(pk=instance.post.pk)
+    post.post_likes -=1
+    post.save()
 

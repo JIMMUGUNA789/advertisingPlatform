@@ -1,6 +1,6 @@
 from django.db import models
 from users.models import CustomUser
-from django.db.models.signals import post_save
+from django.db.models.signals import post_save, post_delete
 from django.dispatch import receiver
 from datetime import datetime
 # from django.contrib.gis.db import models
@@ -107,13 +107,13 @@ class CompanyImages(models.Model):
 @receiver(post_save, sender=Likes)
 def increment_company_likes(sender, instance, created, **kwargs):
     if created:
-        companyProfile = CompanyProfile.objects.get(pk=instance.companyProfile.pk)
+        companyProfile = CompanyProfile.objects.get(pk=instance.company.pk)
         companyProfile.companyLikes +=1
         companyProfile.save()
 @receiver(post_save, sender=Follows)
 def increment_company_followers(sender, instance, created, **kwargs):
     if created:
-        companyProfile = CompanyProfile.objects.get(pk=instance.companyProfile.pk)
+        companyProfile = CompanyProfile.objects.get(pk=instance.company.pk)
         companyProfile.companyFollows +=1
         companyProfile.save()
 @receiver(post_save, sender= Reviews)
@@ -122,3 +122,13 @@ def increment_company_reviews(sender, instance, created, **kwargs):
         companyProfile = CompanyProfile.objects.get(pk=instance.company.pk)
         companyProfile.companyReviews +=1
         companyProfile.save()
+@receiver(post_delete, sender=Likes)
+def decrement_company_likes(sender, instance, **kwargs):
+    companyProfile = CompanyProfile.objects.get(pk=instance.company.pk)
+    companyProfile.companyLikes -=1
+    companyProfile.save()
+@receiver(post_delete, sender=Follows)
+def decrement_company_followers(sender, instance, **kwargs):
+    companyProfile = CompanyProfile.objects.get(pk=instance.company.pk)
+    companyProfile.companyFollows -=1
+    companyProfile.save()

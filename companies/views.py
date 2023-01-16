@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from .models import CompanyProfile, Reviews
+from .models import CompanyProfile, Reviews, Likes, Follows 
 from posts.models import Post
 from django.core.paginator import Paginator
 from django.contrib import messages
@@ -97,3 +97,24 @@ def addReview(request, id):
         "company":company,
     }
     return render(request, 'company/addReview.html', context)
+
+def likeAndDislikeCompany(request, company_id):
+    company =  CompanyProfile.objects.get(id=company_id)
+    user = request.user
+    if Likes.objects.filter(company=company, user=user).exists():
+        Likes.objects.filter(company=company, user=user).delete()
+        return redirect('companyProfile', id=company_id)
+    else:
+        like = Likes.objects.create(company=company, user=user)
+        like.save()
+        return redirect('companyProfile', id=company_id)
+def followAndUnfollowCompany(request, company_id):
+    company =  CompanyProfile.objects.get(id=company_id)
+    user = request.user
+    if Follows.objects.filter(company=company, user=user).exists():
+        Follows.objects.filter(company=company, user=user).delete()
+        return redirect('companyProfile', id=company_id)
+    else:
+        follow = Follows.objects.create(company=company, user=user)
+        follow.save()
+        return redirect('companyProfile', id=company_id)

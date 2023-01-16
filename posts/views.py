@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from .models import Post
+from .models import Post, PostLikes, PostComments
 from companies.models import CompanyProfile
 from django.contrib import messages
 
@@ -32,3 +32,20 @@ def add_post(request, id):
         "company":company,
     }
     return render(request, 'posts/add_post.html', context)
+
+def likeAndDislikePost(request, post_id, company_id):
+    post_id = str(post_id)
+    company_id = str(company_id)
+    company = CompanyProfile.objects.get(id=company_id)
+    posts = Post.objects.filter(company=company_id).order_by('-created_at')
+    no_of_posts = Post.objects.filter(company=company_id).count()
+    user = request.user
+    post = Post.objects.get(id=post_id)
+    if PostLikes.objects.filter(post=post, user=user).exists():
+        PostLikes.objects.filter(post=post, user=user).delete()
+        return redirect('allPosts', id=company_id)
+    else:
+        PostLikes.objects.create(post=post, user=user)
+        return redirect('allPosts', id=company_id)
+
+   
