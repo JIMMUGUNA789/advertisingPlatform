@@ -22,11 +22,13 @@ class Jobs(models.Model):
     description = models.TextField()
     requirements = models.TextField()
     location = models.CharField(max_length=100)
-    salary = models.IntegerField()
+    salary = models.IntegerField(null=True, blank=True)
     company = models.ForeignKey(CompanyProfile, on_delete=models.CASCADE)
     jobType = models.CharField(max_length=20, choices=JOB_TYPE_CHOICES, default='Full Time')
     jobLevel = models.CharField(max_length=20, choices=JOB_LEVEL_CHOICES, default='Mid Level')
     applicationDeadline = models.DateField()
+    noOfVacancies = models.IntegerField(default=1)
+    noOfApplicants = models.IntegerField(default=0)
 
 
     # create a choice field for job level

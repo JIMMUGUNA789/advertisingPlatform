@@ -42,7 +42,7 @@ def increment_post_likes(sender, instance, created, **kwargs):
         post.post_likes +=1
         post.save()
 @receiver(post_save, sender=PostComments)
-def increment_post_likes(sender, instance, created, **kwargs):
+def increment_post_comments(sender, instance, created, **kwargs):
     if created:
         post = Post.objects.get(pk=instance.post.pk)
         post.post_comments +=1

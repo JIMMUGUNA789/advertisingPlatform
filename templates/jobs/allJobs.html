@@ -8,6 +8,7 @@
   {% else %}
   <div class="bannerPic" style="background-image: url('{%static 'images/Grey_full.png'%}');">
   </div>
+
   {% endif %}
   <div>
     <div class="profile-single-company">
@@ -18,6 +19,7 @@
             {% else %}
             <img class="profile-company-profile-pic" src="{% static 'images/avatar.jpeg'%}" alt="Avatar">
             {% endif %}
+
            
             
           </div>
@@ -26,7 +28,11 @@
             <h5 class="profile-company-category">{{company.category}}</h5>
             <p class="profile-social-stats">{{company.companyLikes}} <a href="{% url 'likeAndDislikeCompany' company.id %}">Likes</a> . {{company.companyFollows}} <a href="{% url 'followAndUnfollowCompany' company.id %}">Followers</a></p>
             <i class="fa fa-star profile-icon"></i><i class="fa fa-star profile-icon"></i><i class="fa fa-star profile-icon"></i><i class="fa fa-star profile-icon"></i><i class="fa fa-star profile-icon"></i>
-            <button class="button" style="float: right; margin-top: 0px;"><a href="" class="button-text" >Reviews</a> </button>
+            {% if user.is_authenticated and user.id == company.companyAdmin.id %}
+            <a href="{% url 'addJob' company.id %}" class="button-text" ><button class="button" style="float: right; margin-top: 0px;">Add Jobs </button></a>
+        
+            
+            {% endif %}
           </div>
           
         </div>
@@ -44,26 +50,42 @@
         <li><a href="{% url 'reviews' company.id %}">Reviews</a></li>
         <li><a href="{% url 'companyPhotos' company.id %}">Photos</a></li>
         <li><a href="">Videos</a></li>
-        <li><a href="{% url 'allJobs' company.id %}">Jobs</a></li>
+        <li><a href="">Jobs</a></li>
         <li><a href="">FAQs</a></li>
     </ul>
   </div>
   
   <hr style="color: #083966;">
-  <div class="mainarea-gallery">
-    <h3 style="margin-top: 30px;">Gallery</h3>
-    <div id="gallery">
-        {% for post in posts %}
-        {% if post.company == company %}
-         <img src="{{post.image.url}}" alt="post-pic" class="profile-company-gallery">
-         {% endif %}
-         {% endfor %}
-         <img src="{{company.profilePicture.url}}" alt="profile-pic" class="profile-company-gallery">
-         <img src="{{company.bannerPicture.url}}" alt="banner-pic" class="profile-company-gallery">
- 
-       </div>
-
+  
     
-  </div>
- 
+        
+          <div class="mainarea-review">
+      
+            
+              <h3 style="margin-top: 30px;">Jobs </h3>
+              {% for job in jobs %}
+              <p>{{job.title}}</p>
+              <p>Level: {{job.jobLevel}}</p>
+              <p>Type: {{job.jobType}}</p>
+              <p>Location: {{job.location}}</p>
+              <p>Application Deadline: {{job.applicationDeadline}}</p>
+
+              {% endfor %}
+          
+            
+
+           
+          
+            </div>
+        </div>
+             
+     
+           
+    
+        
+      
+     
+    
+  
+  
 {% endblock %}

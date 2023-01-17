@@ -18,6 +18,14 @@
 
                 {% csrf_token %}
                 {{ register_form.as_p }}
+                {% if form.errors %}
+                {% for field in form %}
+                {{ field.label_tag }} {{ field }}
+                {% for error in field.errors %}
+                    <p style="color: red;">{{ error }}</p>
+                {% endfor %}
+            {% endfor %}
+            {% endif %}
                 <button type="submit">Register</button>
         
             </form>
