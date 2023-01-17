@@ -6,7 +6,7 @@
 
   </div>
   {% else %}
-  <div class="bannerPic" style="background-image: url('{%static 'images/Grey_full.png'%}');">
+  <div class="bannerPic" style="background-image: url('{%static "images/Grey_full.png"%}');">
   </div>
 
   {% endif %}
@@ -28,7 +28,6 @@
             <h5 class="profile-company-category">{{company.category}}</h5>
             <p class="profile-social-stats">{{company.companyLikes}} <a href="{% url 'likeAndDislikeCompany' company.id %}">Likes</a> . {{company.companyFollows}} <a href="{% url 'followAndUnfollowCompany' company.id %}">Followers</a></p>
             <i class="fa fa-star profile-icon"></i><i class="fa fa-star profile-icon"></i><i class="fa fa-star profile-icon"></i><i class="fa fa-star profile-icon"></i><i class="fa fa-star profile-icon"></i>
-            <button class="button" style="float: right; margin-top: 0px;"><a href="" class="button-text" >Add Review</a> </button>
           </div>
           
         </div>

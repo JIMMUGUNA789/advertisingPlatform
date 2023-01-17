@@ -235,5 +235,8 @@ selector ::before {
 .post-hr{
     color: #083966;
 }
+.banner-image{
+    background-image: url("{% static 'images/Grey_full.png' %}");
+  }
 
 

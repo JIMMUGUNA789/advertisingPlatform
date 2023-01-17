@@ -254,3 +254,6 @@ display: flex;
     padding-left: 300px;
     padding-right: 10px;
 }
+.banner-image{
+  background-image: url("{% static 'images/Grey_full.png' %}");
+}
