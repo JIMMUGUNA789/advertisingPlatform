@@ -163,13 +163,13 @@ MESSAGE_TAGS = {
         messages.ERROR: 'alert-danger',
 }
 
-AUTHENTICATION_BACKENDS = (
- #used for default signin such as loggin into admin panel
- 'django.contrib.auth.backends.ModelBackend', 
+# AUTHENTICATION_BACKENDS = (
+#  #used for default signin such as loggin into admin panel
+#  'django.contrib.auth.backends.ModelBackend', 
   
- #used for social authentications
- 'allauth.account.auth_backends.AuthenticationBackend',
- )
+#  #used for social authentications
+#  'allauth.account.auth_backends.AuthenticationBackend',
+#  )
 
 SITE_ID = 1
 

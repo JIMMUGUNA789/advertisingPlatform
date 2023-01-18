@@ -70,7 +70,7 @@
     <div>
       <h3 style="margin-top: 30px;">Gallery <span class="see-all"><a href="{% url 'companyPhotos' company.id %}"> See all</a></span></h3>
 
-      <div class="sidebar-profileInfo-content">
+      <div class="sidebar-profileInfo-content profile-gallery">
        {% for post in posts %}
        {% if post.company == company %}
         <img src="{{post.image.url}}" alt="profilePic" class="profile-company-gallery">

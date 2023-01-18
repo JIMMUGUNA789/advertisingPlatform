@@ -80,12 +80,18 @@
         {% endif %}
       </h3>
 
-      <div class="sidebar-profileInfo-content">
+      <div class="sidebar-profileInfo-content profile-gallery">
        {% for post in posts %}
        {% if post.company == company %}
-        <img src="{{post.image.url}}" alt="profilePic" class="profile-company-gallery">
+        <img src="{{post.image.url}}" alt="profilePic" id="img-{{ forloop.counter }}" class="profile-company-gallery my-image">
+        
+      
         {% endif %}
         {% endfor %}
+        <div id="my-modal" style="display:none;">
+          <img src="">
+          <div class="close-modal" id="close-button">x</div>
+      </div>
 
       </div>
     </div>
@@ -198,6 +204,22 @@
     position: {lat: lat, lng: lng},
     map: map
   });
+ 
+    $('.my-image').on('click',function(){
+        var image_id = $(this).attr('id');
+        var image_src = $(this).attr('src');
+        $('#my-modal img').attr('src', image_src);
+        $('#my-modal').show();
+    });
+    $('.close-modal').on('click', function(){
+    $('#my-modal').hide();
+});
+
+
+
+
+
+
 
 })
       </script>

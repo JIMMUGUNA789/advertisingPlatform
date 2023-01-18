@@ -79,4 +79,6 @@ def addComment(request, post_id, company_id):
     
     # redirect to all posts page
     return redirect('allPosts', id=company_id)
+
+
    

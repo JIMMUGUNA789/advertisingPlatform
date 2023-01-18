@@ -55,15 +55,39 @@
     <div id="gallery">
         {% for post in posts %}
         {% if post.company == company %}
-         <img src="{{post.image.url}}" alt="post-pic" class="profile-company-gallery">
+         <img src="{{post.image.url}}" id="img-{{ forloop.counter }}" alt="post-pic" class="profile-company-gallery my-image">
          {% endif %}
          {% endfor %}
-         <img src="{{company.profilePicture.url}}" alt="profile-pic" class="profile-company-gallery">
-         <img src="{{company.bannerPicture.url}}" alt="banner-pic" class="profile-company-gallery">
+         <img src="{{company.profilePicture.url}}" id="img-profile-pic" alt="profile-pic" class="profile-company-gallery my-image">
+         <img src="{{company.bannerPicture.url}}" alt="banner-pic" id="img-banner-pic" class="profile-company-gallery my-image">
  
        </div>
+       <div id="my-modal" style="display:none;">
+        <img src="">
+        <div class="close-modal" id="close-button">x</div>
+    </div>
 
     
   </div>
+  <script>
+    $(document).ready(function(){
+   $('.my-image').on('click',function(){
+        var image_id = $(this).attr('id');
+        var image_src = $(this).attr('src');
+        $('#my-modal img').attr('src', image_src);
+        $('#my-modal').show();
+    });
+    $('.close-modal').on('click', function(){
+    $('#my-modal').hide();
+});
+
+
+
+
+
+
+
+})
+  </script>
  
 {% endblock %}
