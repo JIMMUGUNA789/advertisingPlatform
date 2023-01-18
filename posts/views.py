@@ -24,6 +24,7 @@ def allPosts(request, id):
 def add_post(request, id):
     id = str(id)
     company = CompanyProfile.objects.get(id=id)
+    posts = Post.objects.filter(company=id)
     if request.method == 'POST':
         company = company         
         body = request.POST['body']
@@ -35,6 +36,7 @@ def add_post(request, id):
         return redirect('allPosts', id=id)
     context = {
         "company":company,
+        "posts":posts
     }
     return render(request, 'posts/add_post.html', context)
 

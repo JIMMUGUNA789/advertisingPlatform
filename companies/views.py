@@ -3,6 +3,8 @@ from .models import CompanyProfile, Reviews, Likes, Follows
 from posts.models import Post
 from django.core.paginator import Paginator
 from django.contrib import messages
+from django.db.models.functions import Random
+
 from django.core.files.storage import default_storage
 
 
@@ -46,6 +48,7 @@ def companyPhotos(request, id):
 def reviews(request, id):
     id = str(id)
     company = CompanyProfile.objects.get(id=id)
+    posts = Post.objects.filter(company=id)
     reviews = Reviews.objects.filter(company=id).order_by('-created_at')
     paginator = Paginator(reviews, 5)
     page_number = request.GET.get('page')
@@ -53,6 +56,7 @@ def reviews(request, id):
     context = {
         "reviews":page_obj,
         "company":company,
+        "posts":posts
     }
     return render(request, 'company/reviews.html', context)
 
@@ -83,6 +87,7 @@ def listCompany(request):
 def addReview(request, id):
     id = str(id)
     company = CompanyProfile.objects.get(id=id)
+    posts = Post.objects.filter(company=id)
     if request.method == 'POST':
         company = company
         user = request.user
@@ -95,6 +100,7 @@ def addReview(request, id):
         return redirect('reviews', id=id)
     context = {
         "company":company,
+        "posts":posts
     }
     return render(request, 'company/addReview.html', context)
 

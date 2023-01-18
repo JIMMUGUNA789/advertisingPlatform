@@ -54,8 +54,46 @@
   <hr style="color: #083966;">
   
     
-        
-          <div class="mainarea-review">
+        <div class="profile-main-content">
+          <div class="sidebar">
+            <div>
+            <h3 style="margin-top: 30px;">Profile Info</h3>
+      
+            <div class="sidebar-profileInfo-content">
+              <p class="profileInfo-text"><i class="fa fa-map-marker"></i> {{company.address}}</p>
+              <p class="profileInfo-text"><i class="fa fa-phone"></i> {{company.phone}}</p>
+              <p class="profileInfo-text"><i class="fa fa-envelope"></i> {{company.email}}</p>
+              <p class="profileInfo-text"><i class="fa fa-globe"></i> {{company.websiteUrl}}</p>
+              <p class="profileInfo-text"><i class="fa fa-clock"></i> opened/closed</p>
+            </div>
+          </div>
+          <div>
+            <h3 style="margin-top: 30px;">Gallery <span class="see-all"><a href="{% url 'companyPhotos' company.id %}"> See all</a></span></h3>
+      
+            <div class="sidebar-profileInfo-content profile-gallery">
+             {% for post in posts %}
+             {% if post.company == company %}
+              <img src="{{post.image.url}}" alt="profilePic" class="profile-company-gallery">
+              {% endif %}
+              {% endfor %}
+      
+            </div>
+          </div>
+          <div>
+            <h3 style="margin-top: 30px;">Location</h3>
+            <div id="map"></div>
+      
+      
+            
+          </div>
+      
+      
+      
+      
+          </div>
+
+
+          <div class="mainarea">
       
             
               <h3 style="margin-top: 30px;">Add Review</h3>
@@ -106,6 +144,7 @@
             
           
             </div>
+          </div>
              
      
            

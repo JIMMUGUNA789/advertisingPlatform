@@ -57,10 +57,60 @@
   
   <hr style="color: #083966;">
   
-    
+    <div class="profile-main-content">
+
         
-          <div class="mainarea-review">
-      
+          
+      <div class="sidebar">
+        <div>
+        <h3 style="margin-top: 30px;">Profile Info</h3>
+  
+        <div class="sidebar-profileInfo-content">
+          <p class="profileInfo-text"><i class="fa fa-map-marker"></i> {{company.address}}</p>
+          <p class="profileInfo-text"><i class="fa fa-phone"></i> {{company.phone}}</p>
+          <p class="profileInfo-text"><i class="fa fa-envelope"></i> {{company.email}}</p>
+          <p class="profileInfo-text"><i class="fa fa-globe"></i> {{company.websiteUrl}}</p>
+          <p class="profileInfo-text"><i class="fa fa-clock"></i> opened/closed</p>
+        </div>
+      </div>
+      <div>
+        <h3 style="margin-top: 30px;">Gallery <span class="see-all">
+          {% if user.is_authenticated and user.id == company.companyAdmin.id %}
+          <a href="#"> Add</a></span>
+          {% else %}
+  
+          <a href="{% url 'companyPhotos' company.id %}"> See all</a></span>
+          {% endif %}
+        </h3>
+  
+        <div class="sidebar-profileInfo-content profile-gallery">
+         {% for post in posts %}
+         {% if post.company == company %}
+          <img src="{{post.image.url}}" alt="profilePic" id="img-{{ forloop.counter }}" class="profile-company-gallery my-image">
+          
+        
+          {% endif %}
+          {% endfor %}
+          <div id="my-modal" style="display:none;">
+            <img src="">
+            <div class="close-modal" id="close-button">x</div>
+        </div>
+  
+        </div>
+      </div>
+      <div>
+        <h3 style="margin-top: 30px;">Location</h3>
+        <div id="map"></div>
+  
+  
+        
+      </div>
+  
+  
+  
+  
+      </div>
+      <div class="mainarea">
             
               <h3 style="margin-top: 30px;">Jobs </h3>
               {% for job in jobs %}
