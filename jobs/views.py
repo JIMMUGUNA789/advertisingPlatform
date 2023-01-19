@@ -11,11 +11,13 @@ from django.contrib import messages
 def allJobs(request, company_id):
     company_id = str(company_id)
     company = CompanyProfile.objects.get(id=company_id)
+    posts = Post.objects.filter(company=company_id)
 
     jobs = Jobs.objects.filter(company=company_id)
     context = {
         "jobs":jobs,
         "company":company,
+        "posts":posts,
     }
     return render(request, 'jobs/allJobs.html', context)
 

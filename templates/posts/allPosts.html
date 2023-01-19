@@ -168,6 +168,20 @@
   </div>
   <script>
     $(document).ready(function(){
+      console.log("testing images")
+
+$('.my-image').on('click',function(){
+    var image_id = $(this).attr('id');
+    var image_src = $(this).attr('src');
+    $('#my-modal img').attr('src', image_src);
+    $('#my-modal').show();
+});
+$('.close-modal').on('click', function(){
+$('#my-modal').hide();
+});
+
+
+
     console.log("testing")
     var lat = {{ company.latitude }};
     var lng = {{ company.longitude }};

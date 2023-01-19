@@ -46,6 +46,9 @@ INSTALLED_APPS = [
     'allauth.account',
     'allauth.socialaccount', 
     'allauth.socialaccount.providers.google', #for google authentication
+
+    'ads',
+      
     # created apps
     'users',
     'companies',
@@ -174,6 +177,7 @@ MESSAGE_TAGS = {
 SITE_ID = 1
 
 LOGIN_REDIRECT_URL = 'home'
+
 SOCIALACCOUNT_PROVIDERS = {
     'google': {
         'SCOPE': [

@@ -3,6 +3,7 @@ from .models import CompanyProfile, Reviews, Likes, Follows
 from posts.models import Post
 from django.core.paginator import Paginator
 from django.contrib import messages
+from ads.models import Advertiser
 from django.db.models.functions import Random
 
 from django.core.files.storage import default_storage
@@ -76,6 +77,9 @@ def listCompany(request):
         address = request.POST['address']        
         companyProfile = CompanyProfile(companyName=companyName, companyAdmin=companyAdmin, description=description, profilePicture=profilePicture, bannerPicture=bannerPicture, category=category, phone=phone, email=email, websiteUrl=websiteUrl, latitude=latitude, longitude=longitude, address=address)
         companyProfile.save()
+        # register company as advitiser
+        advertiser = Advertiser(company_name=companyName, website=websiteUrl, created_by=request.user)
+        advertiser.save()
       
         messages.success(request, 'Company profile created successfully')
         # redirect to the company profile page
