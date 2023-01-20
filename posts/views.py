@@ -52,11 +52,13 @@ def likeAndDislikePost(request, post_id, company_id):
     if PostLikes.objects.filter(post=post, user=user).exists():
         PostLikes.objects.filter(post=post, user=user).delete()
         postLikes = PostLikes.objects.filter(post=post).count()
+        messages.warning(request, 'You have unliked this post')
         return redirect('allPosts', id=company_id)
         # return JsonResponse({'postLikes':postLikes}, content_type='application/json')
     else:
         PostLikes.objects.create(post=post, user=user)
         postLikes = PostLikes.objects.filter(post=post).count()
+        messages.success(request, 'You have liked this post')
         return redirect('allPosts', id=company_id)
         # return JsonResponse({'postLikes':postLikes}, content_type='application/json')
 

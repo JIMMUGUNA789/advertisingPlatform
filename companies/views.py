@@ -116,20 +116,24 @@ def likeAndDislikeCompany(request, company_id):
     user = request.user
     if Likes.objects.filter(company=company, user=user).exists():
         Likes.objects.filter(company=company, user=user).delete()
+        messages.warning(request, 'You have disliked this company')
         return redirect('companyProfile', id=company_id)
     else:
         like = Likes.objects.create(company=company, user=user)
         like.save()
+        messages.success(request, 'You have liked this company')
         return redirect('companyProfile', id=company_id)
 def followAndUnfollowCompany(request, company_id):
     company =  CompanyProfile.objects.get(id=company_id)
     user = request.user
     if Follows.objects.filter(company=company, user=user).exists():
         Follows.objects.filter(company=company, user=user).delete()
+        messages.warning(request, 'You have unfollowed this company')
         return redirect('companyProfile', id=company_id)
     else:
         follow = Follows.objects.create(company=company, user=user)
         follow.save()
+        messages.success(request, 'You have followed this company')
         return redirect('companyProfile', id=company_id)
 
 def addImages(request, id):
