@@ -1,32 +1,25 @@
-
-{% extends 'auth_base.html' %}
-
-{% load static %}
-{% block content %}
-<div >
-    <div class="name-section">
-        <h1 class="company-name">DigiVerse</h1>
-        <p>
-            DigiVerse allows you to find the best reviewed products and services across the globe .....
-        </p>
-
+{% extends 'auth_base.html' %} {% load static %} {% block content %}
+<div>
+  <div class="name-section">
+    <h1 class="company-name">DigiVerse</h1>
+    <p>
+      DigiVerse allows you to find the best reviewed products and services
+      across the globe .....
+    </p>
+  </div>
+  <div class="auth-section">
+    <h2 class="auth-section-header">Log in</h2>
+    <div class="form-container">
+      <form action="" method="POST">
+        {% include 'messages.html' %} {% csrf_token %} {{login_form.as_p}}
+        <button type="submit">Log in</button>
+      </form>
+      <p class="p"><a href="{% url 'password_reset' %}">Forgot Password?</a></p>
+      <p class="p">
+        Don't have an account? <a href="{% url 'register' %}">Sign Up</a>
+      </p>
     </div>
-    <div class="auth-section">
-        <h2 class="auth-section-header">Log in</h2>
-        <div class="form-container">
-            <form action="" method="POST">
-                {% include 'messages.html' %}
-
-                {% csrf_token %}
-                {{login_form.as_p}}
-                <button type="submit">Log in</button>
-            </form>
-            <p class="p"><a href="{% url 'password_reset' %}">Forgot Password?</a></p>
-            <p class="p">Don't have an account? <a href="{% url 'register' %}">Sign Up</a></p>
-        </div>
-
-    </div>
+  </div>
 </div>
 
 {% endblock %}
-

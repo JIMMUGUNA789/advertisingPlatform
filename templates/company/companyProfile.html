@@ -73,7 +73,7 @@
     <div>
       <h3 style="margin-top: 30px;">Gallery <span class="see-all">
         {% if user.is_authenticated and user.id == company.companyAdmin.id %}
-        <a href="#"> Add</a></span>
+        <a href="{% url 'addImages' company.id %}"> Add</a></span>
         {% else %}
 
         <a href="{% url 'companyPhotos' company.id %}"> See all</a></span>

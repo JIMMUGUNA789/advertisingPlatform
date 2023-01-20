@@ -1,5 +1,7 @@
-{% extends 'base.html' %} {% load static %} {% block content %} {% if
-company.bannerPicture %}
+{% extends 'base.html' %}
+{% load static %}
+{% block content %} 
+{% if company.bannerPicture %}
 <div
   class="bannerPic"
   style="background-image: url('{{company.bannerPicture.url}}');"
@@ -11,7 +13,6 @@ company.bannerPicture %}
 ></div>
 
 {% endif %}
-
 <div>
   <div class="profile-single-company">
     <div class="profile-companies">
@@ -47,7 +48,7 @@ company.bannerPicture %}
         ><i class="fa fa-star profile-icon"></i
         ><i class="fa fa-star profile-icon"></i>
         <button class="button" style="float: right; margin-top: 0px">
-          <a href="" class="button-text">Reviews</a>
+          <a href="" class="button-text">Add Review</a>
         </button>
       </div>
     </div>
@@ -68,6 +69,7 @@ company.bannerPicture %}
 </div>
 
 <hr style="color: #083966" />
+
 <div class="profile-main-content">
   <div class="sidebar">
     <div>
@@ -114,27 +116,23 @@ company.bannerPicture %}
       <div id="map"></div>
     </div>
   </div>
+
   <div class="mainarea">
+    <h3 style="margin-top: 30px">Add Image</h3>
     <form method="post" action="" enctype="multipart/form-data">
       {% csrf_token %}
 
+      
       <div class="form-group">
-        <label for="body">Post</label>
-        <small id="passwordHelpBlock" class="form-text text-muted">
-          Give people new information about your business.
-        </small>
-        <textarea
-          class="form-control"
-          id="body"
-          rows="3"
-          name="body"
-        ></textarea>
+        <label for="image">Select Image</label>
+        <input
+          type="file"
+          class="form-control-file"
+          id="image"
+          name="image"
+        />
       </div>
-      <div class="form-group">
-        <label for="image">Post Photo</label>
-        <input type="file" class="form-control-file" id="image" name="image" />
-      </div>
-
+    
       <button type="submit" class="btn btn-primary">Submit</button>
     </form>
   </div>

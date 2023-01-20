@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from .models import CompanyProfile, Reviews, Likes, Follows 
+from .models import CompanyProfile, Reviews, Likes, Follows, CompanyImages
 from posts.models import Post
 from django.core.paginator import Paginator
 from django.contrib import messages
@@ -39,10 +39,13 @@ def companyProfile(request, id):
 def companyPhotos(request, id):
     id = str(id)
     company = CompanyProfile.objects.get(id=id)
-    posts = Post.objects.filter(company=id).order_by('-created_at')
+    posts = Post.objects.filter(company=id).order_by('?')
+    images = CompanyImages.objects.filter(company=id).order_by('?')
+    print(images)
     context = {
         "company":company,
         "posts":posts,
+        "images":images,
     }
     return render(request, 'company/photos.html', context)
 
@@ -128,3 +131,21 @@ def followAndUnfollowCompany(request, company_id):
         follow = Follows.objects.create(company=company, user=user)
         follow.save()
         return redirect('companyProfile', id=company_id)
+
+def addImages(request, id):
+    id = str(id)
+    company = CompanyProfile.objects.get(id=id)
+    posts = Post.objects.filter(company=id)
+    if request.method == 'POST':
+        company = company
+        user = request.user        
+        image = request.FILES.get('image')
+        companyPhoto = CompanyImages(company=company, image=image)
+        companyPhoto.save()
+        messages.success(request, 'Image added successfully')
+        return redirect('companyPhotos', id=id)
+    context = {
+        "company":company,
+        "posts":posts
+    }
+    return render(request, 'company/addImages.html', context)

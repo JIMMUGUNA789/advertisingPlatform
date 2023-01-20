@@ -26,7 +26,9 @@
             <h5 class="profile-company-category">{{company.category}}</h5>
             <p class="profile-social-stats">{{company.companyLikes}} <a href="{% url 'likeAndDislikeCompany' company.id %}">Likes</a> . {{company.companyFollows}} <a href="{% url 'followAndUnfollowCompany' company.id %}">Followers</a></p>
             <i class="fa fa-star profile-icon"></i><i class="fa fa-star profile-icon"></i><i class="fa fa-star profile-icon"></i><i class="fa fa-star profile-icon"></i><i class="fa fa-star profile-icon"></i>
-            <button class="button" style="float: right; margin-top: 0px;"><a href="" class="button-text" >Reviews</a> </button>
+            {% if user.is_authenticated and user.id == company.companyAdmin.id %}
+            <a href="{% url 'addImages' company.id %}" class="button-text" ><button class="button" style="float: right; margin-top: 0px;">Add Images </button></a>
+            {% endif %}
           </div>
           
         </div>
@@ -53,6 +55,13 @@
   <div class="mainarea-gallery">
     <h3 style="margin-top: 30px;">Gallery</h3>
     <div id="gallery">
+      {% for image in images %}
+      {% if image.company == company %}
+      {% if image.image %}
+      <img src="{{image.image.url}}" id="img-{{ forloop.counter }}" alt="post-pic" class="profile-company-gallery my-image">
+{% endif %}
+      {% endif %}
+      {% endfor %}
         {% for post in posts %}
         {% if post.company == company %}
          <img src="{{post.image.url}}" id="img-{{ forloop.counter }}" alt="post-pic" class="profile-company-gallery my-image">
