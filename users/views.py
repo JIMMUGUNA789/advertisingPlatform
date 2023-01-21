@@ -1,9 +1,14 @@
 from django.shortcuts import render, redirect
-from .forms import RegistrationForm
+from django.urls import reverse
+from .forms import RegistrationForm, UserUpdateForm
 from django.contrib.auth import login, authenticate, logout
 from django.contrib import messages
 from django.contrib.auth.forms import AuthenticationForm
+from django.views.generic import UpdateView
+
 from django.views.decorators.csrf import csrf_exempt
+
+from companies.models import CompanyProfile
 
 # password reset
 from django.core.mail import send_mail, BadHeaderError
@@ -97,4 +102,26 @@ def password_reset_request(request):
     return render(request, 'password/password_reset.html', context)
 
 
-   
+def profile(request, id):
+    id=str(id)
+    myBusinesses = CompanyProfile.objects.filter(companyAdmin=id)
+    context = {
+        "myBusinesses": myBusinesses,
+
+    }
+
+    return render(request, 'userProfile.html', context)
+
+class UserUpdate(UpdateView):
+    template_name = 'users/updateUser.html'
+    context_object_name = 'user'
+    model = CustomUser
+    form_class = UserUpdateForm
+
+    def get_success_url(self):
+        return reverse('profile', kwargs={'id': self.request.user.id})
+
+    def get_context_data(self, **kwargs):
+        context = super(UserUpdate, self).get_context_data(**kwargs)
+        context['user_form'] = UserUpdateForm(instance=self.request.user)
+        return context

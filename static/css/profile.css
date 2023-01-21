@@ -1,0 +1,30 @@
+.sidebar-avatar{
+    border-radius: 10px;
+    border: 1px solid #ddd;
+  padding: 5px;
+  width: 125px;
+  height: 125px;
+  margin-left: 70px;
+  margin-top: 1px;
+}
+hr{
+    padding: 1px;
+    width: 90%;
+    margin-left: 5% !important;
+    border-top: 1px solid #083966 !important;
+}
+.form-group{
+  color: #083966;
+}
+.form-group label{
+  color: #083966;
+  font-weight: bold;
+  margin: 0px;
+
+}
+.form-group input{
+  width: 75% !important;
+
+}
+
+

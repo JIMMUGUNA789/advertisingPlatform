@@ -4,5 +4,7 @@ urlpatterns = [
     path('register/', views.register, name='register'),
     path('login/', views.login_request, name='login'),
     path('logout/', views.logout_request, name='logout'),
-    path("password_reset/", views.password_reset_request, name="password_reset")
+    path("password_reset/", views.password_reset_request, name="password_reset"),
+    path("profile/<str:id>/", views.profile, name="profile"),
+    path("profile/<int:pk>/edit/", views.UserUpdate.as_view(), name="edit_profile"),
 ]

@@ -1,5 +1,6 @@
 from django import forms
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm, UserChangeForm
+from django.forms import Textarea, TextInput, Select, SelectMultiple, FileInput,EmailInput
 from .models import CustomUser
 class RegistrationForm(UserCreationForm):
     email = forms.EmailField(required=True)
@@ -23,3 +24,14 @@ class RegistrationForm(UserCreationForm):
         if commit:
             user.save()
         return user
+
+class UserUpdateForm(UserChangeForm):
+    email = forms.EmailField(widget=forms.EmailInput(attrs={'class':'form-control '}), required=True)
+    phoneNumber = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control'}),  required=True)
+    profilePicture = forms.ImageField( required=False)
+    username = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control'}), required=True)
+    first_name = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control'}), required=True)
+    last_name = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control'}), required=True)
+    class Meta:
+        model = CustomUser
+        fields = ("username", "email", "phoneNumber",  "first_name", "last_name", "profilePicture")

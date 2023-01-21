@@ -1,0 +1,42 @@
+{% extends 'dashboard.html' %}
+{% block contentdashboard %}
+<div class="container h-100">
+  <div class="row h-100 justify-content-center align-items-center">
+    <div class="col-11 col-md-9 col-lg-7 card mt-2">
+      <h3 >Edit Profile Information</h3>
+<form method="post" action="" enctype="multipart/form-data">
+  {% csrf_token %}
+  <div class="form-group">
+    {{ form.username.label_tag }}
+    {{ form.username }}
+  </div>
+   <div class="form-group">
+    {{ form.email.label_tag }}
+    {{ form.email }}
+  </div>
+   <div class="form-group">
+    {{ form.phoneNumber.label_tag }}
+    {{ form.phoneNumber }}
+  </div>
+  <div class="form-group">
+    {{ form.first_name.label_tag }}
+    {{ form.first_name }}
+  </div>
+  <div class="form-group">
+    {{ form.last_name.label_tag }}
+    {{ form.last_name }}
+  </div>
+  <div class="form-group">
+    {{ form.profilePicture.label_tag }}
+    {{ form.profilePicture }}
+  </div>
+
+<div class="form-group">
+  <button type="submit" class="btn btn-primary">Submit</button>
+  </div>
+
+</form>
+</div>
+</div>
+</div>
+{% endblock %}
