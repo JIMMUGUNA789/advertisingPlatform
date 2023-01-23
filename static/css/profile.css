@@ -26,5 +26,13 @@ hr{
   width: 75% !important;
 
 }
+.quick-stats{
+  background-color: #083966;
+  color: #fff;
+  text-align: center;
+}
+.dashboard-title{
+  color: #083966;
+}
 
 

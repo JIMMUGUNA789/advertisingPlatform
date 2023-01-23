@@ -1,0 +1,53 @@
+{% extends 'dashboard.html' %} 
+{% block contentdashboard %}
+<div class="container h-100">
+    <div class="row justify-content-right align-items-right" >
+        <h3 class="mb-4 dashboard-title">Dashboard</h3>
+    </div>
+    <div class="row justify-content-center align-items-center m-0" >
+        <div class="card col-11 col-md-3 col-lg-3 mx-4 quick-stats ">
+            <div class="card-body ">
+              <h5 class="card-title">My Businesses</h5>
+              <p class="card-text display-4">{{myBusinessesCount}}</p>
+            </div>
+        </div>
+        <div class="card col-11 col-md-3 col-lg-3 mx-4 quick-stats">
+            <div class="card-body">
+              <h5 class="card-title">Liked Companies</h5>
+              <p class="card-text display-4">{{likedCompaniesCount}}</p>
+            </div>
+        </div>
+        <div class="card col-11 col-md-3 col-lg-3 mx-4 quick-stats">
+            <div class="card-body">
+              <h5 class="card-title">Followed Companies</h5>
+              <p class="card-text display-4">{{followedCompaniesCount}}</p>
+            </div>
+        </div>
+       
+    </div>
+    <div class="row justify-content-right align-items-right" >
+        <h3 class="mt-4 dashboard-title">{{company.companyName}}</h3>
+    </div>
+    <div class="row justify-content-center align-items-center m-0" >
+        <div class="card col-11 col-md-3 col-lg-3 mx-4 quick-stats ">
+            <div class="card-body ">
+              <h5 class="card-title">Business Reviews</h5>
+              <p class="card-text display-4">{{companyReviewsCount}}</p>
+            </div>
+        </div>
+        <div class="card col-11 col-md-3 col-lg-3 mx-4 quick-stats">
+            <div class="card-body">
+              <h5 class="card-title">Business Likes</h5>
+              <p class="card-text display-4">{{companyLikesCount}}</p>
+            </div>
+        </div>
+        <div class="card col-11 col-md-3 col-lg-3 mx-4 quick-stats">
+            <div class="card-body">
+              <h5 class="card-title">Business Follows</h5>
+              <p class="card-text display-4">{{companyFollowsCount}}</p>
+            </div>
+        </div>
+       
+    </div>
+</div>
+{% endblock %}

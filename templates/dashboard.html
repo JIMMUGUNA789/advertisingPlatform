@@ -26,7 +26,7 @@
       </button>
       <div class="w3-dropdown-content w3-bar-block">
         {% for business in myBusinesses %}
-        <a href="#" class="w3-bar-item w3-button">{{business.companyName}}</a>
+        <a href="{% url 'businessDashboard' user_id=user.id company_id=business.id %}" class="w3-bar-item w3-button">{{business.companyName}}</a>
         {% endfor %}
       </div>
     </div> 

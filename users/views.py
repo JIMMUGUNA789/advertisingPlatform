@@ -8,7 +8,7 @@ from django.views.generic import UpdateView
 
 from django.views.decorators.csrf import csrf_exempt
 
-from companies.models import CompanyProfile
+from companies.models import CompanyProfile, Follows, Likes, Reviews, CompanyImages
 
 # password reset
 from django.core.mail import send_mail, BadHeaderError
@@ -101,17 +101,6 @@ def password_reset_request(request):
     }
     return render(request, 'password/password_reset.html', context)
 
-
-def profile(request, id):
-    id=str(id)
-    myBusinesses = CompanyProfile.objects.filter(companyAdmin=id)
-    context = {
-        "myBusinesses": myBusinesses,
-
-    }
-
-    return render(request, 'userProfile.html', context)
-
 class UserUpdate(UpdateView):
     template_name = 'users/updateUser.html'
     context_object_name = 'user'
@@ -125,3 +114,57 @@ class UserUpdate(UpdateView):
         context = super(UserUpdate, self).get_context_data(**kwargs)
         context['user_form'] = UserUpdateForm(instance=self.request.user)
         return context
+
+def profile(request, id):
+    id=str(id)
+    myBusinesses = CompanyProfile.objects.filter(companyAdmin=id)
+    myBusinessesCount = myBusinesses.count()
+    likedCompanies = Likes.objects.filter(user=id)
+    likedCompaniesCount = likedCompanies.count()
+    followedCompanies = Follows.objects.filter(user=id)
+    followedCompaniesCount = followedCompanies.count()
+
+
+    context = {
+        "myBusinesses": myBusinesses,
+        "myBusinessesCount": myBusinessesCount,
+        "likedCompaniesCount": likedCompaniesCount,
+        "followedCompaniesCount": followedCompaniesCount,
+
+    }
+
+    return render(request, 'userProfile.html', context)
+
+
+def businessDashboard(request, user_id, company_id):
+    user_id=str(user_id)
+    company_id=str(company_id)
+    myBusinesses = CompanyProfile.objects.filter(companyAdmin=user_id)
+    myBusinessesCount = myBusinesses.count()
+    likedCompanies = Likes.objects.filter(user=user_id)
+    likedCompaniesCount = likedCompanies.count()
+    followedCompanies = Follows.objects.filter(user=user_id)
+    followedCompaniesCount = followedCompanies.count()
+    company = CompanyProfile.objects.get(id=company_id)
+    companyLikes = Likes.objects.filter(company=company_id)
+    companyLikesCount = companyLikes.count()
+    companyFollows = Follows.objects.filter(company=company_id)
+    companyFollowsCount = companyFollows.count()
+    companyReviews = Reviews.objects.filter(company=company_id)
+    companyReviewsCount = companyReviews.count()
+
+
+    context = {
+        "myBusinesses": myBusinesses,
+        "myBusinessesCount": myBusinessesCount,
+        "likedCompaniesCount": likedCompaniesCount,
+        "followedCompaniesCount": followedCompaniesCount,
+        "company": company,
+        "companyLikesCount": companyLikesCount,
+        "companyFollowsCount": companyFollowsCount,
+        "companyReviewsCount": companyReviewsCount,
+
+    }
+
+    return render(request, 'businessDashboard.html', context)
+
