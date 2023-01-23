@@ -1,4 +1,7 @@
 from django.shortcuts import render, redirect
+from django.urls import reverse, reverse_lazy
+
+
 from .models import CompanyProfile, Reviews, Likes, Follows, CompanyImages
 from posts.models import Post
 from django.core.paginator import Paginator
@@ -7,6 +10,8 @@ from ads.models import Advertiser
 from django.db.models.functions import Random
 
 from django.core.files.storage import default_storage
+from django.views.generic.edit import UpdateView
+
 
 
 
@@ -153,3 +158,28 @@ def addImages(request, id):
         "posts":posts
     }
     return render(request, 'company/addImages.html', context)
+
+class CompanyProfileUpdate(UpdateView):
+    model = CompanyProfile
+    fields = [
+        "companyName",
+        "description",
+        "profilePicture",
+        "category",
+        "phone",
+        "email",
+        "websiteUrl",
+        "address"
+
+    ]
+    template_name = "company/updateCompanyProfile.html"
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['company'] = CompanyProfile.objects.get(id=self.object.id)
+        return context
+
+    def get_success_url(self):
+        return reverse_lazy('companyProfile', kwargs={'id': self.object.id})
+   
+    
+    

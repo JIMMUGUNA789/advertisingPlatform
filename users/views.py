@@ -167,4 +167,3 @@ def businessDashboard(request, user_id, company_id):
     }
 
     return render(request, 'businessDashboard.html', context)
-

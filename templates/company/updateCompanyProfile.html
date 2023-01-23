@@ -81,13 +81,7 @@
       </h3>
 
       <div class="sidebar-profileInfo-content profile-gallery">
-       {% for post in posts %}
-       {% if post.company == company %}
-        <img src="{{post.image.url}}" alt="profilePic" id="img-{{ forloop.counter }}" class="profile-company-gallery my-image">
-        
-      
-        {% endif %}
-        {% endfor %}
+       
         <div id="my-modal" style="display:none;">
           <img src="">
           <div class="close-modal" id="close-button">x</div>
@@ -108,83 +102,13 @@
 
     </div>
     <div class="mainarea">
-      <div>
-        <h3 style="margin-top: 30px;">About</h3>
-        <div class="mainarea-about-content">
-        <p>{{company.description}}</p>
-      </div>
-    </div>
-    <div>
-      <h3 style="margin-top: 30px;">Posts({{no_of_posts}})
-        {% if user.is_authenticated and user.id == company.companyAdmin.id %}
-        <span class="add-post"><a href="{% url 'add_post' company.id %}"> Add Post</a></span>
-        {% endif %}
-
-      
-      </h3>
-      {% for post in posts %}
-      <div class="mainarea-about-content">
-        <div class="companies">
-          <div class="profile-picture-wrapper">
-            
-            <img src="{{company.profilePicture.url}}" alt="profilePic" class="company-profile-pic">
-           
-            
-          </div>
-          <div>
-            <p class="company-name">{{company.companyName}} 
-              {% if user.is_authenticated and user.id == company.companyAdmin.id %}
-              <span><a href="{% url 'deletePost' post_id=post.id company_id=company.id %}"><i class="fa fa-trash delete-icon"></i></a></span>
-              {% endif %}
-            </p>
-            <p class="social-stats">{{post.created_at}}</p>
-           
-
-            
-          </div>
-          
-          
-        </div>
-        <p>{{post.body}}</p>
-          <img src="{{post.image.url}}" alt="post Image" class="post-image">
-          <hr class="post-hr">
-          <i class="fa fa-thumbs-up post-icon-1">  <a class="like" href="{% url 'likeAndDislikePost' post_id=post.id company_id=company.id %}" data-post-id="{{ post.id }}" data-company-id="{{company.id}}">{{post.post_likes}} Likes</a></i> <i class="fa fa-comment post-icon-2"> {{post.post_comments}} Comments</i><i class="fa fa-share post-icon-3"> Share</i>
-          <hr class="post-hr">
-          <form action="{% url 'addComment' post_id=post.id company_id=company.id %}" method="post" enctype="multipart/form-data">
-            {% csrf_token %}
-            <div class="input-container">
-              <input type="text" placeholder="Write a comment ..." name="comment" id="comment">
-              <button style="background-color: transparent; border: none;" type="submit">
-              <i class="fa fa-paper-plane" style="color: #083966;"></i>
-            </button>
-            </div>
-          </form>
-    </div>
-    {% endfor %}
-  </div>
-  {% comment %}
-  pagination
-  {% endcomment %}
-
-  <div class="">
-    <div style="color: #black; padding: 10px; font-size: 15px; text-align: center;">
-        <span class="">
-          {% if posts.has_previous %}
-              <a href="?page=1" style="color: #083966;">&laquo; first</a>
-              <a href="?page={{ posts.previous_page_number }}" style="color: #083966;">previous</a>
-          {% endif %}
-
-            <span >
-                Page {{ posts.number }} of {{ posts.paginator.num_pages }}
-            </span>
-
-          {% if posts.has_next %}
-              <a href="?page={{ posts.next_page_number }}" style="color: #083966;">next</a>
-              <a href="?page={{ posts.paginator.num_pages }}" style="color: #083966;">last &raquo;</a>
-          {% endif %}
-        </span>
-      </div>
-    </div>
+        <form method="post"> 
+            {% csrf_token %} 
+            {{ form.as_p }} 
+            <input type="submit" value="Save"> 
+        </form>     
+    
+  
 
 
 
@@ -229,3 +153,4 @@
       </script>
    
 {% endblock %}
+  
