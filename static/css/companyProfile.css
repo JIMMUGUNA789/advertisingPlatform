@@ -250,8 +250,8 @@ display: flex;
 }
 .delete-icon{
     color: #083966;
-    font-size: 20px;
-    padding-left: 300px;
+    font-size: 15px;
+    
     padding-right: 10px;
 }
 .banner-image{
@@ -336,4 +336,10 @@ display: flex;
    -webkit-column-count: 1;
    column-count:         1;
   }
+}
+.comment-username{
+    font-size: 20px;
+    font-weight: bold;
+    color: #083966;
+    
 }

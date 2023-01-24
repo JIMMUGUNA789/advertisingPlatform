@@ -102,11 +102,68 @@
 
     </div>
     <div class="mainarea">
-        <form method="post"> 
-            {% csrf_token %} 
-            {{ form.as_p }} 
-            <input type="submit" value="Save"> 
-        </form>     
+      <div class="container">
+        <div class="col-11 col-md-9 col-lg-7 card mt-2">
+          <h3 >Edit Business Profile</h3>
+          <form method="post" action="" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="form-group">
+              {{ form.companyName.label_tag }}
+              {{ form.companyName }}
+              {{ form.companyName.errors }}
+            </div>
+            <div class="form-group">
+              {{ form.description.label_tag }}
+              {{ form.description }}
+              {{ form.description.errors }}
+              
+            </div>
+            <div class="form-group">
+              {{ form.category.label_tag }} <br>
+              {{ form.category }}
+              {{ form.category.errors }}
+            </div>
+            <div class="form-group">
+              {{ form.phone.label_tag }} <br>
+              {{ form.phone }}
+              {{ form.phone.errors }}
+            </div>
+            <div class="form-group">
+              {{ form.email.label_tag }} <br>
+              {{ form.email }}
+              {{ form.email.errors }}
+            </div>
+            <div class="form-group">
+              {{ form.websiteUrl.label_tag }}
+              {{ form.websiteUrl }}
+              {{ form.websiteUrl.errors }}
+            </div>
+            <div class="form-group">
+              {{ form.address.label_tag }} <br>
+              {{ form.address }}
+              {{ form.address.errors }}
+            </div>
+            <div class="form-group">
+              {{ form.profilePicture.label_tag }} <br>
+              {{ form.profilePicture }}
+              {{ form.profilePicture.errors }}
+            </div>
+            <div class="form-group">
+              {{ form.bannerPicture.label_tag }} <br>
+              {{ form.bannerPicture }}
+              {{ form.bannerPicture.errors }}
+            </div>
+            <div class="form-group d-flex justify-content-end">
+              <button type="submit" class="btn  button">Submit</button>
+              </div>
+          </form>
+        </div>
+
+      </div>
+
+
+
+          
     
   
 

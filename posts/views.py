@@ -79,10 +79,37 @@ def addComment(request, post_id, company_id):
         comment = request.POST['comment']
         PostComments.objects.create(post=post, user=user, comment=comment)
         messages.success(request, 'Comment added successfully')
-        return redirect('allPosts', id=company_id)
+        return redirect('allComments', post_id=post_id, company_id=company_id)
     
     # redirect to all posts page
-    return redirect('allPosts', id=company_id)
+    return redirect('allComments', post_id=post_id, company_id=company_id)
 
+def postComments(request, company_id, post_id):
+    company_id = str(company_id)
+    post_id = str(post_id)
+    post = Post.objects.get(id=post_id)
+    company = CompanyProfile.objects.get(id=company_id)
+    comments = PostComments.objects.filter(post=post_id)
+    no_of_comments = PostComments.objects.filter(post=post_id).count()
+    paginator = Paginator(comments, 3)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    context = {
+        "company":company,
+        "comments": page_obj,
+        "no_of_comments": no_of_comments,
+        "post":post,
+    }
+    return render(request, 'posts/allComments.html', context)
+
+
+def deleteComment(request, comment_id, company_id, post_id):
+    comment_id = str(comment_id)   
+    post_id = str(post_id)
+    company_id = str(company_id)
+    comment = PostComments.objects.get(id=comment_id)
+    comment.delete()
+    messages.success(request, 'Comment deleted successfully')
+    return redirect('allComments', post_id=post_id, company_id=company_id)
 
    

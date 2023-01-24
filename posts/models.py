@@ -52,4 +52,9 @@ def decrement_post_likes(sender, instance, **kwargs):
     post = Post.objects.get(pk=instance.post.pk)
     post.post_likes -=1
     post.save()
+@receiver(post_delete, sender=PostComments)
+def decrement_post_comments(sender, instance, **kwargs):
+    post = Post.objects.get(pk=instance.post.pk)
+    post.post_comments -=1
+    post.save()
 

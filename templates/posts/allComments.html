@@ -1,0 +1,308 @@
+{% extends 'base.html' %} 
+{% load static %} 
+{% block content %} 
+{% if company.bannerPicture %}
+<div
+  class="bannerPic"
+  style="background-image: url('{{company.bannerPicture.url}}');"
+></div>
+{% else %}
+<div
+  class="bannerPic"
+  style="background-image: url('{%static 'images/Grey_full.png'%}')"
+></div>
+
+{% endif %}
+
+<div>
+  <div class="profile-single-company">
+    <div class="profile-companies">
+      <div class="profile-picture-wrapper">
+        {% if company.profilePicture %}
+        <img
+          src="{{company.profilePicture.url}}"
+          alt="profilePic"
+          class="profile-company-profile-pic"
+        />
+        {% else %}
+        <img
+          class="profile-company-profile-pic"
+          src="{% static 'images/avatar.jpeg'%}"
+          alt="Avatar"
+        />
+        {% endif %}
+      </div>
+      <div>
+        <p class="profile-company-name">{{company.companyName}}</p>
+        <h5 class="profile-company-category">{{company.category}}</h5>
+        <p class="profile-social-stats">
+          {{company.companyLikes}}
+          <a href="{% url 'likeAndDislikeCompany' company.id %}">Likes</a> .
+          {{company.companyFollows}}
+          <a href="{% url 'followAndUnfollowCompany' company.id %}"
+            >Followers</a
+          >
+        </p>
+        <i class="fa fa-star profile-icon"></i
+        ><i class="fa fa-star profile-icon"></i
+        ><i class="fa fa-star profile-icon"></i
+        ><i class="fa fa-star profile-icon"></i
+        ><i class="fa fa-star profile-icon"></i>
+        <a href="{% url 'reviews' company.id %}" class="button-text"
+          ><button class="button" style="float: right; margin-top: 0px">
+            Reviews
+          </button></a
+        >
+      </div>
+    </div>
+  </div>
+</div>
+<hr style="color: #083966" />
+<div class="company-profile-nav">
+  <ul>
+    <li><a href="{% url 'companyProfile' company.id %}">About</a></li>
+    <li><a href="{% url 'allPosts' company.id %}">Posts</a></li>
+    <li><a href="">Contact</a></li>
+    <li><a href="{% url 'reviews' company.id %}">Reviews</a></li>
+    <li><a href="{% url 'companyPhotos' company.id %}">Photos</a></li>
+    <li><a href="">Videos</a></li>
+    <li><a href="{% url 'allJobs' company.id %}">Jobs</a></li>
+    <li><a href="">FAQs</a></li>
+  </ul>
+</div>
+
+<hr style="color: #083966" />
+<div class="profile-main-content">
+  <div class="sidebar">
+    <div>
+      <h3 style="margin-top: 30px">Profile Info</h3>
+
+      <div class="sidebar-profileInfo-content">
+        <p class="profileInfo-text">
+          <i class="fa fa-map-marker"></i> {{company.address}}
+        </p>
+        <p class="profileInfo-text">
+          <i class="fa fa-phone"></i> {{company.phone}}
+        </p>
+        <p class="profileInfo-text">
+          <i class="fa fa-envelope"></i> {{company.email}}
+        </p>
+        <p class="profileInfo-text">
+          <i class="fa fa-globe"></i> {{company.websiteUrl}}
+        </p>
+        <p class="profileInfo-text">
+          <i class="fa fa-clock"></i> opened/closed
+        </p>
+      </div>
+    </div>
+    <div>
+      <h3 style="margin-top: 30px">
+        Gallery
+        <span class="see-all"
+          ><a href="{% url 'companyPhotos' company.id %}"> See all</a></span
+        >
+      </h3>
+
+      <div class="sidebar-profileInfo-content profile-gallery">
+        {% for post in posts %}
+        {% if post.company == company %}
+        <img
+          src="{{post.image.url}}"
+          alt="profilePic"
+          class="profile-company-gallery"
+        />
+        {% endif %} 
+        {% endfor %}
+      </div>
+    </div>
+    <div>
+      <h3 style="margin-top: 30px">Location</h3>
+      <div id="map"></div>
+    </div>
+  </div>
+  <div class="mainarea">
+    <div>
+      <h3 style="margin-top: 30px">
+        {% if user.is_authenticated and user.id == company.companyAdmin.id %}
+        <span class="add-post"
+          ><a href="{% url 'add_post' company.id %}"> Add Post</a></span
+        >
+        {% endif %}
+      </h3>
+
+      <div class="mainarea-about-content">
+        <div class="companies">
+          <div class="profile-picture-wrapper">
+            <img
+              src="{{company.profilePicture.url}}"
+              alt="profilePic"
+              class="company-profile-pic"
+            />
+          </div>
+          <div>
+            <p class="company-name">
+              {{company.companyName}} 
+              {% if user.is_authenticated and user.id == company.companyAdmin.id %}
+              <span
+                ><a
+                  href="{% url 'deletePost' post_id=post.id company_id=company.id %}"
+                  ><i class="fa fa-trash delete-icon"></i></a
+              ></span>
+              {% endif %}
+            </p>
+            <p class="social-stats">{{post.created_at}}</p>
+          </div>
+        </div>
+        <p>{{post.body}}</p>
+        <img src="{{post.image.url}}" alt="post Image" class="post-image" />
+        <hr class="post-hr" />
+        <i class="fa fa-thumbs-up post-icon-1">
+          {{post.post_likes}}
+          <a
+            class="like"
+            href="{% url 'likeAndDislikePost' post_id=post.id company_id=company.id %}"
+            >Likes</a
+          ></i
+        >
+        <i class="fa fa-comment post-icon-2"> {{post.post_comments}} Comments</i
+        ><i class="fa fa-share post-icon-3"> Share</i>
+        <hr class="post-hr" />
+        {% for comment in comments %}
+        {% if comment.post == post %}
+
+        <div class="companies">
+          <div class="profile-picture-wrapper">
+            {% if comment.user.profilePicture %}
+            <img
+              class="user-image"
+              src="{{comment.user.profilePicture.url}}"
+              alt="Avatar"
+            />
+
+            {% else %}
+            <img
+              class="user-image"
+              src="{% static 'images/avatar.jpeg'%}"
+              alt="Avatar"
+            />
+
+            {% endif %}
+          </div>
+          <div class="container">
+            <div
+              class="row col-12 d-flex align-items-center justify-content-between"
+            >
+              <p class="comment-username text-left">
+                {{comment.user.username}}
+              </p>
+              {% if user.is_authenticated and user.id == comment.user.id %}
+              <span class="text-right"
+                ><a href="{% url 'deleteComment' post_id=post.id comment_id=comment.id company_id=company.id %}"><i class="fa fa-trash delete-icon"></i></a
+              ></span>
+
+              {% endif %}
+            </div>
+            <div class="row col-12">
+              <p class="social-stats">{{ comment.comment }}</p>
+            </div>
+          </div>
+        </div>
+
+        {% endif %} {% endfor %}
+
+        <form
+          action="{% url 'addComment' post_id=post.id company_id=company.id %}"
+          method="post"
+          enctype="multipart/form-data"
+        >
+          {% csrf_token %}
+          <div class="input-container">
+            <input
+              type="text"
+              placeholder="Write a comment ..."
+              name="comment"
+              id="comment"
+            />
+            <button
+              style="background-color: transparent; border: none"
+              type="submit"
+            >
+              <i class="fa fa-paper-plane" style="color: #083966"></i>
+            </button>
+          </div>
+        </form>
+
+        {% comment %} pagination {% endcomment %}
+
+        <div class="">
+          <div
+            style="
+              color: #black;
+              padding: 10px;
+              font-size: 15px;
+              text-align: center;
+            "
+          >
+            <span class="">
+              {% if comments.has_previous %}
+              <a href="?page=1" style="color: #083966">&laquo; first</a>
+              <a
+                href="?page={{ comments.previous_page_number }}"
+                style="color: #083966"
+                >previous</a
+              >
+              {% endif %}
+
+              <span>
+                Page {{ comments.number }} of {{ comments.paginator.num_pages }}
+              </span>
+
+              {% if comments.has_next %}
+              <a
+                href="?page={{ comments.next_page_number }}"
+                style="color: #083966"
+                >next</a
+              >
+              <a
+                href="?page={{ comments.paginator.num_pages }}"
+                style="color: #083966"
+                >last &raquo;</a
+              >
+              {% endif %}
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+      $(document).ready(function(){
+        console.log("testing images")
+
+  $('.my-image').on('click',function(){
+      var image_id = $(this).attr('id');
+      var image_src = $(this).attr('src');
+      $('#my-modal img').attr('src', image_src);
+      $('#my-modal').show();
+  });
+  $('.close-modal').on('click', function(){
+  $('#my-modal').hide();
+  });
+
+
+
+      console.log("testing")
+      var lat = {{ company.latitude }};
+      var lng = {{ company.longitude }};
+      var map = new google.maps.Map(document.getElementById('map'), {
+        center: {lat: lat, lng: lng},
+        zoom: 6
+      });
+      var marker = new google.maps.Marker({
+      position: {lat: lat, lng: lng},
+      map: map
+    });
+  })
+</script>
+{% endblock %}

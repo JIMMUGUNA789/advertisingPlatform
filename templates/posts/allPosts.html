@@ -108,24 +108,31 @@
            
             
           </div>
-          <div>
-            <p class="company-name">{{company.companyName}}
-              {% if user.is_authenticated and user.id == company.companyAdmin.id %}
-              <span><a href="{% url 'deletePost' post_id=post.id company_id=company.id %}"><i class="fa fa-trash delete-icon"></i></a></span>
-              {% endif %}
-            </p>
-            <p class="social-stats">{{post.created_at}}</p>
-           
+          <div class="container">
+            
+            <div>
+          <div class="row col-12 d-flex align-items-center justify-content-between">
 
+            <p class="company-name text-left">{{company.companyName}} </p>
+              {% if user.is_authenticated and user.id == company.companyAdmin.id %}
+              <span class="text-right"><a href="{% url 'deletePost' post_id=post.id company_id=company.id %}"><i class="fa fa-trash delete-icon"></i></a></span>
+              {% endif %}
+           
+            
+          
             
           </div>
+          <p class="social-stats text-left">{{post.created_at}}</p>
+
+        </div>
+        </div>
           
           
         </div>
         <p>{{post.body}}</p>
           <img src="{{post.image.url}}" alt="post Image" class="post-image">
           <hr class="post-hr">
-          <i class="fa fa-thumbs-up post-icon-1"> {{post.post_likes}} <a class="like" href="{% url 'likeAndDislikePost' post_id=post.id company_id=company.id %}">Likes</a></i> <i class="fa fa-comment post-icon-2"> {{post.post_comments}} Comments</i><i class="fa fa-share post-icon-3"> Share</i>
+          <i class="fa fa-thumbs-up post-icon-1"> {{post.post_likes}} <a class="like" href="{% url 'likeAndDislikePost' post_id=post.id company_id=company.id %}">Likes</a></i> <a href="{% url 'allComments' post_id=post.id company_id=company.id %}"><i class="fa fa-comment post-icon-2"> {{post.post_comments}} Comments</i></a><i class="fa fa-share post-icon-3"> Share</i>
           <hr class="post-hr">
           <form action="{% url 'addComment' post_id=post.id company_id=company.id %}" method="post" enctype="multipart/form-data">
             {% csrf_token %}

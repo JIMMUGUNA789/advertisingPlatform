@@ -3,7 +3,7 @@ from django.urls import reverse, reverse_lazy
 
 
 from .models import CompanyProfile, Reviews, Likes, Follows, CompanyImages
-from posts.models import Post
+from posts.models import Post, PostComments
 from django.core.paginator import Paginator
 from django.contrib import messages
 from ads.models import Advertiser
@@ -32,6 +32,7 @@ def companyProfile(request, id):
     paginator = Paginator(posts, 5)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
+
     
     
     context = {
@@ -165,6 +166,7 @@ class CompanyProfileUpdate(UpdateView):
         "companyName",
         "description",
         "profilePicture",
+        "bannerPicture",
         "category",
         "phone",
         "email",
