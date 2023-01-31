@@ -11,6 +11,7 @@ from django.db.models.functions import Random
 
 from django.core.files.storage import default_storage
 from django.views.generic.edit import UpdateView
+from django.db.models import Avg
 
 
 
@@ -18,6 +19,10 @@ from django.views.generic.edit import UpdateView
 # Create your views here.
 def home(request):
     companies = CompanyProfile.objects.all().order_by('?')
+    for company in companies:
+        avg_rating = Reviews.objects.filter(company=company).aggregate(Avg('rating'))['rating__avg']
+        company.avg_rating = avg_rating
+        
     context = {
         "companies":companies
     }
@@ -32,6 +37,8 @@ def companyProfile(request, id):
     paginator = Paginator(posts, 5)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
+    # get the average rating of the company
+    avg_rating = Reviews.objects.filter(company=company).aggregate(Avg('rating'))['rating__avg']
 
     
     
@@ -39,6 +46,7 @@ def companyProfile(request, id):
         "company":company,
         "posts":page_obj,
         "no_of_posts":no_of_posts,
+        "avg_rating":avg_rating
     }
     return render(request, 'company/companyProfile.html', context)
 
@@ -47,11 +55,13 @@ def companyPhotos(request, id):
     company = CompanyProfile.objects.get(id=id)
     posts = Post.objects.filter(company=id).order_by('?')
     images = CompanyImages.objects.filter(company=id).order_by('?')
+    avg_rating = Reviews.objects.filter(company=company).aggregate(Avg('rating'))['rating__avg']
     print(images)
     context = {
         "company":company,
         "posts":posts,
         "images":images,
+        "avg_rating":avg_rating
     }
     return render(request, 'company/photos.html', context)
 
@@ -63,10 +73,12 @@ def reviews(request, id):
     paginator = Paginator(reviews, 5)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
+    avg_rating = Reviews.objects.filter(company=company).aggregate(Avg('rating'))['rating__avg']
     context = {
         "reviews":page_obj,
         "company":company,
-        "posts":posts
+        "posts":posts,
+        "avg_rating":avg_rating
     }
     return render(request, 'company/reviews.html', context)
 
@@ -101,6 +113,7 @@ def addReview(request, id):
     id = str(id)
     company = CompanyProfile.objects.get(id=id)
     posts = Post.objects.filter(company=id)
+    avg_rating = Reviews.objects.filter(company=company).aggregate(Avg('rating'))['rating__avg']
     if request.method == 'POST':
         company = company
         user = request.user
@@ -113,7 +126,8 @@ def addReview(request, id):
         return redirect('reviews', id=id)
     context = {
         "company":company,
-        "posts":posts
+        "posts":posts,
+        "avg_rating":avg_rating,
     }
     return render(request, 'company/addReview.html', context)
 
@@ -146,6 +160,7 @@ def addImages(request, id):
     id = str(id)
     company = CompanyProfile.objects.get(id=id)
     posts = Post.objects.filter(company=id)
+    avg_rating = Reviews.objects.filter(company=company).aggregate(Avg('rating'))['rating__avg']
     if request.method == 'POST':
         company = company
         user = request.user        
@@ -156,7 +171,8 @@ def addImages(request, id):
         return redirect('companyPhotos', id=id)
     context = {
         "company":company,
-        "posts":posts
+        "posts":posts,
+        "avg_rating":avg_rating,
     }
     return render(request, 'company/addImages.html', context)
 
@@ -178,6 +194,8 @@ class CompanyProfileUpdate(UpdateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['company'] = CompanyProfile.objects.get(id=self.object.id)
+        avg_rating = Reviews.objects.filter(company=self.object).aggregate(Avg('rating'))['rating__avg']
+        context['avg_rating'] = avg_rating
         return context
 
     def get_success_url(self):

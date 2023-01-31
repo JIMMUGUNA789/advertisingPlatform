@@ -29,8 +29,12 @@
             <p class="profile-company-name">{{company.companyName}}</p>
             <h5 class="profile-company-category">{{company.category}}</h5>
             <p class="profile-social-stats">{{company.companyLikes}} <a href="{% url 'likeAndDislikeCompany' company.id %}">Likes</a> . {{company.companyFollows}} <a href="{% url 'followAndUnfollowCompany' company.id %}">Followers</a></p>
-            <i class="fa fa-star profile-icon"></i><i class="fa fa-star profile-icon"></i><i class="fa fa-star profile-icon"></i><i class="fa fa-star profile-icon"></i><i class="fa fa-star profile-icon"></i>
-            <a href="{% url 'reviews' company.id %}" class="button-text" ><button class="button" style="float: right; margin-top: 0px;">Reviews </button></a>
+            {% if avg_rating is None %}
+            <i class="fa">No rating</i>
+            {% else %}
+            {{avg_rating}}<i class="fa fa-star"></i
+              >
+            {% endif %}              <a href="{% url 'reviews' company.id %}" class="button-text" ><button class="button" style="float: right; margin-top: 0px;">Reviews </button></a>
           </div>
           
         </div>

@@ -1,5 +1,6 @@
-{% extends 'base.html' %} {% load static %} {% block content %} {% if
-company.bannerPicture %}
+{% extends 'base.html' %} 
+{% load static %} {% block content %} 
+{% if company.bannerPicture %}
 <div
   class="bannerPic"
   style="background-image: url('{{company.bannerPicture.url}}');"
@@ -41,11 +42,12 @@ company.bannerPicture %}
             >Followers</a
           >
         </p>
-        <i class="fa fa-star profile-icon"></i
-        ><i class="fa fa-star profile-icon"></i
-        ><i class="fa fa-star profile-icon"></i
-        ><i class="fa fa-star profile-icon"></i
-        ><i class="fa fa-star profile-icon"></i>
+        {% if avg_rating is None %}
+            <i class="fa">No rating</i>
+            {% else %}
+            {{avg_rating}}<i class="fa fa-star"></i
+              >
+            {% endif %}  
         <button class="button" style="float: right; margin-top: 0px">
           <a href="" class="button-text">Reviews</a>
         </button>

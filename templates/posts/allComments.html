@@ -43,11 +43,12 @@
             >Followers</a
           >
         </p>
-        <i class="fa fa-star profile-icon"></i
-        ><i class="fa fa-star profile-icon"></i
-        ><i class="fa fa-star profile-icon"></i
-        ><i class="fa fa-star profile-icon"></i
-        ><i class="fa fa-star profile-icon"></i>
+        {% if avg_rating is None %}
+            <i class="fa">No rating</i>
+            {% else %}
+            {{avg_rating}}<i class="fa fa-star"></i
+              >
+            {% endif %}  
         <a href="{% url 'reviews' company.id %}" class="button-text"
           ><button class="button" style="float: right; margin-top: 0px">
             Reviews

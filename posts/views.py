@@ -4,6 +4,8 @@ from .models import Post, PostLikes, PostComments
 from companies.models import CompanyProfile
 from django.contrib import messages
 from django.core.paginator import Paginator
+from companies.models import Reviews
+from django.db.models import Avg
 
 # view all company posts
 def allPosts(request, id):
@@ -14,10 +16,12 @@ def allPosts(request, id):
     paginator = Paginator(posts, 5)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
+    avg_rating = Reviews.objects.filter(company=company).aggregate(Avg('rating'))['rating__avg']
     context = {
         "company":company,
         "posts": page_obj,
         "no_of_posts": no_of_posts,
+        "avg_rating": avg_rating
     }
     return render(request, 'posts/allPosts.html', context)
 
@@ -25,6 +29,7 @@ def add_post(request, id):
     id = str(id)
     company = CompanyProfile.objects.get(id=id)
     posts = Post.objects.filter(company=id)
+    avg_rating = Reviews.objects.filter(company=company).aggregate(Avg('rating'))['rating__avg']
     if request.method == 'POST':
         company = company         
         body = request.POST['body']
@@ -36,7 +41,8 @@ def add_post(request, id):
         return redirect('allPosts', id=id)
     context = {
         "company":company,
-        "posts":posts
+        "posts":posts,
+        "avg_rating":avg_rating,
     }
     return render(request, 'posts/add_post.html', context)
 
@@ -89,6 +95,7 @@ def postComments(request, company_id, post_id):
     post_id = str(post_id)
     post = Post.objects.get(id=post_id)
     company = CompanyProfile.objects.get(id=company_id)
+    avg_rating = Reviews.objects.filter(company=company).aggregate(Avg('rating'))['rating__avg']
     comments = PostComments.objects.filter(post=post_id)
     no_of_comments = PostComments.objects.filter(post=post_id).count()
     paginator = Paginator(comments, 3)
@@ -99,6 +106,7 @@ def postComments(request, company_id, post_id):
         "comments": page_obj,
         "no_of_comments": no_of_comments,
         "post":post,
+        "avg_rating":avg_rating,
     }
     return render(request, 'posts/allComments.html', context)
 

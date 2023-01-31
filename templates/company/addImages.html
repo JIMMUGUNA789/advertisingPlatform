@@ -42,14 +42,14 @@
             >Followers</a
           >
         </p>
-        <i class="fa fa-star profile-icon"></i
-        ><i class="fa fa-star profile-icon"></i
-        ><i class="fa fa-star profile-icon"></i
-        ><i class="fa fa-star profile-icon"></i
-        ><i class="fa fa-star profile-icon"></i>
-        <button class="button" style="float: right; margin-top: 0px">
-          <a href="" class="button-text">Add Review</a>
-        </button>
+        {% if avg_rating is None %}
+            <i class="fa">No rating</i>
+            {% else %}
+            {{avg_rating}}<i class="fa fa-star"></i
+              >
+            {% endif %}  
+
+      
       </div>
     </div>
   </div>

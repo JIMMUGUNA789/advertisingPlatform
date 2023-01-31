@@ -91,9 +91,13 @@
                 >Followers</a
               >
             </p>
-            <i class="fa fa-star"></i><i class="fa fa-star"></i
-            ><i class="fa fa-star"></i><i class="fa fa-star"></i
-            ><i class="fa fa-star"></i>
+            {% if company.avg_rating is None %}
+            <i class="fa">No rating</i>
+            {% else %}
+            {{company.avg_rating}}<i class="fa fa-star"></i
+              >
+            {% endif %}
+            
           </div>
         </div>
       </a>
