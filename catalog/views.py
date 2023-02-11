@@ -34,3 +34,46 @@ def deleteCatalog(request, catalog_id):
     catalog.delete()
     messages.success(request, 'Catalog deleted successfully')
     return redirect(reverse('businessDetailDashboard', kwargs={'company_id':company_id}))
+
+def manageCatalog(request, catalog_id):
+    catalog_id = str(catalog_id)
+    catalog = Catalog.objects.get(id=catalog_id)
+    company_id = catalog.company.id
+    company = CompanyProfile.objects.get(id=company_id)
+    categories = CatalogCategory.objects.filter(catalog=catalog_id)
+    context = {
+        "company": company,
+        "catalog": catalog,
+        "categories":categories,
+
+    }
+    return render(request, 'catalog/manageCatalog.html', context)
+
+def createCatalogCategory(request, catalog_id):
+    catalog_id = str(catalog_id)
+    catalog = Catalog.objects.get(id=catalog_id)
+    company_id = catalog.company.id
+    company = CompanyProfile.objects.get(id=company_id)
+    if request.method == 'POST':
+        category = CatalogCategory()
+        category.catalog = catalog
+        category.name = request.POST['name']
+        category.description = request.POST['description']
+        category.save()
+        messages.success(request, 'Category created successfully')
+        return redirect(reverse('manageCatalog', kwargs={'catalog_id':catalog_id}))
+        
+    context = {
+        "company": company,
+        "catalog": catalog,
+
+    }
+    return render(request, 'catalog/createCatalogCategory.html', context)
+
+def deleteCatalogCategory(request, category_id):
+    category_id = str(category_id)
+    category = CatalogCategory.objects.get(id=category_id)
+    catalog_id = category.catalog.id
+    category.delete()
+    messages.success(request, 'Category deleted successfully')
+    return redirect(reverse('manageCatalog', kwargs={'catalog_id':catalog_id}))
