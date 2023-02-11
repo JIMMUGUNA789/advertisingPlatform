@@ -21,14 +21,9 @@
     <hr>
     <a href="{% url 'edit_profile' user.id %}" class="w3-bar-item w3-button">Edit Profile</a> 
     <div class="w3-dropdown-hover">
-      <button class="w3-button">My Businesses
-        <i class="fa fa-caret-down"></i>
-      </button>
-      <div class="w3-dropdown-content w3-bar-block">
-        {% for business in myBusinesses %}
-        <a href="{% url 'businessDashboard' user_id=user.id company_id=business.id %}" class="w3-bar-item w3-button">{{business.companyName}}</a>
-        {% endfor %}
-      </div>
+      <a href="{% url 'businessDashboard' user_id=user.id %}"><button class="w3-button">My Businesses
+      </button></a>
+     
     </div> 
     <div class="w3-dropdown-hover">
         <button class="w3-button">Ads
@@ -42,6 +37,16 @@
         </div>
       </div> 
     <a href="#" class="w3-bar-item w3-button">Link 3</a> 
+    <div class="w3-dropdown-hover">
+      <button class="w3-button">My Catalogs
+        <i class="fa fa-caret-down"></i>
+      </button>
+      <div class="w3-dropdown-content w3-bar-block">
+        {% for business in myBusinesses %}
+        <a href="#" class="w3-bar-item w3-button">{{business.companyName}}</a>
+        {% endfor %}
+      </div>
+    </div> 
   </div>
   
   <div style="margin-left:20%">

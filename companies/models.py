@@ -132,3 +132,4 @@ def decrement_company_followers(sender, instance, **kwargs):
     companyProfile = CompanyProfile.objects.get(pk=instance.company.pk)
     companyProfile.companyFollows -=1
     companyProfile.save()
+    

@@ -2,7 +2,7 @@
 {% block contentdashboard %}
 <div class="container h-100">
     <div class="row justify-content-right align-items-right" >
-        <h3 class="mb-4 dashboard-title">Dashboard</h3>
+        <h3 class="mb-4 dashboard-title">Dashboard-My Businesses</h3>
     </div>
     <div class="row justify-content-center align-items-center m-0" >
         <div class="card col-11 col-md-3 col-lg-3 mx-4 quick-stats ">
@@ -25,30 +25,36 @@
         </div>
        
     </div>
+    {% for company in myBusinesses %}
+    
     <div class="row justify-content-right align-items-right" >
-        <h3 class="mt-4 dashboard-title">{{company.companyName}}</h3>
+       <a href="{% url 'businessDetailDashboard' company.id %}"> <h3 class="mt-4 dashboard-title">{{company.companyName}}</h3></a>
+      
+
+
     </div>
     <div class="row justify-content-center align-items-center m-0" >
         <div class="card col-11 col-md-3 col-lg-3 mx-4 quick-stats ">
             <div class="card-body ">
               <h5 class="card-title">Business Reviews</h5>
-              <p class="card-text display-4">{{companyReviewsCount}}</p>
+              <p class="card-text display-5">{{company.companyReviews}}</p>
             </div>
         </div>
         <div class="card col-11 col-md-3 col-lg-3 mx-4 quick-stats">
             <div class="card-body">
               <h5 class="card-title">Business Likes</h5>
-              <p class="card-text display-4">{{companyLikesCount}}</p>
+              <p class="card-text display-5">{{company.companyLikes}}</p>
             </div>
         </div>
         <div class="card col-11 col-md-3 col-lg-3 mx-4 quick-stats">
             <div class="card-body">
               <h5 class="card-title">Business Follows</h5>
-              <p class="card-text display-4">{{companyFollowsCount}}</p>
+              <p class="card-text display-5">{{company.companyFollows}}</p>
             </div>
         </div>
        
     </div>
+    {% endfor %}
     
 </div>
 {% endblock %}

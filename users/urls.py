@@ -7,5 +7,6 @@ urlpatterns = [
     path("password_reset/", views.password_reset_request, name="password_reset"),
     path("profile/<str:id>/", views.profile, name="profile"),
     path("profile/<int:pk>/edit/", views.UserUpdate.as_view(), name="edit_profile"),
-    path("businessDashboard/<str:user_id>/<str:company_id>/", views.businessDashboard, name="businessDashboard"),
+    path("businessDashboard/<str:user_id>/", views.businessDashboard, name="businessDashboard"),
+    path("business-detail-dashboard/<str:company_id>", views.businessDetail, name="businessDetailDashboard"),
 ]

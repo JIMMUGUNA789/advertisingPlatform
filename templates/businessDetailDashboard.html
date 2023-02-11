@@ -1,0 +1,71 @@
+{% extends 'dashboard.html' %} 
+{% block contentdashboard %}
+<div class="container h-100">
+    <div class="row justify-content-right align-items-right" >
+        <h3 class="mb-4 dashboard-title">Dashboard - {{company.companyName}} </h3>
+    </div>
+    <div class="row justify-content-center align-items-center m-0" >
+        <div class="card col-11 col-md-3 col-lg-3 mx-4 quick-stats ">
+            <div class="card-body ">
+              <h5 class="card-title">Businesses Reviews</h5>
+              <p class="card-text display-5">{{company.companyReviews}}</p>
+            </div>
+        </div>
+        <div class="card col-11 col-md-3 col-lg-3 mx-4 quick-stats">
+            <div class="card-body">
+              <h5 class="card-title">Business Likes</h5>
+              <p class="card-text display-5">{{company.companyLikes}}</p>
+            </div>
+        </div>
+        <div class="card col-11 col-md-3 col-lg-3 mx-4 quick-stats">
+            <div class="card-body">
+              <h5 class="card-title">Business Follows</h5>
+              <p class="card-text display-5">{{company.companyFollows}}</p>
+            </div>
+        </div>
+       
+    </div>
+    
+    <div class="mb-2 row justify-content-right align-items-right" >
+       
+        <div class="d-flex col-11">
+          <h3 class="mt-4 dashboard-title">Catalog</h3>
+         <a href="{% url 'createCatalog' company.id %}"  class="btn ml-auto mt-4"> <button type="button" style="height: 40px; background-color: rgb(38, 109, 44); width: auto; color: white;"> + create catalog</button></a>
+        </div>
+      
+
+
+    </div>
+    <div class="row col-11 justify-content-center align-items-center m-0" >
+        
+     {% if catalogs %}
+     <table class="table">
+      <thead class="thead-dark">
+        <tr>
+          <th>Catalog Name</th>
+          <th>Description</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for catalog in catalogs %}
+        <tr>
+          <td>{{catalog.name}}</td>
+          <td>{{catalog.description}}</td>
+          <td><a href=""><button class="btn btn-primary">manage</button></a> <a href="{% url 'deleteCatalog' catalog.id %}"><button class="btn btn-danger">delete</button></a> </td>
+        </tr>
+     {% endfor %}
+
+      </tbody>
+     </table>
+
+     
+     {% else %}
+     <p>You currently have no catalogs. Create a catalog to show your products and services</p>
+
+     {% endif %}
+       
+    </div>
+    
+</div>
+{% endblock %}
