@@ -1,4 +1,6 @@
 {% extends 'dashboard.html' %} 
+{% load static %}
+
 {% block contentdashboard %}
 <div class="container h-100">
     <div class="row justify-content-right align-items-right" >
@@ -52,7 +54,8 @@
         <tr>
           <td>{{category.name}}</td>
           <td>{{category.description}}</td>
-          <td><a href="{% url 'deleteCatalogCategory' category.id %}"><button class="btn btn-danger">delete</button></a> </td>
+          <td><a href="{% url 'deleteCatalogCategory' category.id %}"><button class="btn btn-danger">delete</button></a><a href="{% url 'createCatalogItem' category_id=category.id catalog_id=catalog.id%}"><button class="btn ml-1" style="height: 40px; background-color: rgb(38, 109, 44); width: auto; color: white;">+ add item</button></a> 
+          </td>
         </tr>
      {% endfor %}
 
@@ -66,6 +69,60 @@
      {% endif %}
        
     </div>
+    <div class="mb-2 row justify-content-right align-items-right" >
+       
+        <div class="d-flex col-11">
+          <h3 class="mt-4 dashboard-title">Catalog Items</h3>
+        </div>
+      
+
+
+    </div>
+    <div class="row col-11 justify-content-center align-items-center m-0" >
+        
+        {% if catalogItems %}
+        <table class="table">
+         <thead class="thead-dark">
+           <tr>
+             <th>Image</th>
+             <th>Name</th>
+             <th>Category</th>
+             <th>Description</th>
+             <th>Price</th>
+             <th>Available</th>
+             <th>Actions</th>
+           </tr>
+         </thead>
+         <tbody>
+           {% for item in catalogItems %}
+           <tr>
+             <td>
+              {% if item.image %}
+            
+            <img src="{{item.image.url}}" alt="item pic" class="" style="height: 90px; width: 90px;">
+            {% else %}
+            <img class="" src="{% static 'images/avatar.jpeg'%}" alt="item pic" style="height: 90px; width: 90px;">
+            {% endif %}
+             </td>
+             <td>{{item.name}}</td>
+             <td>{{item.category}}</td>
+             <td>{{item.description}}</td>
+             <td>{{item.price}}</td>
+             <td>{{item.is_available}}</td>
+             <td><a href="{% url 'deleteCatalogItem' item.id %}"><button class="btn btn-danger">delete</button></a> </td>
+           </tr>
+        {% endfor %}
+   
+         </tbody>
+        </table>
+   
+        
+        {% else %}
+        <p>You currently have no Items in any category. Add item categories</p>
+   
+        {% endif %}
+          
+       </div>
     
 </div>
 {% endblock %}

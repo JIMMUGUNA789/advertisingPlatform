@@ -41,10 +41,12 @@ def manageCatalog(request, catalog_id):
     company_id = catalog.company.id
     company = CompanyProfile.objects.get(id=company_id)
     categories = CatalogCategory.objects.filter(catalog=catalog_id)
+    catalogItems = CatalogItem.objects.filter(catalog=catalog_id)
     context = {
         "company": company,
         "catalog": catalog,
         "categories":categories,
+        "catalogItems":catalogItems,
 
     }
     return render(request, 'catalog/manageCatalog.html', context)
@@ -76,4 +78,38 @@ def deleteCatalogCategory(request, category_id):
     catalog_id = category.catalog.id
     category.delete()
     messages.success(request, 'Category deleted successfully')
+    return redirect(reverse('manageCatalog', kwargs={'catalog_id':catalog_id}))
+
+def createCatalogItem(request, catalog_id, category_id):
+    catalog_id = str(catalog_id)
+    category_id = str(category_id)
+    catalog = Catalog.objects.get(id=catalog_id)
+    company_id = catalog.company.id
+    company = CompanyProfile.objects.get(id=company_id)
+    category = CatalogCategory.objects.get(id=category_id)
+    if request.method == 'POST':
+        item = CatalogItem()
+        item.catalog = catalog
+        item.category = category
+        item.name = request.POST['name']
+        item.description = request.POST['description']
+        item.price = request.POST['price']
+        item.image = request.FILES['image']
+        item.save()
+        messages.success(request, 'Item created successfully')
+        return redirect(reverse('manageCatalog', kwargs={'catalog_id':catalog_id}))
+        
+    context = {
+        "company": company,
+        "catalog": catalog,
+        "category": category,
+    }
+    return render(request, 'catalog/createCatalogItem.html', context)
+
+def deleteCatalogItem(request, item_id):
+    item_id = str(item_id)
+    item = CatalogItem.objects.get(id=item_id)
+    catalog_id = item.catalog.id
+    item.delete()
+    messages.success(request, 'Item deleted successfully')
     return redirect(reverse('manageCatalog', kwargs={'catalog_id':catalog_id}))
