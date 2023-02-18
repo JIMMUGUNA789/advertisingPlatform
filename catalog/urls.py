@@ -9,4 +9,5 @@ urlpatterns = [
     path('delete-catalog-category/<str:category_id>', views.deleteCatalogCategory, name='deleteCatalogCategory'),
     path('create-catalog-item/<str:catalog_id>/<str:category_id>', views.createCatalogItem, name='createCatalogItem'),
     path('delete-catalog-item/<str:item_id>', views.deleteCatalogItem, name='deleteCatalogItem'),
+    path('view-catalog/<str:company_id>', views.viewCompanyCatalog, name='viewCatalog'),
 ]

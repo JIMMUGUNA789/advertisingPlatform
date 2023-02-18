@@ -113,3 +113,23 @@ def deleteCatalogItem(request, item_id):
     item.delete()
     messages.success(request, 'Item deleted successfully')
     return redirect(reverse('manageCatalog', kwargs={'catalog_id':catalog_id}))
+
+def viewCompanyCatalog(request, company_id):
+    company_id = str(company_id)
+    company = CompanyProfile.objects.get(id=company_id)
+    context ={
+        "company": company,
+    }
+    if Catalog.objects.filter(company=company_id).exists():
+        catalog = Catalog.objects.get(company=company_id)
+        categories = CatalogCategory.objects.filter(catalog=catalog.id)
+        catalogItems = CatalogItem.objects.filter(catalog=catalog.id)
+        context = {
+            "company": company,
+            "catalog": catalog,
+            "categories":categories,
+            "catalogItems":catalogItems,
+
+        }
+    
+    return render(request, 'catalog/viewCompanyCatalog.html', context)

@@ -53,7 +53,7 @@
         <li><a href="{% url 'companyPhotos' company.id %}">Photos</a></li>
         <li><a href="">Videos</a></li>
         <li><a href="{% url 'allJobs' company.id %}">Jobs</a></li>
-        <li><a href="{% url 'viewCatalog' company.id %}">Catalog</a></li>
+        <li><a href="">Catalog</a></li>
     </ul>
   </div>
   
@@ -95,86 +95,41 @@
 
 
     </div>
-    <div class="mainarea">
+    <div class="container">
       
-    <div>
-      <h3 style="margin-top: 30px;">Posts({{no_of_posts}})
-        {% if user.is_authenticated and user.id == company.companyAdmin.id %}
-        <span class="add-post"><a href="{% url 'add_post' company.id %}"> Add Post</a></span>
-        {% endif %}
-      </h3>
-      {% for post in posts %}
-      <div class="mainarea-about-content">
-        <div class="companies">
-          <div class="profile-picture-wrapper">
-            
-            <img src="{{company.profilePicture.url}}" alt="profilePic" class="company-profile-pic">
-           
-            
-          </div>
-          <div class="container">
-            
-            <div>
-          <div class="row col-12 d-flex align-items-center justify-content-between">
-
-            <p class="company-name text-left">{{company.companyName}} </p>
-              {% if user.is_authenticated and user.id == company.companyAdmin.id %}
-              <span class="text-right"><a href="{% url 'deletePost' post_id=post.id company_id=company.id %}"><i class="fa fa-trash delete-icon"></i></a></span>
-              {% endif %}
-           
-            
-          
-            
-          </div>
-          <p class="social-stats text-left">{{post.created_at}}</p>
-
-        </div>
-        </div>
-          
-          
-        </div>
-        <p>{{post.body}}</p>
-          <img src="{{post.image.url}}" alt="post Image" class="post-image">
-          <hr class="post-hr">
-          <i class="fa fa-thumbs-up post-icon-1"> {{post.post_likes}} <a class="like" href="{% url 'likeAndDislikePost' post_id=post.id company_id=company.id %}">Likes</a></i> <a href="{% url 'allComments' post_id=post.id company_id=company.id %}"><i class="fa fa-comment post-icon-2"> {{post.post_comments}} Comments</i></a><i class="fa fa-share post-icon-3"> Share</i>
-          <hr class="post-hr">
-          <form action="{% url 'addComment' post_id=post.id company_id=company.id %}" method="post" enctype="multipart/form-data">
-            {% csrf_token %}
-            <div class="input-container">
-              <input type="text" placeholder="Write a comment ..." name="comment" id="comment">
-              <button style="background-color: transparent; border: none;" type="submit">
-              <i class="fa fa-paper-plane" style="color: #083966;"></i>
-            </button>
+    {% if not catalog %}
+    <p>There are currently no items in the catalog</p>
+    {% else %}
+    <h3>{{catalog.name}}</h3>
+    {% for category in categories %}
+    <div class="row col-12">
+        <h3>{{category.name}}</h3>
+    </div>
+    <div class="row col-12 p-1 ">
+        {% for item in catalogItems %}
+        {% if item.category == category %}
+        <div class="col-md-3 col-lg-3 col-sm-6">
+        <div class="card p-1 m-1  " style="width: 15rem;">
+            <img class="card-img-top" src="{{item.image.url}}" alt="Card image cap">
+            <div class="card-body">
+              <h5 class="card-title">{{item.name}}</h5>
+              <p class="card-text">{{item.description}}</p>
+              <p class="p-0 m-0">Price: {{item.price}}</p>
             </div>
-          </form>
+          </div>
+        </div>
+        {% endif %}
+        {% endfor %}
     </div>
+    
     {% endfor %}
-  </div>
 
 
-  {% comment %}
-  pagination
-  {% endcomment %}
+    {% endif %}
 
-  <div class="">
-    <div style="color: #black; padding: 10px; font-size: 15px; text-align: center;">
-        <span class="">
-          {% if posts.has_previous %}
-              <a href="?page=1" style="color: #083966;">&laquo; first</a>
-              <a href="?page={{ posts.previous_page_number }}" style="color: #083966;">previous</a>
-          {% endif %}
 
-            <span >
-                Page {{ posts.number }} of {{ posts.paginator.num_pages }}
-            </span>
 
-          {% if posts.has_next %}
-              <a href="?page={{ posts.next_page_number }}" style="color: #083966;">next</a>
-              <a href="?page={{ posts.paginator.num_pages }}" style="color: #083966;">last &raquo;</a>
-          {% endif %}
-        </span>
-      </div>
-    </div>
+
     </div>
   </div>
   <script>

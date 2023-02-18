@@ -30,7 +30,12 @@
        
         <div class="d-flex col-11">
           <h3 class="mt-4 dashboard-title">Catalog</h3>
+          {% if catalogs %}
+          <a> </a>
+         {% else %}
          <a href="{% url 'createCatalog' company.id %}"  class="btn ml-auto mt-4"> <button type="button" style="height: 40px; background-color: rgb(38, 109, 44); width: auto; color: white;"> + create catalog</button></a>
+
+         {% endif %}
         </div>
       
 
@@ -44,6 +49,7 @@
         <tr>
           <th>Catalog Name</th>
           <th>Description</th>
+          <th>Number of items</th>
           <th>Actions</th>
         </tr>
       </thead>
@@ -52,6 +58,7 @@
         <tr>
           <td>{{catalog.name}}</td>
           <td>{{catalog.description}}</td>
+          <td>{{no_of_catalog_items}}</td>
           <td><a href="{% url 'manageCatalog' catalog.id %}"><button class="btn btn-primary">manage</button></a> <a href="{% url 'deleteCatalog' catalog.id %}"><button class="btn btn-danger">delete</button></a> </td>
         </tr>
      {% endfor %}

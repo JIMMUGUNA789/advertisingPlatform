@@ -161,9 +161,12 @@ def businessDetail(request, company_id):
     company_id = str(company_id)
     company = CompanyProfile.objects.get(id=company_id)
     catalogs = Catalog.objects.filter(company=company_id)
+    catalog = Catalog.objects.filter(company=company_id).first()
+    no_of_catalog_items = CatalogItem.objects.filter(catalog=catalog).count()
     context = {
         "company": company,
         "catalogs": catalogs,
+        "no_of_catalog_items":no_of_catalog_items,
 
     }
     return render(request, 'businessDetailDashboard.html', context)
