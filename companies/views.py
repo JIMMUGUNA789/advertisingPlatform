@@ -12,21 +12,51 @@ from django.db.models.functions import Random
 from django.core.files.storage import default_storage
 from django.views.generic.edit import UpdateView
 from django.db.models import Avg
+from django.db.models import Q
+
 
 
 
 
 # Create your views here.
 def home(request):
-    companies = CompanyProfile.objects.all().order_by('?')
-    for company in companies:
-        avg_rating = Reviews.objects.filter(company=company).aggregate(Avg('rating'))['rating__avg']
-        company.avg_rating = avg_rating
+    context = {}
+    if request.method == 'GET':
+        searchTerm = request.GET.get('search')
+        if searchTerm is not None:
+            companies = CompanyProfile.objects.filter(
+                Q(companyName__icontains=searchTerm) |
+                Q(description__icontains=searchTerm) |
+                Q(category__icontains=searchTerm) |
+                Q(address__icontains=searchTerm)
+                ).order_by('?')
+            for company in companies:
+                avg_rating = Reviews.objects.filter(company=company).aggregate(Avg('rating'))['rating__avg']
+                company.avg_rating = avg_rating
+            context = {
+                "companies":companies
+
+            }
+        else:
+            companies = CompanyProfile.objects.all().order_by('?')
+            for company in companies:
+                avg_rating = Reviews.objects.filter(company=company).aggregate(Avg('rating'))['rating__avg']
+                company.avg_rating = avg_rating
+                
+            context = {
+                "companies":companies
+            }
+
+    else:        
+        companies = CompanyProfile.objects.all().order_by('?')
+        for company in companies:
+            avg_rating = Reviews.objects.filter(company=company).aggregate(Avg('rating'))['rating__avg']
+            company.avg_rating = avg_rating
+            
+        context = {
+            "companies":companies
+        }
         
-    context = {
-        "companies":companies
-    }
-    
     return render(request, 'home.html', context)
     # company profile
 def companyProfile(request, id):

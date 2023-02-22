@@ -11,7 +11,7 @@
   class="search-div"
   style="background-image: url('{%static 'images/digitalsearch.jpg'%}')"
 >
-  <form action="" class="search-form">
+  <form action="" class="search-form" method="get">
     {% csrf_token %}
     <input type="search" placeholder="Search.." name="search" />
     <button type="submit"><i class="fas fa-search"></i></button>
