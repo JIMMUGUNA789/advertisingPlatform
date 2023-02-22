@@ -30,6 +30,8 @@ def home(request):
                 Q(category__icontains=searchTerm) |
                 Q(address__icontains=searchTerm)
                 ).order_by('?')
+            if len(companies) == 0:
+                messages.error(request, "No companies found")
             for company in companies:
                 avg_rating = Reviews.objects.filter(company=company).aggregate(Avg('rating'))['rating__avg']
                 company.avg_rating = avg_rating
@@ -56,6 +58,72 @@ def home(request):
         context = {
             "companies":companies
         }
+    if request.method == 'POST':
+        companylist = []
+        category = request.POST['category']
+        rating = request.POST.get('rating')
+        if category is not None:
+            if category == 'All':
+                companies_subquery = CompanyProfile.objects.all().order_by('?')
+                if rating is not None:
+                     
+                     for company in companies_subquery:
+                        avg_rating = Reviews.objects.filter(company=company).aggregate(Avg('rating'))['rating__avg']
+                        company.avg_rating = avg_rating  
+                        if avg_rating is not None and avg_rating >= float(rating):
+                            companylist.append(company)
+                     companies = CompanyProfile.objects.filter(id__in=[item.id for item in companylist]).order_by('?')
+                     for company in companies:
+                        avg_rating = Reviews.objects.filter(company=company).aggregate(Avg('rating'))['rating__avg']
+                        company.avg_rating = avg_rating            
+                     context = {
+                        "companies":companies
+                    }
+                else:
+                    companies = CompanyProfile.objects.all().order_by('?')
+                    for company in companies:
+                        avg_rating = Reviews.objects.filter(company=company).aggregate(Avg('rating'))['rating__avg']
+                        company.avg_rating = avg_rating
+                    context = {
+                        "companies":companies
+                    }
+
+
+              
+            else:
+                companies = CompanyProfile.objects.filter(category=category).order_by('?')
+                if rating is not None:
+                     companies_subquery = CompanyProfile.objects.filter(category=category).order_by('?')
+                     for company in companies_subquery:
+                        avg_rating = Reviews.objects.filter(company=company).aggregate(Avg('rating'))['rating__avg']
+                        company.avg_rating = avg_rating  
+                        if avg_rating is not None and avg_rating >= float(rating):
+                            companylist.append(company)
+                     companies = CompanyProfile.objects.filter(id__in=[item.id for item in companylist]).order_by('?')
+                     for company in companies:
+                        avg_rating = Reviews.objects.filter(company=company).aggregate(Avg('rating'))['rating__avg']
+                        company.avg_rating = avg_rating            
+                     context = {
+                        "companies":companies
+                    }
+                else:
+                    companies = CompanyProfile.objects.all().order_by('?')
+                    for company in companies:
+                        avg_rating = Reviews.objects.filter(company=company).aggregate(Avg('rating'))['rating__avg']
+                        company.avg_rating = avg_rating
+                    context = {
+                        "companies":companies
+                    }
+                if len(companies) == 0:
+                    messages.error(request, "No Business found in that category")
+                for company in companies:
+                    avg_rating = Reviews.objects.filter(company=company).aggregate(Avg('rating'))['rating__avg']
+                    company.avg_rating = avg_rating
+                context = {
+                    "companies":companies
+                }
+        
+            
         
     return render(request, 'home.html', context)
     # company profile
