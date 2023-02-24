@@ -1,11 +1,8 @@
 {% extends 'base.html' %} 
-{% load ads_tags %}
+
 {% load static %}
 {% block content%} 
-{% get_ads_count 'content' as ads_count %}
- {% if ads_count > 0 %}
-<p>{{ads_count}}</p>
-{% endif %} {% render_ads_zone 'content' %}
+
 
 <div
   class="search-div"
@@ -59,12 +56,19 @@
           <option value="4">4</option>
           <option value="5">5</option></select
         ><br /><br />
-        <label for="location">Location</label><br />
-        <input type="text" name="location" placeholder="kenya" /><br />
+        
         <button type="submit">Search</button>
       </form>
     </div>
+    <div id="ad-container">
+      <a href="" id="anchor-tag">
+      <p class="ad-text"  id="ad-text"></p>
+      <img src="" alt="Advertisement"></a>
+
+    </div>
+  
   </div>
+  
   <div class="company-wrapper">
     {% for company in companies %}
     <div class="single-company">
@@ -115,7 +119,9 @@
       >
     </div>
 
-    {% endfor %} {% render_ads_zone content %}
+    {% endfor %} 
   </div>
 </div>
+
+  
 {% endblock %}

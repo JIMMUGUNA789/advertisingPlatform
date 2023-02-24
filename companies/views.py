@@ -6,7 +6,7 @@ from .models import CompanyProfile, Reviews, Likes, Follows, CompanyImages
 from posts.models import Post, PostComments
 from django.core.paginator import Paginator
 from django.contrib import messages
-from ads.models import Advertiser
+
 from django.db.models.functions import Random
 
 from django.core.files.storage import default_storage
@@ -14,6 +14,7 @@ from django.views.generic.edit import UpdateView
 from django.db.models import Avg
 from django.db.models import Q
 from django.contrib.auth.decorators import login_required
+from advertisements.models import Ad
 
 
 
@@ -21,7 +22,9 @@ from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 def home(request):
+
     context = {}
+    ads = Ad.objects.filter(adStatus='Active')
     if request.method == 'GET':
         searchTerm = request.GET.get('search')
         if searchTerm is not None:
@@ -37,7 +40,8 @@ def home(request):
                 avg_rating = Reviews.objects.filter(company=company).aggregate(Avg('rating'))['rating__avg']
                 company.avg_rating = avg_rating
             context = {
-                "companies":companies
+                "companies":companies,
+                "ads":ads
 
             }
         else:
@@ -47,7 +51,8 @@ def home(request):
                 company.avg_rating = avg_rating
                 
             context = {
-                "companies":companies
+                "companies":companies,
+                "ads":ads,
             }
 
     else:        
@@ -57,7 +62,8 @@ def home(request):
             company.avg_rating = avg_rating
             
         context = {
-            "companies":companies
+            "companies":companies,
+            "ads":ads,
         }
     if request.method == 'POST':
         companylist = []
@@ -78,7 +84,8 @@ def home(request):
                         avg_rating = Reviews.objects.filter(company=company).aggregate(Avg('rating'))['rating__avg']
                         company.avg_rating = avg_rating            
                      context = {
-                        "companies":companies
+                        "companies":companies,
+                        "ads":ads,
                     }
                 else:
                     companies = CompanyProfile.objects.all().order_by('?')
@@ -86,7 +93,8 @@ def home(request):
                         avg_rating = Reviews.objects.filter(company=company).aggregate(Avg('rating'))['rating__avg']
                         company.avg_rating = avg_rating
                     context = {
-                        "companies":companies
+                        "companies":companies,
+                        "ads":ads,
                     }
 
 
@@ -105,7 +113,8 @@ def home(request):
                         avg_rating = Reviews.objects.filter(company=company).aggregate(Avg('rating'))['rating__avg']
                         company.avg_rating = avg_rating            
                      context = {
-                        "companies":companies
+                        "companies":companies,
+                        "ads":ads,
                     }
                 else:
                     companies = CompanyProfile.objects.all().order_by('?')
@@ -113,7 +122,8 @@ def home(request):
                         avg_rating = Reviews.objects.filter(company=company).aggregate(Avg('rating'))['rating__avg']
                         company.avg_rating = avg_rating
                     context = {
-                        "companies":companies
+                        "companies":companies,
+                        "ads":ads,
                     }
                 if len(companies) == 0:
                     messages.error(request, "No Business found in that category")
@@ -121,7 +131,8 @@ def home(request):
                     avg_rating = Reviews.objects.filter(company=company).aggregate(Avg('rating'))['rating__avg']
                     company.avg_rating = avg_rating
                 context = {
-                    "companies":companies
+                    "companies":companies,
+                    "ads":ads
                 }
         
             
@@ -198,8 +209,7 @@ def listCompany(request):
         companyProfile = CompanyProfile(companyName=companyName, companyAdmin=companyAdmin, description=description, profilePicture=profilePicture, bannerPicture=bannerPicture, category=category, phone=phone, email=email, websiteUrl=websiteUrl, latitude=latitude, longitude=longitude, address=address)
         companyProfile.save()
         # register company as advitiser
-        advertiser = Advertiser(company_name=companyName, website=websiteUrl, created_by=request.user)
-        advertiser.save()
+        
       
         messages.success(request, 'Company profile created successfully')
         # redirect to the company profile page
