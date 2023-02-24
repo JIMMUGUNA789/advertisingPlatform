@@ -13,6 +13,7 @@ from django.core.files.storage import default_storage
 from django.views.generic.edit import UpdateView
 from django.db.models import Avg
 from django.db.models import Q
+from django.contrib.auth.decorators import login_required
 
 
 
@@ -179,7 +180,7 @@ def reviews(request, id):
         "avg_rating":avg_rating
     }
     return render(request, 'company/reviews.html', context)
-
+@login_required(login_url='login')
 def listCompany(request):
     if request.method == 'POST':
         companyName = request.POST['companyName']
