@@ -146,7 +146,7 @@ $.ajax({
 
   // Get the ad container element
   var adContainer = $('#ad-container');
-  var newLink = `/advertisements/ads/${ad.id}`;
+  var newLink = `/advertisements/ads/${ad.id}/`;
 
   // Set the source of the image tag and ad text
   adContainer.find('img').attr('src', ad.image_url);
@@ -165,7 +165,7 @@ $.ajax({
     adContainer.fadeOut(function() {
       // Choose a new ad and repeat the process
       var newAd = ads[Math.floor(Math.random() * ads.length)];
-      var newLink =`/advertisements/ads/${ad.id}`;
+      var newLink =`/advertisements/ads/${ad.id}/`;
       newAd.impressions++;
       newurl = `/advertisements/ads/impressions/${newAd.id}/`;
 

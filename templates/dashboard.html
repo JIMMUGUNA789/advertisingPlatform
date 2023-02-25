@@ -20,23 +20,19 @@
 
     <hr>
     <a href="{% url 'edit_profile' user.id %}" class="w3-bar-item w3-button">Edit Profile</a> 
+    <hr>
     <div class="w3-dropdown-hover">
       <a href="{% url 'businessDashboard' user_id=user.id %}"><button class="w3-button">My Businesses
       </button></a>
      
     </div> 
+    <hr>
     <div class="w3-dropdown-hover">
-        <button class="w3-button">Ads
-          <i class="fa fa-caret-down"></i>
-        </button>
-        <div class="w3-dropdown-content w3-bar-block">
-            <a href="#" class="w3-bar-item w3-button">CompanyName ads</a> 
-            <a href="#" class="w3-bar-item w3-button">CompanyName ads</a> 
+      <a href="{% url 'adDashboard' user_id=user.id %}"><button class="w3-button">My Ads
+      </button></a>
 
-
-        </div>
       </div> 
-    <a href="#" class="w3-bar-item w3-button">Link 3</a> 
+      <hr>
     <div class="w3-dropdown-hover">
       <button class="w3-button">My Catalogs
         <i class="fa fa-caret-down"></i>

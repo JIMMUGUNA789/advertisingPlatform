@@ -9,4 +9,5 @@ urlpatterns = [
     path("profile/<int:pk>/edit/", views.UserUpdate.as_view(), name="edit_profile"),
     path("businessDashboard/<str:user_id>/", views.businessDashboard, name="businessDashboard"),
     path("business-detail-dashboard/<str:company_id>", views.businessDetail, name="businessDetailDashboard"),
+    path("ad-dashboard/<str:user_id>/", views.adDashboard, name="adDashboard"),
 ]

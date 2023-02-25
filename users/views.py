@@ -10,6 +10,7 @@ from django.views.decorators.csrf import csrf_exempt
 
 from companies.models import CompanyProfile, Follows, Likes, Reviews, CompanyImages
 from catalog.models import Catalog, CatalogItem, CatalogCategory
+from advertisements.models import Ad
 
 # password reset
 from django.core.mail import send_mail, BadHeaderError
@@ -170,3 +171,25 @@ def businessDetail(request, company_id):
 
     }
     return render(request, 'businessDetailDashboard.html', context)
+
+def adDashboard(request, user_id):
+    user_id=str(user_id)
+    myBusinesses = CompanyProfile.objects.filter(companyAdmin=user_id)
+    # get all ads for each business
+    ads = []
+    for business in myBusinesses:
+        businessAds = Ad.objects.filter(companyProfile=business)
+        ads.append(businessAds)
+
+
+    print(ads)
+    
+    context = {
+        "myBusinesses": myBusinesses,
+        "ads": ads,
+        
+        
+
+    }
+
+    return render(request, 'ads/adsDashboard.html', context)
