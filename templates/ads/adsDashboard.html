@@ -1,4 +1,6 @@
 {% extends 'dashboard.html' %} 
+{% load static %}
+
 {% block contentdashboard %}
 <div class="container h-100">
     <div class="row justify-content-right align-items-right" >
@@ -15,7 +17,7 @@
         {% if catalogs %}
         <a> </a>
        {% else %}
-       <a href="#"  class="btn ml-auto mt-4"> <button type="button" style="height: 40px; background-color: rgb(38, 109, 44); width: auto; color: white;"> + create Ad</button></a>
+       <a href="{% url 'createAd' company.id %}"  class="btn ml-auto mt-4"> <button type="button" style="height: 40px; background-color: rgb(38, 109, 44); width: auto; color: white;"> + create Ad</button></a>
 
        {% endif %}
       </div>
@@ -45,7 +47,13 @@
        <tbody>
          
          <tr>
-           <td>{{ad.Ad_text}}</td>
+           <td>
+            {% if ad.adImage %}
+            
+            <img src="{{ad.adImage.url}}" alt="ad pic" class="" style="height: 90px; width: 90px;">
+            {% else %}
+            <img class="" src="{% static 'images/avatar.jpeg'%}" alt="item pic" style="height: 90px; width: 90px;">
+            {% endif %}</td>
            <td>{{ad.Ad_text}}</td>
            <td>{{ad.adType}}</td>
             <td>{{ad.impressionsCount}}</td>
