@@ -53,7 +53,7 @@
             <td>{{ad.startDate}}</td>
             <td>{{ad.endDate}}</td>
             <td>{{ad.adStatus}}</td>
-           <td><a href="#"><button class="btn btn-primary">Activate</button></a>  <a href="#"><button class="btn btn-danger">delete</button></a></td>
+           <td><a href="#"><button class="btn btn-primary">Activate</button></a>  <a href="{% url 'deleteAd' ad.id %}"><button class="btn btn-danger">delete</button></a></td>
          </tr>
       
  
