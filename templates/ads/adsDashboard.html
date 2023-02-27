@@ -8,34 +8,70 @@
     {% for company in myBusinesses %}
     
     <div class="row justify-content-right align-items-right" >
-       <a href="{% url 'businessDetailDashboard' company.id %}"> <h3 class="mt-4 dashboard-title">{{company.companyName}}</h3></a>
+
+      <div class="d-flex col-11">
+        <a href="{% url 'businessDetailDashboard' company.id %}"> <h3 class="mt-4 dashboard-title">{{company.companyName}}</h3></a>
+
+        {% if catalogs %}
+        <a> </a>
+       {% else %}
+       <a href="#"  class="btn ml-auto mt-4"> <button type="button" style="height: 40px; background-color: rgb(38, 109, 44); width: auto; color: white;"> + create Ad</button></a>
+
+       {% endif %}
+      </div>
+    </div>
+    <div class="row">
+      {% if company.advertisements.all %}
+    {% for ad in company.advertisements.all %}
+        
+    <div class="row col-11 justify-content-center align-items-center m-0" >
+        
       
+      <table class="table">
+       <thead class="thead-dark">
+         <tr>
+           <th>Ad Image</th>
+           <th>Ad Text</th>
+            <th>Ad Type</th>
+           <th>Ad Impressions</th>
+           <th>Ad Clicks</th>
+            <th>Start Date</th>
+            <th>End Date</th>
+            <th>Status</th>
 
-
-    </div>
-    <div class="row justify-content-center align-items-center m-0" >
-        <div class="card col-11 col-md-3 col-lg-3 mx-4 quick-stats ">
-            <div class="card-body ">
-              <h5 class="card-title">Business Reviews</h5>
-              <p class="card-text display-5">{{company.companyReviews}}</p>
-            </div>
-        </div>
-        <div class="card col-11 col-md-3 col-lg-3 mx-4 quick-stats">
-            <div class="card-body">
-              <h5 class="card-title">Business Likes</h5>
-              <p class="card-text display-5">{{company.companyLikes}}</p>
-            </div>
-        </div>
-        <div class="card col-11 col-md-3 col-lg-3 mx-4 quick-stats">
-            <div class="card-body">
-              <h5 class="card-title">Business Follows</h5>
-              <p class="card-text display-5">{{company.companyFollows}}</p>
-            </div>
-        </div>
-       
-    </div>
+            <th>Actions</th>
+         </tr>
+       </thead>
+       <tbody>
+         
+         <tr>
+           <td>{{ad.Ad_text}}</td>
+           <td>{{ad.Ad_text}}</td>
+           <td>{{ad.adType}}</td>
+            <td>{{ad.impressionsCount}}</td>
+            <td>{{ad.clicksCount}}</td>
+            <td>{{ad.startDate}}</td>
+            <td>{{ad.endDate}}</td>
+            <td>{{ad.adStatus}}</td>
+           <td><a href="#"><button class="btn btn-primary">Activate</button></a>  <a href="#"><button class="btn btn-danger">delete</button></a></td>
+         </tr>
+      
+ 
+       </tbody>
+      </table>
+ 
+    
+        
+     </div>
+  
+  {% endfor %}
+  {% else %}
+      <p>You currently have no Ads for this Business. Create an Ad to promote your business.</p>
+  {% endif %}
+</div>
+    <hr>
+   
     {% endfor %}
-    <p>{{ads}}</p>
     
 </div>
 {% endblock %}

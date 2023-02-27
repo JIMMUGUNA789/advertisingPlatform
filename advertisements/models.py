@@ -2,7 +2,7 @@ from django.db import models
 from companies.models import CompanyProfile
 
 class Ad(models.Model):
-    companyProfile = models.ForeignKey(CompanyProfile, on_delete=models.CASCADE)
+    companyProfile = models.ForeignKey(CompanyProfile, on_delete=models.CASCADE, related_name='advertisements')
     adImage = models.ImageField(upload_to='ads')
     Ad_text = models.CharField(max_length=100 , blank=True)
     AD_TYPE_CHOICES = [
