@@ -141,6 +141,8 @@ def home(request):
     # company profile
 def companyProfile(request, id):
     id = str(id)
+    ads = Ad.objects.filter(adStatus='Active')
+
     company = CompanyProfile.objects.get(id=id)    
     posts = Post.objects.filter(company=id).order_by('-created_at')
     no_of_posts = Post.objects.filter(company=id).count()
@@ -156,7 +158,8 @@ def companyProfile(request, id):
         "company":company,
         "posts":page_obj,
         "no_of_posts":no_of_posts,
-        "avg_rating":avg_rating
+        "avg_rating":avg_rating,
+        "ads":ads,
     }
     return render(request, 'company/companyProfile.html', context)
 
@@ -177,6 +180,8 @@ def companyPhotos(request, id):
 
 def reviews(request, id):
     id = str(id)
+    ads = Ad.objects.filter(adStatus='Active')
+
     company = CompanyProfile.objects.get(id=id)
     posts = Post.objects.filter(company=id)
     reviews = Reviews.objects.filter(company=id).order_by('-created_at')
@@ -188,7 +193,8 @@ def reviews(request, id):
         "reviews":page_obj,
         "company":company,
         "posts":posts,
-        "avg_rating":avg_rating
+        "avg_rating":avg_rating,
+        "ads":ads,
     }
     return render(request, 'company/reviews.html', context)
 @login_required(login_url='login')

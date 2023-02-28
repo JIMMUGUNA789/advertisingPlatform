@@ -19,8 +19,8 @@
   </form>
 </div>
 <!-- main content -->
-<div class="main-content">
-  <div class="filter">
+<div class="profile-main-content">
+  <div class="sidebar">
     <div class="filter-title">
       <p><i class="fa fa-filter"></i>Advanced filter options</p>
       <hr class="filter-hr" />
@@ -57,16 +57,24 @@
           <option value="5">5</option></select
         ><br /><br />
         
-        <button type="submit">Search</button>
+        <button type="submit" class="button">Search</button>
       </form>
     </div>
     <div id="ad-container">
       <a href="" id="anchor-tag">
         <span style="color: blue;">Ad</span>
       <p class="ad-text"  id="ad-text" ></p>
-      <img src="" alt="Advertisement" style="height: 200px; width: auto;"></a>
+      <img src="" alt="Advertisement" style="height: 180px; width: 300px; border-radius: 10px;"></a>
 
     </div>
+    <div id="ad-container2" style="margin-top: 30px;">
+      <a href="" id="anchor-tag2">
+        <span style="color: blue;">Ad</span>
+      <p class="ad-text2"  id="ad-text2" ></p>
+      <img src="" alt="Advertisement" style="height: 180px; width: 300px; border-radius: 10px;"></a>
+
+    </div>
+    
   
   </div>
   
@@ -123,6 +131,8 @@
     {% endfor %} 
   </div>
 </div>
+
+
 
   
 {% endblock %}

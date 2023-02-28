@@ -60,7 +60,6 @@
       <div class="topnav-right">
         <a href="{% url 'home' %}">Home</a>
 
-        <a href="">Categories</a>
 
         <a href="{% url 'listCompany' %}">List Business</a>
         {% if user.is_authenticated %}
@@ -182,7 +181,7 @@ $.ajax({
       adContainer.find('img').attr('src', newAd.image_url);
       adContainer.find('p').text(newAd.text);
 
-      document.getElementById('ad-text').innerHTML = ad.text;
+      document.getElementById('ad-text').innerHTML = newAd.text;
       document.getElementById("anchor-tag").href = newLink;
 
 
@@ -196,5 +195,85 @@ $.ajax({
 });
 
       </script>
+         <script>
+          $(document).ready(function() {
+        var ads = [
+          {% for ad in ads %}
+            { 
+              "image_url": "{{ ad.adImage.url }}",
+              "text": "{{ ad.Ad_text }}",
+              "id":"{{ ad.id }}",
+              "impressions": "{{ ad.impressionsCount }}",
+            },
+          {% endfor %}
+        ];
+      
+        // Choose a random ad from the list
+        var ad2 = ads[Math.floor(Math.random() * ads.length)];
+        ad2.impressions++;
+        url2 =  `/advertisements/ads/impressions/${ad2.id}/`;
+      
+      // Save the updated impressions to the server
+      $.ajax({
+          type: "POST",
+          url:url2,
+          data: {
+              ad_id: ad2.id,
+              csrfmiddlewaretoken: "{{ csrf_token }}"
+          }
+      });
+      
+        // Get the ad container element
+        var adContainer2 = $('#ad-container2');
+        var newLink2 = `/advertisements/ads/${ad2.id}/`;
+      
+        // Set the source of the image tag and ad text
+        adContainer2.find('img').attr('src', ad2.image_url);
+        adContainer2.find('.ad-text p').text(ad2.text);
+        document.getElementById('ad-text2').innerHTML = ad2.text;
+        document.getElementById("anchor-tag2").href = newLink2;
+      
+      
+        // Fade in the ad
+        adContainer2.fadeIn();
+      
+        // After some time, fade out the ad and choose a new one
+        function changeAd2(){
+      
+          console.log('fading out');
+          adContainer2.fadeOut(function() {
+            // Choose a new ad and repeat the process
+            var newAd2 = ads[Math.floor(Math.random() * ads.length)];
+            var newLink2 =`/advertisements/ads/${newAd2.id}/`;
+            newAd2.impressions++;
+            newurl2 = `/advertisements/ads/impressions/${newAd2.id}/`;
+      
+      // Save the updated impressions to the server
+       $.ajax({
+          type: "POST",
+          url: newurl2,
+          data: {
+              ad_id: newAd2.id,
+              csrfmiddlewaretoken: "{{ csrf_token }}"
+          }
+      });
+      
+            adContainer2.find('img').attr('src', newAd2.image_url);
+            adContainer2.find('p').text(newAd2.text);
+      
+            document.getElementById('ad-text2').innerHTML = newAd2.text;
+            document.getElementById("anchor-tag2").href = newLink2;
+      
+      
+            adContainer2.fadeIn();
+          });
+          setTimeout(changeAd2, 11000); 
+      
+        }
+        changeAd2()
+       
+      });
+      
+            </script>
   </body>
 </html>

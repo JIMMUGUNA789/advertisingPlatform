@@ -5,6 +5,7 @@ from companies.models import CompanyProfile
 from django.contrib import messages
 from companies.models import Reviews
 from django.db.models import Avg
+from advertisements.models import Ad
 
 
 
@@ -12,6 +13,7 @@ from django.db.models import Avg
 # Create your views here.
 def allJobs(request, company_id):
     company_id = str(company_id)
+    ads = Ad.objects.filter(adStatus='Active')
     company = CompanyProfile.objects.get(id=company_id)
     posts = Post.objects.filter(company=company_id)
     jobs = Jobs.objects.filter(company=company_id)
@@ -22,7 +24,8 @@ def allJobs(request, company_id):
         "jobs":jobs,
         "company":company,
         "posts":posts,
-        "avg_rating":avg_rating
+        "avg_rating":avg_rating,
+        "ads":ads,
     }
     return render(request, 'jobs/allJobs.html', context)
 

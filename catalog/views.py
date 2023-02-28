@@ -4,6 +4,7 @@ from companies.models import CompanyProfile, Follows, Likes, Reviews
 from .models import Catalog, CatalogItem, CatalogCategory
 from django.contrib import messages
 from django.urls import reverse, reverse_lazy
+from advertisements.models import Ad
 
 
 
@@ -116,9 +117,11 @@ def deleteCatalogItem(request, item_id):
 
 def viewCompanyCatalog(request, company_id):
     company_id = str(company_id)
+    ads = Ad.objects.filter(adStatus='Active')
     company = CompanyProfile.objects.get(id=company_id)
     context ={
         "company": company,
+        "ads": ads,
     }
     if Catalog.objects.filter(company=company_id).exists():
         catalog = Catalog.objects.get(company=company_id)
@@ -129,6 +132,7 @@ def viewCompanyCatalog(request, company_id):
             "catalog": catalog,
             "categories":categories,
             "catalogItems":catalogItems,
+            "ads": ads,
 
         }
     

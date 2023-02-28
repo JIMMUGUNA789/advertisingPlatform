@@ -6,10 +6,13 @@ from django.contrib import messages
 from django.core.paginator import Paginator
 from companies.models import Reviews
 from django.db.models import Avg
+from advertisements.models import Ad
 
 # view all company posts
 def allPosts(request, id):
     id = str(id)
+    ads = Ad.objects.filter(adStatus='Active')
+
     company = CompanyProfile.objects.get(id=id)
     posts = Post.objects.filter(company=id).order_by('-created_at')
     no_of_posts = Post.objects.filter(company=id).count()
@@ -21,7 +24,8 @@ def allPosts(request, id):
         "company":company,
         "posts": page_obj,
         "no_of_posts": no_of_posts,
-        "avg_rating": avg_rating
+        "avg_rating": avg_rating,
+        "ads": ads,
     }
     return render(request, 'posts/allPosts.html', context)
 
