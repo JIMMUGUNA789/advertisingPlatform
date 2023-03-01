@@ -3,7 +3,6 @@
 {% load static %}
 {% block content%} 
 
-
 <div
   class="search-div"
   style="background-image: url('{%static 'images/digitalsearch.jpg'%}')"
@@ -19,7 +18,7 @@
   </form>
 </div>
 <!-- main content -->
-<div class="profile-main-content">
+<div class="profile-main-content" style="margin-bottom: 260px;">
   <div class="sidebar">
     <div class="filter-title">
       <p><i class="fa fa-filter"></i>Advanced filter options</p>
@@ -78,7 +77,7 @@
   
   </div>
   
-  <div class="company-wrapper">
+  <div class="company-wrapper" style="margin-bottom: 60px !important;">
     {% for company in companies %}
     <div class="single-company">
       <a href="{% url 'companyProfile' company.id %}">
@@ -134,5 +133,6 @@
 
 
 
-  
+{% include 'footer.html' %}
+
 {% endblock %}
