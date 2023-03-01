@@ -12,4 +12,5 @@ urlpatterns = [
     path('likeAndDislikeCompany/<str:company_id>/', views.likeAndDislikeCompany, name='likeAndDislikeCompany'),
     path('followAndUnfollowCompany/<str:company_id>/', views.followAndUnfollowCompany, name='followAndUnfollowCompany'),
     path('digiverse/', views.digiverseSite, name='digiverse'),
+    path('contact/<str:company_id>/', views.contactCompany, name='contact'),
 ]

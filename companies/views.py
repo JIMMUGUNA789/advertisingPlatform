@@ -320,3 +320,11 @@ class CompanyProfileUpdate(UpdateView):
     
 def digiverseSite(request):
     return render(request, 'index.html')
+
+def contactCompany(request, company_id):
+    company_id = str(company_id)
+    company = CompanyProfile.objects.get(id=company_id)
+    context = {
+        "company":company,
+    }
+    return render(request, 'company/contactCompany.html', context)

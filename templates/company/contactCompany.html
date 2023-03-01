@@ -1,0 +1,315 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DigiVerse</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+      crossorigin="anonymous"
+    />
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+    />
+    
+
+    <link rel="stylesheet" href="{% static 'css/home.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/companyProfile.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/review.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/profile.css' %}" />
+
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script
+      async
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCU6zYzK_CODTUsjRItevAlv2VtthURUbM&callback=initMap"
+    ></script>
+
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+      integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+      crossorigin=""
+    />
+    <script
+      src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+      integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+      crossorigin=""
+    ></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.css"
+    />
+     <!-- Favicons -->
+  <link href="{% static 'assets/img/favicon.png' %}" rel="icon">
+  <link href="{% static 'assets/img/apple-touch-icon.png' %}" rel="apple-touch-icon">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Jost:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="{% static 'assets/vendor/aos/aos.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/vendor/bootstrap-icons/bootstrap-icons.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/vendor/boxicons/css/boxicons.min.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/vendor/glightbox/css/glightbox.min.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/vendor/remixicon/remixicon.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/vendor/swiper/swiper-bundle.min.css' %}" rel="stylesheet">
+
+  <!-- Template Main CSS File -->
+  <link href="{% static 'assets/css/style.css' %}" rel="stylesheet">
+  </head>
+  <body>
+    {% include 'messages.html' %}
+
+    <div class="topnav sticky-top">
+      <a class="logo-text" href="#">Digi Verse</a>
+
+      <div class="topnav-right">
+        <a href="{% url 'home' %}">Home</a>
+
+
+        <a href="{% url 'listCompany' %}">List Business</a>
+        {% if user.is_authenticated %}
+        <a href="{% url 'logout' %}">Log out</a>
+        <a href="{% url 'profile' user.id %}">{{user.username}}</a>
+        {% if user.profilePicture %}
+        <img
+          class="user-image"
+          src="{{user.profilePicture.url}}"
+          alt="Avatar"
+        />
+        {% else %}
+        <img
+          class="user-image"
+          src="{% static 'images/avatar.jpeg'%}"
+          alt="Avatar"
+        />
+        {% endif %} {% else %}
+
+        <a href="{% url 'register' %}">Sign up</a>
+        <a href="{% url 'login' %}">Log in</a>
+        <img
+          class="user-image"
+          src="{% static 'images/avatar.jpeg'%}"
+          alt="Avatar"
+        />
+        {% endif %}
+      </div>
+    </div>
+
+
+
+
+{% if company.bannerPicture %}
+<div class="bannerPic" style="background-image: url('{{company.bannerPicture.url}}');">   
+
+  </div>
+  {% else %}
+  <div class="bannerPic" style="background-image: url('{%static 'images/Grey_full.png'%}');">
+  </div>
+  {% endif %}
+  <div>
+    <div class="profile-single-company">
+        <div class="profile-companies">
+          <div class="profile-picture-wrapper">
+            {% if company.profilePicture %}
+            
+            <img src="{{company.profilePicture.url}}" alt="profilePic" class="profile-company-profile-pic">
+            {% else %}
+            <img class="profile-company-profile-pic" src="{% static 'images/avatar.jpeg'%}" alt="Avatar">
+            {% endif %}
+           
+            
+          </div>
+          <div>
+            <p class="profile-company-name">{{company.companyName}}</p>
+            <h5 class="profile-company-category">{{company.category}}</h5>
+            <p class="profile-social-stats">{{company.companyLikes}} <a href="{% url 'likeAndDislikeCompany' company.id %}">Likes</a> . {{company.companyFollows}} <a href="{% url 'followAndUnfollowCompany' company.id %}">Followers</a></p>
+            {% if avg_rating is None %}
+            <i class="fa">No rating</i>
+            {% else %}
+            {{avg_rating}}<i class="fa fa-star"></i
+              >
+            {% endif %}            
+            {% if user.is_authenticated and user.id == company.companyAdmin.id %}
+            <a href="{% url 'updateCompanyProfile' company.id %}" class="button-text" > <button class="button" style="float: right; margin-top: 0px;">Edit Profile </button></a>
+            {% else %}
+
+            <a href="{% url 'reviews' company.id %}" class="button-text" > <button class="button" style="float: right; margin-top: 0px;">Reviews </button></a>
+            {% endif %}
+          </div>
+          
+        </div>
+        
+        
+          
+        </div>
+  </div>
+  <hr style="color: #083966;">
+  <div class="company-profile-nav">
+    <ul>
+        <li><a href="{% url 'companyProfile' company.id %}">About</a></li>
+        <li><a href="{% url 'allPosts' company.id %}">Posts</a></li>
+        <li><a href="">Contact</a></li>
+        <li><a href="{% url 'reviews' company.id %}">Reviews</a></li>
+        <li><a href="{% url 'companyPhotos' company.id %}">Photos</a></li>
+        <li><a href="">Videos</a></li>
+        <li><a href="{% url 'allJobs' company.id %}">Jobs</a></li>
+        <li><a href="{% url 'viewCatalog' company.id %}">Catalog</a></li>
+    </ul>
+  </div>
+  <hr style="color: #083966;">
+
+  
+    <!-- ======= Contact Section ======= -->
+    <section id="contact" class="contact">
+        <div class="container" data-aos="fade-up">
+  
+          <div class="section-title">
+            <h2>Contact</h2>
+            <p>Get in touch for any queries, suggestions, feedback, complains, clarifications etc and we'll get back to you as soon as possible.</p>
+          </div>
+  
+          <div class="row">
+  
+            <div class="col-lg-5 d-flex align-items-stretch">
+              <div class="info">
+                <div class="address">
+                  <i class="bi bi-geo-alt"></i>
+                  <h4>Location:</h4>
+                  <p>{{company.address}}</p>
+                </div>
+  
+                <div class="email">
+                  <i class="bi bi-envelope"></i>
+                  <h4>Email:</h4>
+                  <p>{{company.email}}</p>
+                </div>
+  
+                <div class="phone">
+                  <i class="bi bi-phone"></i>
+                  <h4>Call:</h4>
+                  <p>{{company.phone}}</p>
+                </div>
+                {% comment %}
+
+  
+                <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d12097.433213460943!2d-74.0062269!3d40.7101282!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0xb89d1fe6bc499443!2sDowntown+Conference+Center!5e0!3m2!1smk!2sbg!4v1539943755621" frameborder="0" style="border:0; width: 100%; height: 290px;" allowfullscreen></iframe>
+                {% endcomment %}
+                <iframe src="https://maps.google.com/maps?q={{company.latitude}},{{company.longitude}}&hl=en&z=14&amp;output=embed" frameborder="0" style="border:0; width: 100%; height: 290px;" allowfullscreen></iframe>
+
+              </div>
+  
+            </div>
+  
+            <div class="col-lg-7 mt-5 mt-lg-0 d-flex align-items-stretch">
+              <form action="forms/contact.php" method="post" role="form" class="php-email-form">
+                {% csrf_token %}
+                <div class="row">
+                  <div class="form-group col-md-6">
+                    <label for="name">Your Name</label>
+                    <input type="text" name="name" class="form-control" id="name" required>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="name">Your Email</label>
+                    <input type="email" class="form-control" name="email" id="email" required>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="name">Subject</label>
+                  <input type="text" class="form-control" name="subject" id="subject" required>
+                </div>
+                <div class="form-group">
+                  <label for="name">Message</label>
+                  <textarea class="form-control" name="message" rows="10" required></textarea>
+                </div>
+                <div class="my-3">
+                  <div class="loading">Loading</div>
+                  <div class="error-message"></div>
+                  <div class="sent-message">Your message has been sent. Thank you!</div>
+                </div>
+                <div class="text-center"><button type="submit">Send Message</button></div>
+              </form>
+            </div>
+  
+          </div>
+  
+        </div>
+      </section><!-- End Contact Section -->
+
+  
+  
+  {% include 'footer.html' %}
+   <!-- Vendor JS Files -->
+   <script src="{% static 'assets/vendor/aos/aos.js' %}"></script>
+   <script src="{% static 'assets/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+   <script src="{% static 'assets/vendor/glightbox/js/glightbox.min.js' %}"></script>
+   <script src="{% static 'assets/vendor/isotope-layout/isotope.pkgd.min.js' %} "></script>
+   <script src="{% static 'assets/vendor/swiper/swiper-bundle.min.js' %}"></script>
+   <script src="{% static 'assets/vendor/waypoints/noframework.waypoints.js' %}"></script>
+   <script src="{% static 'assets/vendor/php-email-form/validate.js' %}"></script>
+ 
+   <!-- Template Main JS File -->
+   <script src="{% static 'assets/js/main.js' %}"></script>
+
+    
+
+    <script
+      src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+      integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+      crossorigin="anonymous"
+    ></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js"
+      integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js"
+      integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+      crossorigin="anonymous"
+    ></script>
+    <script>
+      $(document).ready(function () {
+        setTimeout(function () {
+          $(".alert").remove();
+        }, 5000);
+      });
+    </script>
+    
+  </body>
+</html>
+
+
+
+
+
+
+
+
+ 
+   <!-- Vendor JS Files -->
+   <script src="{% static 'assets/vendor/aos/aos.js' %}"></script>
+   <script src="{% static 'assets/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+   <script src="{% static 'assets/vendor/glightbox/js/glightbox.min.js' %}"></script>
+   <script src="{% static 'assets/vendor/isotope-layout/isotope.pkgd.min.js' %} "></script>
+   <script src="{% static 'assets/vendor/swiper/swiper-bundle.min.js' %}"></script>
+   <script src="{% static 'assets/vendor/waypoints/noframework.waypoints.js' %}"></script>
+   <script src="{% static 'assets/vendor/php-email-form/validate.js' %}"></script>
+ 
+   <!-- Template Main JS File -->
+   <script src="{% static 'assets/js/main.js' %}"></script>
+ 
+   
