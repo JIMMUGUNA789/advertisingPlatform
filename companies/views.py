@@ -318,3 +318,5 @@ class CompanyProfileUpdate(UpdateView):
    
     
     
+def digiverseSite(request):
+    return render(request, 'index.html')
