@@ -15,6 +15,7 @@ from django.db.models import Avg
 from django.db.models import Q
 from django.contrib.auth.decorators import login_required
 from advertisements.models import Ad
+from django.core.mail import send_mail
 
 
 
@@ -324,6 +325,18 @@ def digiverseSite(request):
 def contactCompany(request, company_id):
     company_id = str(company_id)
     company = CompanyProfile.objects.get(id=company_id)
+    if request.method == 'POST':
+        name = request.POST['name']
+        email = request.POST['email']
+        subject = request.POST['subject']
+        message = request.POST['message']
+        # send email
+        body = f'You have received a new message from {name} ({email}):\n\n{message}'
+        from_email = 'mugunajim@gmail.com'
+        recipient_list = [company.email]
+        send_mail(subject, body, from_email, recipient_list, fail_silently=False)        
+        messages.success(request, 'Message sent successfully')
+        return redirect('contact', company_id=company_id)
     context = {
         "company":company,
     }

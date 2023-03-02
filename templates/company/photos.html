@@ -47,7 +47,7 @@
     <ul>
         <li><a href="{% url 'companyProfile' company.id %}">About</a></li>
         <li><a href="{% url 'allPosts' company.id %}">Posts</a></li>
-        <li><a href="">Contact</a></li>
+        <li><a href="{% url 'contact' company.id %}">Contact</a></li>
         <li><a href="{% url 'reviews' company.id %}">Reviews</a></li>
         <li><a href="{% url 'companyPhotos' company.id %}">Photos</a></li>
         <li><a href="">Videos</a></li>
