@@ -320,6 +320,18 @@ class CompanyProfileUpdate(UpdateView):
     
     
 def digiverseSite(request):
+    if request.method == 'POST':
+        name = request.POST['name']
+        email = request.POST['email']
+        subject = request.POST['subject']
+        message = request.POST['message']
+        # send email
+        body = f'You have received a new message from {name} ({email}):\n\n{message}'
+        from_email = 'mugunajim@gmail.com'
+        recipient_list = ['mugunajim18@gmail.com']
+        send_mail(subject, body, from_email, recipient_list, fail_silently=False)        
+        messages.success(request, 'Message sent successfully')
+        return redirect('digiverse')
     return render(request, 'index.html')
 
 def contactCompany(request, company_id):

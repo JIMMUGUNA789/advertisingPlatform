@@ -51,7 +51,7 @@
         
          
           <li><a class="nav-link scrollto" href="#contact">Contact</a></li>
-          <li><a class="getstarted scrollto" href="#about">Get Started</a></li>
+          <li><a class="getstarted scrollto" href="{% url 'home' %}">Go to Platform</a></li>
         </ul>
         <i class="bi bi-list mobile-nav-toggle"></i>
       </nav><!-- .navbar -->
@@ -96,11 +96,7 @@
             <p>
               <i class="ri-check-double-line" style="color:  #083966;"></i> At DigiVerse, we believe that businesses should have the tools and resources they need to succeed. That's why we created a platform that is easy to use and accessible to businesses of all sizes. Whether you're a small startup or a large corporation, our platform can help you reach new customers and grow your business.
             </p>
-            <!-- <ul>
-              <li><i class="ri-check-double-line"></i> Ullamco laboris nisi ut aliquip ex ea commodo consequat</li>
-              <li><i class="ri-check-double-line"></i> Duis aute irure dolor in reprehenderit in voluptate velit</li>
-              <li><i class="ri-check-double-line"></i> Ullamco laboris nisi ut aliquip ex ea commodo consequat</li>
-            </ul> -->
+            
             <p><i class="ri-check-double-line" style="color:  #083966;"></i>At DigiVerse, we are dedicated to helping businesses succeed. We believe that by providing businesses with the tools they need to connect with potential customers, we can help create a more vibrant and diverse economy. </p>
           </div>
           <div class="col-lg-6 pt-4 pt-lg-0">
@@ -309,7 +305,7 @@
 
         <div class="section-title">
           <h2>Contact</h2>
-          <p>Magnam dolores commodi suscipit. Necessitatibus eius consequatur ex aliquid fuga eum quidem. Sit sint consectetur velit. Quisquam quos quisquam cupiditate. Et nemo qui impedit suscipit alias ea. Quia fugiat sit in iste officiis commodi quidem hic quas.</p>
+          <p>Have a question or concern about our platform? Please use the form below to send us a message, and we'll get back to you as soon as possible. We're committed to providing our users with the best possible experience, and we're always happy to help with any questions or issues you may have.</p>
         </div>
 
         <div class="row">
@@ -340,7 +336,8 @@
           </div>
 
           <div class="col-lg-7 mt-5 mt-lg-0 d-flex align-items-stretch">
-            <form action="forms/contact.php" method="post" role="form" class="php-email-form">
+            <form action="{% url 'digiverse' %}" method="post" role="form" class="php-email-form">
+              {% csrf_token %}
               <div class="row">
                 <div class="form-group col-md-6">
                   <label for="name">Your Name</label>
