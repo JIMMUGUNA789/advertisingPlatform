@@ -1,3 +1,4 @@
+from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse, reverse_lazy
 
@@ -329,9 +330,14 @@ def digiverseSite(request):
         body = f'You have received a new message from {name} ({email}):\n\n{message}'
         from_email = 'mugunajim@gmail.com'
         recipient_list = ['mugunajim18@gmail.com']
-        send_mail(subject, body, from_email, recipient_list, fail_silently=False)        
-        messages.success(request, 'Message sent successfully')
-        return redirect('digiverse')
+        try:
+            send_mail(subject, body, from_email, recipient_list, fail_silently=False)        
+            messages.success(request, 'Message sent successfully')
+        except Exception as e:
+            messages.error(request, str(e))
+            return render(request, 'index.html')
+        
+        return render(request, 'index.html')
     return render(request, 'index.html')
 
 def contactCompany(request, company_id):
