@@ -33,16 +33,12 @@
 
       </div> 
       <hr>
-    <div class="w3-dropdown-hover">
-      <button class="w3-button">My Catalogs
-        <i class="fa fa-caret-down"></i>
-      </button>
-      <div class="w3-dropdown-content w3-bar-block">
-        {% for business in myBusinesses %}
-        <a href="#" class="w3-bar-item w3-button">{{business.companyName}}</a>
-        {% endfor %}
-      </div>
-    </div> 
+      <div class="w3-dropdown-hover">
+        <a href="{% url 'catalogDashboard' user_id=user.id %}"><button class="w3-button">My Catalogs
+        </button></a>
+  
+        </div> 
+  
   </div>
   
   <div style="margin-left:20%">

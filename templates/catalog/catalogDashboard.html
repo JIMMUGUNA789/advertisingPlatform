@@ -1,0 +1,70 @@
+{% extends 'dashboard.html' %} 
+{% load static %}
+
+{% block contentdashboard %}
+<div class="container h-100">
+    <div class="row justify-content-right align-items-right" >
+        <h3 class="mb-4 dashboard-title">Dashboard-My Ads</h3>
+    </div>
+  
+    {% for company in myBusinesses %}
+    
+    <div class="row justify-content-right align-items-right" >
+
+      <div class="d-flex col-11">
+        <a href="{% url 'businessDetailDashboard' company.id %}"> <h3 class="mt-4 dashboard-title">{{company.companyName}}</h3></a>
+
+        
+       <a href="{% url 'createCatalog' company.id %}"  class="btn ml-auto mt-4"> <button type="button" style="height: 40px; background-color: rgb(38, 109, 44); width: auto; color: white;"> + create Catalog</button></a>
+
+      
+      </div>
+    </div>
+    <div class="row">
+     
+   {% for catalog in catalogs %}
+   {% if catalog.company.id == company.id %}
+        
+    <div class="row col-11 justify-content-center align-items-center m-0" >
+        
+      
+      <table class="table">
+       <thead class="thead-dark">
+        <tr>
+            <th>Catalog Name</th>
+            <th>Description</th>
+            <th>Number of items</th>
+            <th>Actions</th>
+          </tr>
+       </thead>
+      <tbody>
+        
+        
+        <tr>
+          <td>{{catalog.name}}</td>
+          <td>{{catalog.description}}</td>
+          <td>{{catalog.no_of_items}}</td>
+          <td><a href="{% url 'manageCatalog' catalog.id %}"><button class="btn btn-primary">manage</button></a> <a href="{% url 'deleteCatalog' catalog.id %}"><button class="btn btn-danger">delete</button></a> </td>
+        </tr>
+        
+     
+
+      </tbody>
+      </table>
+ 
+    
+        
+     </div>
+     
+     {% endif %}
+     {% endfor %}
+  
+  
+  
+</div>
+    <hr>
+   
+    {% endfor %}
+    
+</div>
+{% endblock %}

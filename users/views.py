@@ -193,3 +193,28 @@ def adDashboard(request, user_id):
     }
 
     return render(request, 'ads/adsDashboard.html', context)
+
+def catalogDashboard(request, user_id):
+    user_id=str(user_id)
+    myBusinesses = CompanyProfile.objects.filter(companyAdmin=user_id)
+    catalogs = Catalog.objects.all()
+    # add field in catalogs to show number of items in each catalog
+    for catalog in catalogs:
+                no_of_items = CatalogItem.objects.filter(catalog=catalog).count()
+                catalog.no_of_items = no_of_items
+
+
+    
+
+
+    
+    
+    context = {
+        "myBusinesses": myBusinesses,
+        "catalogs": catalogs,
+        
+        
+
+    }
+
+    return render(request, 'catalog/catalogDashboard.html', context)

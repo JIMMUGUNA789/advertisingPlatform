@@ -3,7 +3,7 @@ from companies.models import CompanyProfile
 
 
 class Catalog(models.Model):
-    company = models.ForeignKey(CompanyProfile, on_delete=models.CASCADE)
+    company = models.ForeignKey(CompanyProfile, on_delete=models.CASCADE, related_name='catalogs')
     name = models.CharField(max_length=255)
     description = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
