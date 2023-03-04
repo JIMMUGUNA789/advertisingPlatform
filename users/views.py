@@ -179,10 +179,9 @@ def adDashboard(request, user_id):
     ads = []
     for business in myBusinesses:
         businessAds = Ad.objects.filter(companyProfile=business)
+      
         ads.append(businessAds)
 
-
-    print(ads)
     
     context = {
         "myBusinesses": myBusinesses,

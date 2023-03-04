@@ -30,7 +30,7 @@
         
       
       <table class="table">
-       <thead class="thead-dark">
+       <thead class="" style="background-color:  #083966; color: white;">
          <tr>
            <th>Ad Image</th>
            <th>Ad Text</th>
@@ -71,6 +71,48 @@
     
         
      </div>
+     <div class="row col-11 justify-content-center align-items-center m-0" >
+      
+      <canvas id="chart{{ad.id}}"></canvas>
+      
+     </div>
+     <script>
+      $(document).ready(function() {
+       
+  const ctx = document.getElementById('chart{{ad.id}}');
+
+  new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: ['Ad Impressions', 'Ad Clicks'],
+      datasets: [{
+        label: 'Ad performance',
+        data: [{{ad.impressionsCount}}, {{ad.clicksCount}}],
+        backgroundColor: [
+            'rgba(255, 99, 132, 0.2)',
+            'rgba(54, 162, 235, 0.2)'
+        ],
+        borderColor: [
+            'rgba(255, 99, 132, 1)',
+            'rgba(54, 162, 235, 1)'
+        ],
+        borderWidth: 1
+      }]
+    },
+    options: {
+      scales: {
+        y: {
+          beginAtZero: true
+        }
+      }
+    }
+  });
+
+
+      
+      });
+    </script>
+
   
   {% endfor %}
   {% else %}
@@ -82,4 +124,5 @@
     {% endfor %}
     
 </div>
+
 {% endblock %}
