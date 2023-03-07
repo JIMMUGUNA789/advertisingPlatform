@@ -364,3 +364,6 @@ def termsOfUse(request):
 
 def privacyPolicy(request):
     return render(request, 'privacyPolicy.html')
+
+def security(request):
+    return render(request, 'security.html')
