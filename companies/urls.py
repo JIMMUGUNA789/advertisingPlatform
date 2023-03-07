@@ -14,4 +14,5 @@ urlpatterns = [
     path('digiverse/', views.digiverseSite, name='digiverse'),
     path('contact/<str:company_id>/', views.contactCompany, name='contact'),
     path('terms-of-use/', views.termsOfUse, name='termsOfUse'),
+    path('privacy-policy/', views.privacyPolicy, name='privacyPolicy'),
 ]

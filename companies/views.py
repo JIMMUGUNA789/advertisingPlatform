@@ -361,3 +361,6 @@ def contactCompany(request, company_id):
     return render(request, 'company/contactCompany.html', context)
 def termsOfUse(request):
     return render(request, 'termsOfUse.html')
+
+def privacyPolicy(request):
+    return render(request, 'privacyPolicy.html')
