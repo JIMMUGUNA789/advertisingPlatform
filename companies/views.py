@@ -367,3 +367,23 @@ def privacyPolicy(request):
 
 def security(request):
     return render(request, 'security.html')
+
+def help(request):
+    if request.method == 'POST':
+        name = request.POST['name']
+        email = request.POST['email']
+        subject = request.POST['subject']
+        message = request.POST['message']
+        # send email
+        body = f'You have received a new message from {name} ({email}):\n\n{message}'
+        from_email = 'mugunajim@gmail.com'
+        recipient_list = ['mugunajim18@gmail.com']
+        try:
+            send_mail(subject, body, from_email, recipient_list, fail_silently=False)        
+            messages.success(request, 'Message sent successfully')
+        except Exception as e:
+            messages.error(request, str(e))
+            return render(request, 'help.html')
+        
+        return render(request, 'help.html')
+    return render(request, 'help.html')
