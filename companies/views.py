@@ -359,3 +359,5 @@ def contactCompany(request, company_id):
         "company":company,
     }
     return render(request, 'company/contactCompany.html', context)
+def termsOfUse(request):
+    return render(request, 'termsOfUse.html')
