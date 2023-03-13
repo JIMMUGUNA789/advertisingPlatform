@@ -14,6 +14,10 @@ import os
 from pathlib import Path
 from django.contrib.messages import constants as messages
 from django.utils.translation import gettext_lazy as _
+import environ
+env = environ.Env(DEBUG=(bool, False))
+# reading .env file
+environ.Env.read_env()
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -48,6 +52,8 @@ INSTALLED_APPS = [
     'allauth.account',
     'allauth.socialaccount', 
     'allauth.socialaccount.providers.google', #for google authentication
+    'phonenumber_field',
+    'rest_framework',
 
     
     'sekizai',
