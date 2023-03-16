@@ -15,13 +15,16 @@ from pathlib import Path
 from django.contrib.messages import constants as messages
 from django.utils.translation import gettext_lazy as _
 import environ
-env = environ.Env(DEBUG=(bool, False))
-# reading .env file
-environ.Env.read_env()
+from dotenv import load_dotenv
+
+
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+
+
 
 
 # Quick-start development settings - unsuitable for production
@@ -33,7 +36,11 @@ SECRET_KEY = 'django-insecure-q)*0q@n3%*oq-t++n4k27zpjx8z1_ngajr=gupu4&w=ii1m3)#
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    'e6e0-154-159-237-0.eu.ngrok.io',
+     '127.0.0.1',
+    'localhost',
+]
 
 
 # Application definition

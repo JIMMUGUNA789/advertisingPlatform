@@ -26,20 +26,47 @@ class Ad(models.Model):
     endDate = models.DateField()
 
 
-STATUS = ((1, "Pending"), (0, "Complete"))
+    # M-pesa payment
 
-class Transaction(models.Model):
-    """This model records all the mpesa payment transactions"""
-    transaction_no = models.CharField(default=uuid.uuid4, max_length=50, unique=True)
-    phone_number = PhoneNumberField(null=False, blank=False)
-    checkout_request_id = models.CharField(max_length=200)
-    reference = models.CharField(max_length=40, blank=True)
-    description = models.TextField(null=True, blank=True)
-    amount = models.CharField(max_length=10)
-    status = models.CharField(max_length=15, choices=STATUS, default=1)
-    receipt_no = models.CharField(max_length=200, blank=True, null=True)
-    created = models.DateTimeField(auto_now_add=True)
-    ip = models.CharField(max_length=200, blank=True, null=True)
 
-    def __unicode__(self):
-        return f"{self.transaction_no}"
+class BaseModel(models.Model):
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    class Meta:
+        abstract = True
+# M-pesa Payment models
+class MpesaCalls(BaseModel):
+    ip_address = models.TextField()
+    caller = models.TextField()
+    conversation_id = models.TextField()
+    content = models.TextField()
+    class Meta:
+        verbose_name = 'Mpesa Call'
+        verbose_name_plural = 'Mpesa Calls'
+class MpesaCallBacks(BaseModel):
+    ip_address = models.TextField()
+    caller = models.TextField()
+    conversation_id = models.TextField()
+    content = models.TextField()
+    class Meta:
+        verbose_name = 'Mpesa Call Back'
+        verbose_name_plural = 'Mpesa Call Backs'
+class MpesaPayment(BaseModel):
+    ad_id = models.ForeignKey(Ad, on_delete=models.CASCADE, related_name='ad', default=1)
+    amount = models.DecimalField(max_digits=10, decimal_places=2)
+    description = models.TextField()
+    type = models.TextField()
+    reference = models.TextField()
+    first_name = models.CharField(max_length=100)
+    middle_name = models.CharField(max_length=100)
+    last_name = models.CharField(max_length=100)
+    phone_number = models.TextField()
+    organization_balance = models.DecimalField(max_digits=10, decimal_places=2)
+    class Meta:
+        verbose_name = 'Mpesa Payment'
+        verbose_name_plural = 'Mpesa Payments'
+    def __str__(self):
+        return self.first_name
+
+
+

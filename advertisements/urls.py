@@ -6,7 +6,13 @@ urlpatterns = [
     path('ads/impressions/<int:ad_id>/', views.show_ad, name='adimpression'),
     path('ads/delete/<int:ad_id>/', views.deleteAd, name='deleteAd'),
     path('ads/create/<int:company_id>/', views.createAd, name='createAd'),
-    path("checkout/", views.MpesaCheckout.as_view(), name="checkout"),
-    path("callback/", views.MpesaCallBack.as_view(), name="callback"),
+    path('access/token', views.getAccessToken, name='get_mpesa_access_token'),
+    path('online/lipa', views.lipa_na_mpesa_online, name='lipa_na_mpesa'),
+        # register, confirmation, validation and callback urls
+    path('c2b/register', views.register_urls, name="register_mpesa_validation"),
+    path('c2b/confirmation', views.confirmation, name="confirmation"),
+    path('c2b/validation', views.validation, name="validation"),
+    path('c2b/callback', views.call_back, name="call_back"),
+    
     
 ]
