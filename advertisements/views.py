@@ -13,6 +13,8 @@ import json
 from . mpesa_credentials import MpesaAccessToken, LipanaMpesaPpassword
 from django.views.decorators.csrf import csrf_exempt
 from .models import MpesaPayment
+from datetime import datetime
+date_format = "%Y%m%d%H%M%S"
 
 
 
@@ -73,7 +75,8 @@ def getAccessToken(request):
     validated_mpesa_access_token = mpesa_access_token['access_token']
     return HttpResponse(validated_mpesa_access_token)
 
-def lipa_na_mpesa_online(request):
+def lipa_na_mpesa_online(request, ad_id):
+    ad_id = str(ad_id)
     access_token = MpesaAccessToken.validated_mpesa_access_token
     api_url = "https://sandbox.safaricom.co.ke/mpesa/stkpush/v1/processrequest"
     headers = {"Authorization": "Bearer %s" % access_token}
@@ -86,7 +89,8 @@ def lipa_na_mpesa_online(request):
         "PartyA": 254729825703,  # replace with your phone number to get stk push
         "PartyB": LipanaMpesaPpassword.Business_short_code,
         "PhoneNumber": 254729825703,  # replace with your phone number to get stk push
-        "CallBackURL": "https://sandbox.safaricom.co.ke/mpesa/",
+        # "CallBackURL": "https://sandbox.safaricom.co.ke/mpesa/",
+        "CallBackURL": "https://7954-154-159-237-49.in.ngrok.io/advertisements/c2b/confirmation/?ad_id="+ad_id,
         "AccountReference": "Digiverse",
         "TransactionDesc": "Testing stk push"
     }
@@ -100,8 +104,8 @@ def register_urls(request):
     headers = {"Authorization": "Bearer %s" % access_token}
     options = {"ShortCode": LipanaMpesaPpassword.Business_short_code,
                "ResponseType": "Completed",
-               "ConfirmationURL": "https://e6e0-154-159-237-0.eu.ngrok.io/advertisements/c2b/confirmation",
-               "ValidationURL": "https://e6e0-154-159-237-0.eu.ngrok.io/advertisements/c2b/validation"}
+               "ConfirmationURL": "https://7954-154-159-237-49.in.ngrok.io/advertisements/c2b/confirmation/?ad_id=",
+               "ValidationURL": "https://7954-154-159-237-49.in.ngrok.io/advertisements/c2b/validation"}
     response = requests.post(api_url, json=options, headers=headers)
     return HttpResponse(response.text)
 @csrf_exempt
@@ -116,19 +120,43 @@ def validation(request):
     return JsonResponse(dict(context))
 @csrf_exempt
 def confirmation(request):
+    print(request)
     mpesa_body =request.body.decode('utf-8')
+    print(mpesa_body)
+    print(request.GET.get('ad_id', None))
+
     mpesa_payment = json.loads(mpesa_body)
-    payment = MpesaPayment(
-        first_name=mpesa_payment['FirstName'],
-        last_name=mpesa_payment['LastName'],
-        middle_name=mpesa_payment['MiddleName'],
-        description=mpesa_payment['TransID'],
-        phone_number=mpesa_payment['MSISDN'],
-        amount=mpesa_payment['TransAmount'],
-        reference=mpesa_payment['BillRefNumber'],
-        organization_balance=mpesa_payment['OrgAccountBalance'],
-        type=mpesa_payment['TransactionType'],
-    )
+    print(mpesa_payment)
+    
+    # payment = MpesaPayment.objects.create(
+    #     first_name=mpesa_payment['FirstName'],
+    #     last_name=mpesa_payment['LastName'],
+    #     middle_name=mpesa_payment['MiddleName'],
+    #     description=mpesa_payment['TransID'],
+    #     phone_number=mpesa_payment['MSISDN'],
+    #     amount=mpesa_payment['TransAmount'],
+    #     reference=mpesa_payment['BillRefNumber'],
+    #     organization_balance=mpesa_payment['OrgAccountBalance'],
+    #     type=mpesa_payment['TransactionType'],
+    # )
+    ad = Ad.objects.get(id=request.GET.get('ad_id', None))
+    metadata = mpesa_payment['Body']['stkCallback']['CallbackMetadata']['Item']
+    amount = next(item for item in metadata if item['Name'] == 'Amount')['Value']
+    receipt_number = next(item for item in metadata if item['Name'] == 'MpesaReceiptNumber')['Value']
+    transaction_date_string = next(item for item in metadata if item['Name'] == 'TransactionDate')['Value']
+    phone_number = next(item for item in metadata if item['Name'] == 'PhoneNumber')['Value']
+
+    transaction_date = datetime.strptime(transaction_date_string, date_format)
+
+    payment = MpesaPayment.objects.create(
+            ad_id=ad,
+            amount=amount,
+            phone_number=phone_number,
+            mpesa_receipt_number=receipt_number,
+            transaction_date=transaction_date
+            
+        )
+
     payment.save()
     context = {
         "ResultCode": 0,

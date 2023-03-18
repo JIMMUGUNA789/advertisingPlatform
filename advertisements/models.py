@@ -53,14 +53,17 @@ class MpesaCallBacks(BaseModel):
         verbose_name_plural = 'Mpesa Call Backs'
 class MpesaPayment(BaseModel):
     ad_id = models.ForeignKey(Ad, on_delete=models.CASCADE, related_name='ad', default=1)
-    amount = models.DecimalField(max_digits=10, decimal_places=2)
-    description = models.TextField()
-    type = models.TextField()
-    reference = models.TextField()
-    first_name = models.CharField(max_length=100)
-    middle_name = models.CharField(max_length=100)
-    last_name = models.CharField(max_length=100)
-    phone_number = models.TextField()
+    amount = models.IntegerField()
+    phone_number =models.CharField(max_length=100)
+    mpesa_receipt_number = models.CharField(max_length=100, null=True, blank=True)
+    transaction_date = models.DateTimeField( null=True, blank=True)
+    description = models.TextField(null=True, blank=True)
+    type = models.TextField( null=True, blank=True)
+    reference = models.TextField(   null=True, blank=True)
+    first_name = models.CharField(max_length=100, null=True, blank=True)
+    middle_name = models.CharField(max_length=100, null=True, blank=True)
+    last_name = models.CharField(max_length=100, null=True, blank=True)
+    
     organization_balance = models.DecimalField(max_digits=10, decimal_places=2)
     class Meta:
         verbose_name = 'Mpesa Payment'
