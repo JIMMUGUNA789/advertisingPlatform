@@ -96,6 +96,12 @@
         
           {% endif %}
           {% endfor %}
+          {% if company.profilePicture %}
+        <img src="{{company.profilePicture.url}}" alt="profilePic" id="" class="profile-company-gallery my-image">
+        {% endif %}
+        {% if company.bannerPicture %}
+        <img src="{{company.bannerPicture.url}}" alt="profilePic" id="" class="profile-company-gallery my-image">
+        {% endif %}
           <div id="my-modal" style="display:none;">
             <img src="">
             <div class="close-modal" id="close-button">x</div>
@@ -105,7 +111,10 @@
       </div>
       <div>
         <h3 style="margin-top: 30px;">Location</h3>
-        <div id="map"></div>
+        <div id="">
+          <iframe src="https://maps.google.com/maps?q={{company.latitude}},{{company.longitude}}&hl=en&z=14&amp;output=embed" frameborder="0" style="border:0; width: 100%; height: 290px;" allowfullscreen></iframe>
+  
+        </div>
   
   
         
@@ -132,6 +141,7 @@
       <div class="mainarea">
             
               <h3 style="margin-top: 30px;">Jobs </h3>
+              {% if jobs %}
               {% for job in jobs %}
               <p>{{job.title}}</p>
               <p>Level: {{job.jobLevel}}</p>
@@ -140,6 +150,10 @@
               <p>Application Deadline: {{job.applicationDeadline}}</p>
 
               {% endfor %}
+              {% else %}
+              <p>No jobs are currently available</p>
+              
+              {% endif %}
           
             
 

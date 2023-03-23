@@ -80,12 +80,21 @@
         <img src="{{post.image.url}}" alt="profilePic" class="profile-company-gallery">
         {% endif %}
         {% endfor %}
+        {% if company.profilePicture %}
+        <img src="{{company.profilePicture.url}}" alt="profilePic" id="" class="profile-company-gallery my-image">
+        {% endif %}
+        {% if company.bannerPicture %}
+        <img src="{{company.bannerPicture.url}}" alt="profilePic" id="" class="profile-company-gallery my-image">
+        {% endif %}
 
       </div>
     </div>
     <div>
       <h3 style="margin-top: 30px;">Location</h3>
-      <div id="map"></div>
+      <div id="">
+        <iframe src="https://maps.google.com/maps?q={{company.latitude}},{{company.longitude}}&hl=en&z=14&amp;output=embed" frameborder="0" style="border:0; width: 100%; height: 290px;" allowfullscreen></iframe>
+
+      </div>
 
 
       

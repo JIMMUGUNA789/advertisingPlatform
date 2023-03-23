@@ -109,6 +109,12 @@
           class="profile-company-gallery"
         />
         {% endif %} {% endfor %}
+        {% if company.profilePicture %}
+        <img src="{{company.profilePicture.url}}" alt="profilePic" id="" class="profile-company-gallery my-image">
+        {% endif %}
+        {% if company.bannerPicture %}
+        <img src="{{company.bannerPicture.url}}" alt="profilePic" id="" class="profile-company-gallery my-image">
+        {% endif %}
       </div>
     </div>
     <div>
@@ -120,28 +126,41 @@
     </div>
   </div>
   <div class="mainarea">
-    <form method="post" action="" enctype="multipart/form-data">
-      {% csrf_token %}
-
-      <div class="form-group">
-        <label for="body">Post</label>
-        <small id="passwordHelpBlock" class="form-text text-muted">
-          Give people new information about your business.
-        </small>
-        <textarea
-          class="form-control"
-          id="body"
-          rows="3"
-          name="body"
-        ></textarea>
+    <div class="container" >
+      <div class="col-11 mt-2" >
+        <h3>Create new Post</h3>
       </div>
-      <div class="form-group">
-        <label for="image">Post Photo</label>
-        <input type="file" class="form-control-file" id="image" name="image" />
+      <div class="col-11 card mt-2">
+        <form method="post" action="" enctype="multipart/form-data">
+          {% csrf_token %}
+    
+          <div class="form-group">
+            <label for="body">Post</label>
+            <small id="passwordHelpBlock" class="form-text text-muted">
+              Give people new information about your business.
+            </small>
+            <textarea
+              class="form-control"
+              id="body"
+              rows="3"
+              name="body"
+            ></textarea>
+          </div>
+          <div class="form-group">
+            <label for="image">Post Photo</label>
+            <input type="file" class="form-control-file" id="image" name="image" />
+          </div>
+    
+          <div class="form-group d-flex justify-content-end">
+
+            <button type="submit" class="btn  button">Create</button>
+            </div>
+        </form>
+
       </div>
 
-      <button type="submit" class="btn btn-primary">Submit</button>
-    </form>
+    </div>
+   
   </div>
 </div>
 {% include 'footer.html' %}

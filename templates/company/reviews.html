@@ -95,6 +95,12 @@
         
           {% endif %}
           {% endfor %}
+          {% if company.profilePicture %}
+        <img src="{{company.profilePicture.url}}" alt="profilePic" id="" class="profile-company-gallery my-image">
+        {% endif %}
+        {% if company.bannerPicture %}
+        <img src="{{company.bannerPicture.url}}" alt="profilePic" id="" class="profile-company-gallery my-image">
+        {% endif %}
           <div id="my-modal" style="display:none;">
             <img src="">
             <div class="close-modal" id="close-button">x</div>

@@ -85,6 +85,7 @@
       </h3>
 
       <div class="sidebar-profileInfo-content profile-gallery">
+
        {% for post in posts %}
        {% if post.company == company %}
         <img src="{{post.image.url}}" alt="profilePic" id="img-{{ forloop.counter }}" class="profile-company-gallery my-image">
@@ -92,6 +93,13 @@
       
         {% endif %}
         {% endfor %}
+        {% if company.profilePicture %}
+        <img src="{{company.profilePicture.url}}" alt="profilePic" id="" class="profile-company-gallery my-image">
+        {% endif %}
+        {% if company.bannerPicture %}
+        <img src="{{company.bannerPicture.url}}" alt="profilePic" id="" class="profile-company-gallery my-image">
+        {% endif %}
+
         <div id="my-modal" style="display:none;">
           <img src="">
           <div class="close-modal" id="close-button">x</div>

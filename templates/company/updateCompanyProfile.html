@@ -110,17 +110,19 @@
     </div>
     <div class="mainarea">
       <div class="container">
-        <div class="col-11 col-md-9 col-lg-7 card mt-2">
+        <div class="col-11 mt-2">
           <h3 >Edit Business Profile</h3>
+        </div>
+        <div class="col-11  card mt-2">
           <form method="post" action="" enctype="multipart/form-data">
             {% csrf_token %}
             <div class="form-group">
-              {{ form.companyName.label_tag }}
+              {{ form.companyName.label_tag }} <br>
               {{ form.companyName }}
               {{ form.companyName.errors }}
             </div>
             <div class="form-group">
-              {{ form.description.label_tag }}
+              {{ form.description.label_tag }} <br>
               {{ form.description }}
               {{ form.description.errors }}
               
@@ -141,7 +143,7 @@
               {{ form.email.errors }}
             </div>
             <div class="form-group">
-              {{ form.websiteUrl.label_tag }}
+              {{ form.websiteUrl.label_tag }} <br>
               {{ form.websiteUrl }}
               {{ form.websiteUrl.errors }}
             </div>
@@ -161,6 +163,7 @@
               {{ form.bannerPicture.errors }}
             </div>
             <div class="form-group d-flex justify-content-end">
+
               <button type="submit" class="btn  button">Submit</button>
               </div>
           </form>
