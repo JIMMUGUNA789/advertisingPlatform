@@ -1,4 +1,6 @@
 {% extends 'dashboard.html' %} 
+{% load static %}
+
 {% block contentdashboard %}
 <div class="container h-100">
     <div class="row justify-content-right align-items-right" >
@@ -25,5 +27,74 @@
         </div>
        
     </div>
+
+    <div class="row justify-content-center align-items-center">
+      <div class="col-12  mb-3">
+        <h3>Businesses I Follow</h3>
+        <hr>
+      </div>
+    
+      {% for company in allFollowedCompanies %}
+        <div class="col-12 col-md-4 col-lg-2 mb-4">
+          <a href="{% url 'companyProfile' company.id %}">
+              <div class="card">
+              <div class="card-img-top bg-secondary d-flex justify-content-center align-items-center" style="height: 100px; width: 158px;">
+                {% if company.profilePicture %}
+                <img src="{{ company.profilePicture.url }}" alt="{{ company.companyName }}" class="" width="158px" height="100px">
+              {% else %}
+
+                <img src="{% static 'images/avatar.jpeg'%}" alt="{{ company.companyName }}" class="" width="158px" height="100px">
+              {% endif %}
+              
+              </div>
+              <div class="card-body text-center">
+                <a href="{% url 'companyProfile' company.id %}"><h4 class="card-title" style="color: #083966;">{{company.companyName}}</h4></a>
+                <p class="card-text">{{company.category}}</p>
+              </div>
+            </div>
+        </a>
+        </div>
+      {% empty %}
+        <div class="col-12 text-center">
+          <p>No companies to display.</p>
+        </div>
+      {% endfor %}
+    </div>
+
+
+
+    <div class="row justify-content-center align-items-center">
+      <div class="col-12  mb-3">
+        <h3>Businesses I Like</h3>
+        <hr>
+      </div>
+    
+      {% for company in allLikedCompanies %}
+        <div class="col-12 col-md-4 col-lg-2 mb-4">
+          <a href="{% url 'companyProfile' company.id %}">
+              <div class="card">
+              <div class="card-img-top bg-secondary d-flex justify-content-center align-items-center" style="height: 100px; width: 158px;">
+                {% if company.profilePicture %}
+                <img src="{{ company.profilePicture.url }}" alt="{{ company.companyName }}" class="" width="158px" height="100px">
+              {% else %}
+
+                <img src="{% static 'images/avatar.jpeg'%}" alt="{{ company.companyName }}" class="" width="158px" height="100px">
+              {% endif %}
+              
+              </div>
+              <div class="card-body text-center">
+                <a href="{% url 'companyProfile' company.id %}"><h4 class="card-title" style="color: #083966;">{{company.companyName}}</h4></a>
+                <p class="card-text">{{company.category}}</p>
+              </div>
+            </div>
+        </a>
+        </div>
+      {% empty %}
+        <div class="col-12 text-center">
+          <p>No companies to display.</p>
+        </div>
+      {% endfor %}
+    </div>
+
 </div>
 {% endblock %}

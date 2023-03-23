@@ -122,8 +122,19 @@ def profile(request, id):
     myBusinesses = CompanyProfile.objects.filter(companyAdmin=id)
     myBusinessesCount = myBusinesses.count()
     likedCompanies = Likes.objects.filter(user=id)
+    # get all the companies that the user has liked
+    allLikedCompanies = []
+    for company in likedCompanies:
+        # CompanyProfile = CompanyProfile.objects.get(id=company.company)
+        allLikedCompanies.append(company.company)
+    
     likedCompaniesCount = likedCompanies.count()
     followedCompanies = Follows.objects.filter(user=id)
+    # get all the companies that the user has followed
+    allFollowedCompanies = []
+    for company in followedCompanies:
+        # CompanyProfile = CompanyProfile.objects.get(id=company.company)
+        allFollowedCompanies.append(company.company)
     followedCompaniesCount = followedCompanies.count()
 
 
@@ -132,6 +143,8 @@ def profile(request, id):
         "myBusinessesCount": myBusinessesCount,
         "likedCompaniesCount": likedCompaniesCount,
         "followedCompaniesCount": followedCompaniesCount,
+        "allLikedCompanies": allLikedCompanies,
+        "allFollowedCompanies": allFollowedCompanies,
 
     }
 
