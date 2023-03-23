@@ -68,74 +68,100 @@ def home(request):
             "ads":ads,
         }
     if request.method == 'POST':
-        companylist = []
-        category = request.POST['category']
-        rating = request.POST.get('rating')
-        if category is not None:
-            if category == 'All':
-                companies_subquery = CompanyProfile.objects.all().order_by('?')
-                if rating is not None:
+        # companylist = []
+        # category = request.POST['category']
+        # rating = request.POST.get('rating')
+        # if category is not None:
+        #     if category == 'All':
+        #         companies_subquery = CompanyProfile.objects.all().order_by('?')
+        #         if rating is not None:
                      
-                     for company in companies_subquery:
-                        avg_rating = Reviews.objects.filter(company=company).aggregate(Avg('rating'))['rating__avg']
-                        company.avg_rating = avg_rating  
-                        if avg_rating is not None and avg_rating >= float(rating):
-                            companylist.append(company)
-                     companies = CompanyProfile.objects.filter(id__in=[item.id for item in companylist]).order_by('?')
-                     for company in companies:
-                        avg_rating = Reviews.objects.filter(company=company).aggregate(Avg('rating'))['rating__avg']
-                        company.avg_rating = avg_rating            
-                     context = {
-                        "companies":companies,
-                        "ads":ads,
-                    }
-                else:
-                    companies = CompanyProfile.objects.all().order_by('?')
-                    for company in companies:
-                        avg_rating = Reviews.objects.filter(company=company).aggregate(Avg('rating'))['rating__avg']
-                        company.avg_rating = avg_rating
-                    context = {
-                        "companies":companies,
-                        "ads":ads,
-                    }
+        #              for company in companies_subquery:
+        #                 avg_rating = Reviews.objects.filter(company=company).aggregate(Avg('rating'))['rating__avg']
+        #                 company.avg_rating = avg_rating  
+        #                 if avg_rating is not None and avg_rating >= float(rating):
+        #                     companylist.append(company)
+        #              companies = CompanyProfile.objects.filter(id__in=[item.id for item in companylist]).order_by('?')
+        #              for company in companies:
+        #                 avg_rating = Reviews.objects.filter(company=company).aggregate(Avg('rating'))['rating__avg']
+        #                 company.avg_rating = avg_rating            
+        #              context = {
+        #                 "companies":companies,
+        #                 "ads":ads,
+        #             }
+        #         else:
+        #             companies = CompanyProfile.objects.all().order_by('?')
+        #             for company in companies:
+        #                 avg_rating = Reviews.objects.filter(company=company).aggregate(Avg('rating'))['rating__avg']
+        #                 company.avg_rating = avg_rating
+        #             context = {
+        #                 "companies":companies,
+        #                 "ads":ads,
+        #             }
 
 
               
-            else:
-                companies = CompanyProfile.objects.filter(category=category).order_by('?')
-                if rating is not None:
-                     companies_subquery = CompanyProfile.objects.filter(category=category).order_by('?')
-                     for company in companies_subquery:
-                        avg_rating = Reviews.objects.filter(company=company).aggregate(Avg('rating'))['rating__avg']
-                        company.avg_rating = avg_rating  
-                        if avg_rating is not None and avg_rating >= float(rating):
-                            companylist.append(company)
-                     companies = CompanyProfile.objects.filter(id__in=[item.id for item in companylist]).order_by('?')
-                     for company in companies:
-                        avg_rating = Reviews.objects.filter(company=company).aggregate(Avg('rating'))['rating__avg']
-                        company.avg_rating = avg_rating            
-                     context = {
-                        "companies":companies,
-                        "ads":ads,
-                    }
-                else:
-                    companies = CompanyProfile.objects.all().order_by('?')
-                    for company in companies:
-                        avg_rating = Reviews.objects.filter(company=company).aggregate(Avg('rating'))['rating__avg']
-                        company.avg_rating = avg_rating
-                    context = {
-                        "companies":companies,
-                        "ads":ads,
-                    }
-                if len(companies) == 0:
-                    messages.error(request, "No Business found in that category")
-                for company in companies:
-                    avg_rating = Reviews.objects.filter(company=company).aggregate(Avg('rating'))['rating__avg']
-                    company.avg_rating = avg_rating
-                context = {
-                    "companies":companies,
-                    "ads":ads
-                }
+        #     else:
+        #         companies = CompanyProfile.objects.filter(category=category).order_by('?')
+        #         if rating is not None:
+        #              companies_subquery = CompanyProfile.objects.filter(category=category).order_by('?')
+        #              for company in companies_subquery:
+        #                 avg_rating = Reviews.objects.filter(company=company).aggregate(Avg('rating'))['rating__avg']
+        #                 company.avg_rating = avg_rating  
+        #                 if avg_rating is not None and avg_rating >= float(rating):
+        #                     companylist.append(company)
+        #              companies = CompanyProfile.objects.filter(id__in=[item.id for item in companylist]).order_by('?')
+        #              for company in companies:
+        #                 avg_rating = Reviews.objects.filter(company=company).aggregate(Avg('rating'))['rating__avg']
+        #                 company.avg_rating = avg_rating            
+        #              context = {
+        #                 "companies":companies,
+        #                 "ads":ads,
+        #             }
+        #         else:
+        #             companies = CompanyProfile.objects.all().order_by('?')
+        #             for company in companies:
+        #                 avg_rating = Reviews.objects.filter(company=company).aggregate(Avg('rating'))['rating__avg']
+        #                 company.avg_rating = avg_rating
+        #             context = {
+        #                 "companies":companies,
+        #                 "ads":ads,
+        #             }
+        #         if len(companies) == 0:
+        #             messages.error(request, "No Business found in that category")
+        #         for company in companies:
+        #             avg_rating = Reviews.objects.filter(company=company).aggregate(Avg('rating'))['rating__avg']
+        #             company.avg_rating = avg_rating
+        #         context = {
+        #             "companies":companies,
+        #             "ads":ads
+        #         }
+        category = request.POST['category']
+        rating = request.POST.get('rating')
+        if category == 'All':
+            companies_subquery = CompanyProfile.objects.all().order_by('?')
+        else:
+            companies_subquery = CompanyProfile.objects.filter(category=category).order_by('?')
+
+        companylist = []
+        for company in companies_subquery:
+            avg_rating = Reviews.objects.filter(company=company).aggregate(Avg('rating'))['rating__avg']
+            company.avg_rating = avg_rating  
+            if avg_rating is not None and avg_rating >= float(rating):
+                companylist.append(company)
+
+        if len(companylist) == 0:
+            messages.error(request, "No Business found in that category")
+
+        companies = CompanyProfile.objects.filter(id__in=[item.id for item in companylist]).order_by('?')
+        for company in companies:
+            avg_rating = Reviews.objects.filter(company=company).aggregate(Avg('rating'))['rating__avg']
+            company.avg_rating = avg_rating            
+        context = {
+    "companies":companies,
+    "ads":ads,
+}
+
         
             
         
@@ -248,6 +274,7 @@ def addReview(request, id):
     }
     return render(request, 'company/addReview.html', context)
 
+@login_required(login_url='login')
 def likeAndDislikeCompany(request, company_id):
     company =  CompanyProfile.objects.get(id=company_id)
     user = request.user
@@ -260,6 +287,8 @@ def likeAndDislikeCompany(request, company_id):
         like.save()
         messages.success(request, 'You have liked this company')
         return redirect('companyProfile', id=company_id)
+    
+@login_required(login_url='login')
 def followAndUnfollowCompany(request, company_id):
     company =  CompanyProfile.objects.get(id=company_id)
     user = request.user
