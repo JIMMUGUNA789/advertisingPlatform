@@ -7,6 +7,7 @@ from django.core.paginator import Paginator
 from companies.models import Reviews
 from django.db.models import Avg
 from advertisements.models import Ad
+from django.contrib.auth.decorators import login_required
 
 # view all company posts
 def allPosts(request, id):
@@ -50,6 +51,7 @@ def add_post(request, id):
     }
     return render(request, 'posts/add_post.html', context)
 
+@login_required(login_url='login')
 def likeAndDislikePost(request, post_id, company_id):
     post_id = str(post_id)
     company_id = str(company_id)
@@ -80,6 +82,7 @@ def deletePost(request, post_id, company_id):
     messages.success(request, 'Post deleted successfully')
     return redirect('allPosts', id=company_id)
 
+@login_required(login_url='login')
 def addComment(request, post_id, company_id):
     post_id = str(post_id)
     company_id = str(company_id)

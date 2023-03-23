@@ -70,7 +70,7 @@
         <p class="profileInfo-text"><i class="fa fa-map-marker"></i> {{company.address}}</p>
         <p class="profileInfo-text"><i class="fa fa-phone"></i> {{company.phone}}</p>
         <p class="profileInfo-text"><i class="fa fa-envelope"></i> {{company.email}}</p>
-        <p class="profileInfo-text"><i class="fa fa-globe"></i> {{company.websiteUrl}}</p>
+        <p class="profileInfo-text"><i class="fa fa-globe"></i><a href="{{company.websiteUrl}}">Visit website</a></p>
         <p class="profileInfo-text"><i class="fa fa-clock"></i> opened/closed</p>
       </div>
     </div>
@@ -85,6 +85,13 @@
       </h3>
 
       <div class="sidebar-profileInfo-content profile-gallery">
+        
+        {% if company.profilePicture %}
+        <img src="{{company.profilePicture.url}}" alt="profilePic" id="" class="profile-company-gallery my-image">
+        {% endif %}
+        {% if company.bannerPicture %}
+        <img src="{{company.bannerPicture.url}}" alt="profilePic" id="" class="profile-company-gallery my-image">
+        {% endif %}
        
         <div id="my-modal" style="display:none;">
           <img src="">

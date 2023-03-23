@@ -54,7 +54,6 @@
         <li><a href="{% url 'contact' company.id %}">Contact</a></li>
         <li><a href="{% url 'reviews' company.id %}">Reviews</a></li>
         <li><a href="{% url 'companyPhotos' company.id %}">Photos</a></li>
-        <li><a href="">Videos</a></li>
         <li><a href="{% url 'allJobs' company.id %}">Jobs</a></li>
         <li><a href="{% url 'viewCatalog' company.id %}">Catalog</a></li>
     </ul>
@@ -74,7 +73,7 @@
           <p class="profileInfo-text"><i class="fa fa-map-marker"></i> {{company.address}}</p>
           <p class="profileInfo-text"><i class="fa fa-phone"></i> {{company.phone}}</p>
           <p class="profileInfo-text"><i class="fa fa-envelope"></i> {{company.email}}</p>
-          <p class="profileInfo-text"><i class="fa fa-globe"></i> {{company.websiteUrl}}</p>
+          <p class="profileInfo-text"><i class="fa fa-globe"></i> <a href="{{company.websiteUrl}}">Visit website</a></p>
           <p class="profileInfo-text"><i class="fa fa-clock"></i> opened/closed</p>
         </div>
       </div>
