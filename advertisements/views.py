@@ -14,7 +14,20 @@ from . mpesa_credentials import MpesaAccessToken, LipanaMpesaPpassword
 from django.views.decorators.csrf import csrf_exempt
 from .models import MpesaPayment
 from datetime import datetime
-date_format = "%Y%m%d%H%M%S"
+
+
+
+# simulate a payment
+import json
+import requests
+import os
+from datetime import datetime as Date, timedelta
+
+from django.conf import settings
+from django.http import HttpResponse
+from django.views.decorators.csrf import csrf_exempt
+import pytz
+
 
 
 
@@ -77,6 +90,7 @@ def getAccessToken(request):
 
 def lipa_na_mpesa_online(request, ad_id):
     ad_id = str(ad_id)
+    
     access_token = MpesaAccessToken.validated_mpesa_access_token
     api_url = "https://sandbox.safaricom.co.ke/mpesa/stkpush/v1/processrequest"
     headers = {"Authorization": "Bearer %s" % access_token}
@@ -90,7 +104,7 @@ def lipa_na_mpesa_online(request, ad_id):
         "PartyB": LipanaMpesaPpassword.Business_short_code,
         "PhoneNumber": 254729825703,  # replace with your phone number to get stk push
         # "CallBackURL": "https://sandbox.safaricom.co.ke/mpesa/",
-        "CallBackURL": "https://7954-154-159-237-49.in.ngrok.io/advertisements/c2b/confirmation/?ad_id="+ad_id,
+        "CallBackURL": "https://4781-154-159-237-135.in.ngrok.io/advertisements/c2b/confirmation/?ad_id="+ad_id,
         "AccountReference": "Digiverse",
         "TransactionDesc": "Testing stk push"
     }
@@ -99,13 +113,14 @@ def lipa_na_mpesa_online(request, ad_id):
 
 @csrf_exempt
 def register_urls(request):
+    
     access_token = MpesaAccessToken.validated_mpesa_access_token
     api_url = "https://sandbox.safaricom.co.ke/mpesa/c2b/v1/registerurl"
     headers = {"Authorization": "Bearer %s" % access_token}
     options = {"ShortCode": LipanaMpesaPpassword.Business_short_code,
                "ResponseType": "Completed",
-               "ConfirmationURL": "https://7954-154-159-237-49.in.ngrok.io/advertisements/c2b/confirmation/?ad_id=",
-               "ValidationURL": "https://7954-154-159-237-49.in.ngrok.io/advertisements/c2b/validation"}
+               "ConfirmationURL": "https://4781-154-159-237-135.in.ngrok.io/advertisements/c2b/confirmation/?ad_id=",
+               "ValidationURL": "https://4781-154-159-237-135.in.ngrok.io/advertisements/c2b/validation"}
     response = requests.post(api_url, json=options, headers=headers)
     return HttpResponse(response.text)
 @csrf_exempt
@@ -119,7 +134,9 @@ def validation(request):
     }
     return JsonResponse(dict(context))
 @csrf_exempt
-def confirmation(request):
+
+
+def paymentConfirmation(request):
     print(request)
     mpesa_body =request.body.decode('utf-8')
     print(mpesa_body)
@@ -128,32 +145,26 @@ def confirmation(request):
     mpesa_payment = json.loads(mpesa_body)
     print(mpesa_payment)
     
-    # payment = MpesaPayment.objects.create(
-    #     first_name=mpesa_payment['FirstName'],
-    #     last_name=mpesa_payment['LastName'],
-    #     middle_name=mpesa_payment['MiddleName'],
-    #     description=mpesa_payment['TransID'],
-    #     phone_number=mpesa_payment['MSISDN'],
-    #     amount=mpesa_payment['TransAmount'],
-    #     reference=mpesa_payment['BillRefNumber'],
-    #     organization_balance=mpesa_payment['OrgAccountBalance'],
-    #     type=mpesa_payment['TransactionType'],
-    # )
     ad = Ad.objects.get(id=request.GET.get('ad_id', None))
     metadata = mpesa_payment['Body']['stkCallback']['CallbackMetadata']['Item']
     amount = next(item for item in metadata if item['Name'] == 'Amount')['Value']
     receipt_number = next(item for item in metadata if item['Name'] == 'MpesaReceiptNumber')['Value']
     transaction_date_string = next(item for item in metadata if item['Name'] == 'TransactionDate')['Value']
     phone_number = next(item for item in metadata if item['Name'] == 'PhoneNumber')['Value']
+    organization_balance = 1000
+    date_format = "%Y%m%d%H%M%S"
 
-    transaction_date = datetime.strptime(transaction_date_string, date_format)
+    transaction_date = datetime.strptime(str(transaction_date_string), date_format)
+    timezone = pytz.timezone("Africa/Nairobi")
+    transaction_date = timezone.localize(transaction_date)
 
     payment = MpesaPayment.objects.create(
             ad_id=ad,
             amount=amount,
             phone_number=phone_number,
             mpesa_receipt_number=receipt_number,
-            transaction_date=transaction_date
+            transaction_date=transaction_date,
+            organization_balance=organization_balance,
             
         )
 
@@ -163,3 +174,23 @@ def confirmation(request):
         "ResultDesc": "Accepted"
     }
     return JsonResponse(dict(context))
+
+# Simulate a payment
+
+def simulate(request, ad_id):
+    ad_id = str(ad_id)
+    headers = {
+        "Authorization": "Basic SWZPREdqdkdYM0FjWkFTcTdSa1RWZ2FTSklNY001RGQ6WUp4ZVcxMTZaV0dGNFIzaA=="
+    }
+
+    data = {'Body': {'stkCallback': {'MerchantRequestID': '4827-3022771-1', 'CheckoutRequestID': 'ws_CO_201020211417243449', 'ResultCode': 0, 'ResultDesc': 'The service request is processed successfully.', 'CallbackMetadata': {
+        'Item': [{'Name': 'Amount', 'Value': 11100.0}, {'Name': 'MpesaReceiptNumber', 'Value': 'PJK9HS9EZP'}, {'Name': 'Balance'}, {'Name': 'TransactionDate', 'Value': 20220921141737}, {'Name': 'PhoneNumber', 'Value': 254729825703}]}}}}
+    
+    url = 'https://4781-154-159-237-135.in.ngrok.io/advertisements/c2b/confirmation/?ad_id='+ad_id
+    requests.request("POST", url, json=data, headers=headers)
+    
+    
+    print(data)
+    
+    return HttpResponse('success')
+

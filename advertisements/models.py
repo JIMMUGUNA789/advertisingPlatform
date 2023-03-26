@@ -69,7 +69,7 @@ class MpesaPayment(BaseModel):
         verbose_name = 'Mpesa Payment'
         verbose_name_plural = 'Mpesa Payments'
     def __str__(self):
-        return self.first_name
+        return self.mpesa_receipt_number
 
 
 
