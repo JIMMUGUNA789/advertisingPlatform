@@ -183,7 +183,20 @@ AUTH_USER_MODEL = 'users.CustomUser'
 CSRF_TRUSTED_ORIGINS = [
     'http://localhost:8000'
 ]
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+# mailgun
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.mailgun.org'
+EMAIL_HOST_USER = 'postmaster@sandbox55ae774467804e118467ba098b109c8f.mailgun.org'
+EMAIL_HOST_PASSWORD = 'adac1434ef3629ce115ba110550dd913-d51642fa-9eaa67b5'
+EMAIL_PORT = '587'
+# mailtrap
+# EMAIL_HOST = 'sandbox.smtp.mailtrap.io'
+# EMAIL_HOST_USER = '984b5f9458e87a'
+# EMAIL_HOST_PASSWORD = '62dcce7decc5d4'
+# EMAIL_PORT = '2525'
+
+
 MESSAGE_TAGS = {
         messages.DEBUG: 'alert-secondary',
         messages.INFO: 'alert-info',

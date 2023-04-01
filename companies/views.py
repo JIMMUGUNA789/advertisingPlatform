@@ -17,6 +17,8 @@ from django.db.models import Q
 from django.contrib.auth.decorators import login_required
 from advertisements.models import Ad
 from django.core.mail import send_mail
+import smtplib
+from email.mime.text import MIMEText
 
 
 
@@ -356,17 +358,28 @@ def digiverseSite(request):
         subject = request.POST['subject']
         message = request.POST['message']
         # send email
-        body = f'You have received a new message from {name} ({email}):\n\n{message}'
-        from_email = 'mugunajim@gmail.com'
-        recipient_list = ['mugunajim18@gmail.com']
-        try:
-            send_mail(subject, body, from_email, recipient_list, fail_silently=False)        
-            messages.success(request, 'Message sent successfully')
-        except Exception as e:
-            messages.error(request, str(e))
-            return render(request, 'index.html')
+        # body = f'You have received a new message from {name} ({email}):\n\n{message}'
+        # from_email = 'mugunajim@gmail.com'
+        # recipient_list = ['mugunajim18@gmail.com']
+        # try:
+        #     send_mail(subject, body, from_email, recipient_list, fail_silently=False)        
+        #     messages.success(request, 'Message sent successfully')
+        # except Exception as e:
+        #     messages.error(request, str(e))
+        #     return render(request, 'index.html')
         
-        return render(request, 'index.html')
+        # return render(request, 'index.html')
+        # send email using mailgun
+        msg = MIMEText(message)
+        msg['Subject'] = subject
+        msg['From']    = email
+        msg['To']      = "mugunajim@gmail.com"
+
+        s = smtplib.SMTP('smtp.mailgun.org', 587)
+
+        s.login('postmaster@sandbox55ae774467804e118467ba098b109c8f.mailgun.org', 'adac1434ef3629ce115ba110550dd913-d51642fa-9eaa67b5')
+        s.sendmail(msg['From'], msg['To'], msg.as_string())
+        s.quit()
     return render(request, 'index.html')
 
 def contactCompany(request, company_id):
