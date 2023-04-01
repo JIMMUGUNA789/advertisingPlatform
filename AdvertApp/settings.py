@@ -185,16 +185,16 @@ CSRF_TRUSTED_ORIGINS = [
 ]
 # EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 # mailgun
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.mailgun.org'
-EMAIL_HOST_USER = 'postmaster@sandbox55ae774467804e118467ba098b109c8f.mailgun.org'
-EMAIL_HOST_PASSWORD = 'adac1434ef3629ce115ba110550dd913-d51642fa-9eaa67b5'
-EMAIL_PORT = '587'
-# mailtrap
-# EMAIL_HOST = 'sandbox.smtp.mailtrap.io'
-# EMAIL_HOST_USER = '984b5f9458e87a'
-# EMAIL_HOST_PASSWORD = '62dcce7decc5d4'
-# EMAIL_PORT = '2525'
+# get credentials from .env file
+load_dotenv()
+# get emailbackend from .env file
+EMAIL_BACKEND = os.getenv('EMAIL_BACKEND')
+EMAIL_HOST = os.getenv('EMAIL_HOST')
+EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD =os.getenv('EMAIL_HOST_PASSWORD')
+EMAIL_PORT = os.getenv('EMAIL_PORT')
+
+
 
 
 MESSAGE_TAGS = {

@@ -19,7 +19,11 @@ from advertisements.models import Ad
 from django.core.mail import send_mail
 import smtplib
 from email.mime.text import MIMEText
-
+import os
+from dotenv import load_dotenv
+load_dotenv()
+EMAIL = os.getenv('EMAIL')
+EMAIL_PASSWORD = os.getenv('EMAIL_PASSWORD')
 
 
 
@@ -377,8 +381,9 @@ def digiverseSite(request):
 
         s = smtplib.SMTP('smtp.mailgun.org', 587)
 
-        s.login('postmaster@sandbox55ae774467804e118467ba098b109c8f.mailgun.org', 'adac1434ef3629ce115ba110550dd913-d51642fa-9eaa67b5')
+        s.login(EMAIL,EMAIL_PASSWORD)
         s.sendmail(msg['From'], msg['To'], msg.as_string())
+        messages.success(request, 'Message sent successfully')
         s.quit()
     return render(request, 'index.html')
 
@@ -391,11 +396,22 @@ def contactCompany(request, company_id):
         subject = request.POST['subject']
         message = request.POST['message']
         # send email
-        body = f'You have received a new message from {name} ({email}):\n\n{message}'
-        from_email = 'mugunajim@gmail.com'
-        recipient_list = [company.email]
-        send_mail(subject, body, from_email, recipient_list, fail_silently=False)        
+        # body = f'You have received a new message from {name} ({email}):\n\n{message}'
+        # from_email = 'mugunajim@gmail.com'
+        # recipient_list = [company.email]
+        # send_mail(subject, body, from_email, recipient_list, fail_silently=False)        
+        # messages.success(request, 'Message sent successfully')
+        msg = MIMEText(message)
+        msg['Subject'] = subject
+        msg['From']    = email
+        msg['To']      = company.email
+
+        s = smtplib.SMTP('smtp.mailgun.org', 587)
+
+        s.login(EMAIL,EMAIL_PASSWORD)
+        s.sendmail(msg['From'], msg['To'], msg.as_string())
         messages.success(request, 'Message sent successfully')
+        s.quit()
         return redirect('contact', company_id=company_id)
     context = {
         "company":company,
@@ -417,15 +433,26 @@ def help(request):
         subject = request.POST['subject']
         message = request.POST['message']
         # send email
-        body = f'You have received a new message from {name} ({email}):\n\n{message}'
-        from_email = 'mugunajim@gmail.com'
-        recipient_list = ['mugunajim18@gmail.com']
-        try:
-            send_mail(subject, body, from_email, recipient_list, fail_silently=False)        
-            messages.success(request, 'Message sent successfully')
-        except Exception as e:
-            messages.error(request, str(e))
-            return render(request, 'help.html')
+        # body = f'You have received a new message from {name} ({email}):\n\n{message}'
+        # from_email = 'mugunajim@gmail.com'
+        # recipient_list = ['mugunajim18@gmail.com']
+        # try:
+        #     send_mail(subject, body, from_email, recipient_list, fail_silently=False)        
+        #     messages.success(request, 'Message sent successfully')
+        # except Exception as e:
+        #     messages.error(request, str(e))
+        #     return render(request, 'help.html')
+        msg = MIMEText(message)
+        msg['Subject'] = subject
+        msg['From']    = email
+        msg['To']      = "mugunajim@gmail.com"
+
+        s = smtplib.SMTP('smtp.mailgun.org', 587)
+
+        s.login(EMAIL, EMAIL_PASSWORD)
+        s.sendmail(msg['From'], msg['To'], msg.as_string())
+        messages.success(request, 'Message sent successfully')
+        s.quit()
         
         return render(request, 'help.html')
     return render(request, 'help.html')
