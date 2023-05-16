@@ -12,4 +12,8 @@ Allows businesses to post job openings, and users can apply for the same.
 ## 3. Posts & Comments
 Businesses and organizations can communicate to potential customers through posts. Users can leave comments on each post.
 
-## 4.
+## 4. Catalog
+Businesses can create customized catalogs for their products and services
+
+## 5. Advertisements
+Businesses can run ads on the platform to increase their visibility on the platform
